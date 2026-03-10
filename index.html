@@ -93,7 +93,10 @@
     border-radius: 3px;
     letter-spacing: 0.02em;
     line-height: 1;
+    text-decoration: none;
+    transition: background .15s;
   }
+  .badge-xhs:hover { background: #D14D3D20; }
   .badge-xhs::before {
     content: "";
     display: inline-block;
@@ -320,7 +323,10 @@
   .foot-xhs {
     font-size: 11px;
     color: var(--ink-faint);
+    text-decoration: none;
+    transition: color .15s;
   }
+  .foot-xhs:hover { color: var(--ink-soft); }
   .foot-xhs strong {
     color: var(--xhs);
     font-weight: 600;
@@ -375,7 +381,7 @@
       <div class="profile-ident">
         <div class="profile-name">
           AI-Connie
-          <span class="badge-xhs">小红书</span>
+          <a class="badge-xhs" href="https://xhslink.com/m/8Xl7Z3PaVlh" target="_blank" rel="noopener">小红书</a>
         </div>
         <div class="profile-id">2936483204</div>
       </div>
@@ -420,7 +426,7 @@
   <!-- ======== FOOTER ======== -->
   <footer>
     <div class="foot">
-      <span class="foot-xhs"><strong>小红书</strong>搜 AI-Connie</span>
+      <a class="foot-xhs" href="https://xhslink.com/m/8Xl7Z3PaVlh" target="_blank" rel="noopener"><strong>小红书</strong>AI-Connie</a>
       <a class="foot-link" href="https://happycapy.ai/?via=connie" target="_blank" rel="noopener">HappyCapy &#8599;</a>
     </div>
     <p class="foot-fine">Powered by HappyCapy</p>
