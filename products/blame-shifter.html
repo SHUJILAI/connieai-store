@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 甩锅大师 - 让借口更有说服力</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #F5F0E8;
+            color: #2E2A24;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #2E2A24;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #7B8F6B;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .input-section {
+            background: #FFFDF8;
+            border: 2px solid #EBE7E0;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(46, 42, 36, 0.04);
+        }
+
+        label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #2E2A24;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            border: 2px solid #EBE7E0;
+            border-radius: 12px;
+            background: #F5F0E8;
+            color: #2E2A24;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #7B8F6B;
+            background: #FFFDF8;
+        }
+
+        input[type="text"]::placeholder {
+            color: #9B9690;
+            font-weight: 300;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            background: #7B8F6B;
+            color: #FFFDF8;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+            box-shadow: 0 4px 12px rgba(123, 143, 107, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #6A7D5C;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(123, 143, 107, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: #7B8F6B;
+            font-weight: 500;
+            margin-top: 16px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #EBE7E0;
+            border-top-color: #7B8F6B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .excuse-card {
+            background: #FFFDF8;
+            border: 2px solid #EBE7E0;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(46, 42, 36, 0.04);
+            position: relative;
+        }
+
+        .excuse-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: #7B8F6B;
+            color: #FFFDF8;
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .excuse-text {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #2E2A24;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .credibility {
+            margin-bottom: 16px;
+        }
+
+        .credibility-label {
+            font-size: 0.85rem;
+            color: #7B8F6B;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .credibility-bar {
+            width: 100%;
+            height: 8px;
+            background: #EBE7E0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .credibility-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7B8F6B, #A4B894);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .expression-tip {
+            font-size: 0.9rem;
+            color: #7B8F6B;
+            font-style: italic;
+            padding: 12px;
+            background: #F5F0E8;
+            border-radius: 8px;
+            border-left: 3px solid #7B8F6B;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-secondary {
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            background: #FFFDF8;
+            color: #7B8F6B;
+            border: 2px solid #7B8F6B;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #7B8F6B;
+            color: #FFFDF8;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: #9B9690;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #7B8F6B;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .watermark {
+            margin-top: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #C4BFB8;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .input-section {
+                padding: 20px;
+            }
+
+            .excuse-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI 甩锅大师</h1>
+            <p class="subtitle">让每一个借口都听起来无懈可击</p>
+        </header>
+
+        <div class="input-section">
+            <label for="mistake">你做了什么好事?</label>
+            <input
+                type="text"
+                id="mistake"
+                placeholder="比如: 上班迟到了 / 忘记女朋友生日 / 项目没做完"
+            >
+            <button class="btn-primary" onclick="generateExcuses()">开始甩锅</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loadingText">正在编造借口...</div>
+        </div>
+
+        <div class="results" id="results">
+            <div id="excusesContainer"></div>
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="regenerateExcuses()">再来一次</button>
+                <button class="btn-secondary" onclick="resetApp()">换个锅甩</button>
+            </div>
+        </div>
+
+        <footer>
+            <p><a href="https://happycapy.ai/?via=connie" target="_blank">AI-Connie 出品</a></p>
+            <p class="watermark">shujilai.github.io/connieai-store</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentMistake = '';
+
+        const loadingTexts = [
+            '正在颠倒黑白...',
+            '正在扭曲因果关系...',
+            '正在寻找替罪羊...',
+            '正在篡改宇宙记忆...',
+            '正在翻阅杠精手册...',
+            '正在联系平行宇宙的自己...',
+            '正在编造不在场证明...'
+        ];
+
+        const philosopherTemplates = [
+            (m) => `你仔细想想，如果全世界80亿人同时${m}，那这就不叫错误了，叫文化习俗。我只是这个文化的先驱者，走在了时代前面而已。`,
+            (m) => `鱼不知道水是什么，我不知道${m}有什么问题也很正常。你不能要求一条鱼去理解水，也不能要求我理解你那些规矩。`,
+            (m) => `"错误"这个词是人发明的。在这个词被发明之前，${m}只是一个客观事件。是语言给它贴了标签，你应该去找造字的那个人。`,
+            (m) => `苍蝇不会觉得自己脏，狮子不会觉得自己残忍。${m}只是你觉得有问题，在我的世界观里这叫"顺其自然"。`,
+            (m) => `你批评我${m}，但你想想：如果我没${m}，你今天就少了一个发脾气的机会。我丰富了你的情绪光谱，你应该感谢我。`,
+            (m) => `宇宙存在了138亿年，地球46亿年，人类才几百万年。在这个时间尺度下，${m}和没${m}没有任何区别。你格局太小了。`,
+            (m) => `也许${m}才是这个世界的默认设置，不${m}才是异常状态。大多数人在异常状态下活着，我只是回归了出厂设置。`,
+            (m) => `路是人走出来的，规矩是人编出来的。谁规定${m}就是错的？如果第一个定规矩的人当初也${m}了，那现在不${m}才叫违规。`,
+            (m) => `你不能既要求我做人又不让我犯错。会${m}的才是真人，不会的叫冰箱。你要一个活人还是要一台家电？`,
+            (m) => `${m}影响到谁了？地球照转，太阳照晒，菜价照涨。宇宙没有因为我${m}出现任何异常，你为什么比宇宙还紧张？`,
+            (m) => `你说我${m}，我说你太闲了。如果你有更重要的事做，根本不会注意到这件事。所以根本问题不是我${m}，是你不够忙。`,
+            (m) => `历史上每个伟人都干过比${m}离谱得多的事。爱迪生炸过实验室，哥伦布去印度到了美洲。你不是在批评我，你是在见证一个伟人的起步阶段。`,
+            (m) => `如果一棵树在森林里倒了没人听见，它算不算发出了声音？同理如果我${m}你没看见，那我${m}了吗？所以问题出在你非要看见。`,
+            (m) => `你让我解释为什么${m}，你先解释一下人为什么要呼吸？有些事就是自然发生的，硬要解释只会为难彼此。`,
+            (m) => `"知错能改善莫大焉"。我现在知道${m}有误了，根据这句古话我已经"善莫大焉"了，你还想怎样？`,
+            (m) => `也许是你对${m}的定义有问题。在我的字典里，这叫"一种生活方式"。你不能因为你的字典比我厚就说我不对。`,
+            (m) => `我${m}的时候全程保持清醒和自愿，这说明什么？说明我有独立思考的能力。你应该担心的是那些从来不${m}的人，他们才可能没有灵魂。`,
+            (m) => `婴儿生下来就会哭但不会守规矩，这说明犯错是人的本能，遵守规则才是后天强加的。我${m}只是在忠于人类最原始的出厂设置。`,
+            (m) => `你有没有想过，不${m}的人只是还没被抓到？你看到我${m}是因为我坦诚，看不到别人是因为他们虚伪。你是要惩罚诚实还是要奖励虚伪？`,
+            (m) => `"人非圣贤孰能无过"。我${m}说明我不是圣贤，你骂我说明你也不是。大家都是凡人，何必互相为难呢。`
+        ];
+
+        const scientistTemplates = [
+            (m) => `地球自转速度每小时1670公里。我在这种速度下还能正常站着就不错了，你竟然还嫌我${m}？`,
+            (m) => `人脑有860亿个神经元，每秒处理上千万条信息。偶尔${m}只是CPU占用率过高导致的临时卡顿，重启一下就好。`,
+            (m) => `人体70%是水，水的特性就是往低处流、走阻力最小的路。我${m}只是体内70%的水在替我做决策。你是要怪水还是怪我？`,
+            (m) => `根据热力学第二定律，宇宙的一切都在走向混乱和无序。我${m}只是顺应了最基本的物理定律。不${m}才是违反自然规律。`,
+            (m) => `光速每秒30万公里，我工资到账速度每月一次。在如此不对等的宇宙里，${m}只是一个完全可以理解的系统误差。`,
+            (m) => `人的大脑会自动删掉不重要的信息来节省空间。我${m}说明大脑判定这事不重要，这是几百万年进化赋予我的高级功能，你不能怪我用了。`,
+            (m) => `牛顿被苹果砸了发现万有引力，我${m}说不定也是某个伟大发现的前奏。你现在打断我就是在阻碍人类科学进步。`,
+            (m) => `地球到太阳的距离1.5亿公里，偏差0.01%地球就会变成火球。我${m}的偏差率远低于0.01%，按天文学标准，我表现堪称完美。`,
+            (m) => `人一天要做35000个决定。前面34999个我都做对了，就这一个${m}你揪着不放？正确率99.997%，比任何AI模型都强。`,
+            (m) => `科学研究证明人饿的时候智商会下降。我${m}的时候肯定是没吃饱，你应该先请我吃顿饭再来跟我讨论对错。`,
+            (m) => `量子力学告诉我们观察会改变结果。如果你不盯着我看，我可能根本就不会${m}。从科学角度讲，观察者才是问题的根源。`,
+            (m) => `人类的DNA和香蕉有60%相同。你不会骂一根香蕉${m}吧？那你凭什么骂一个60%是香蕉的生物？`,
+            (m) => `从概率论角度看，${m}是大概率事件，不${m}才是小概率。我只是选择了统计学上最合理的那个选项，这叫理性决策。`,
+            (m) => `恐龙统治地球1.6亿年最后还是灭绝了。我${m}这点小事跟种族灭绝比算什么？建议你把格局打开一点。`,
+            (m) => `爱因斯坦说时间是相对的。在我的参考系里，我并没有${m}。是你的参考系出了问题，建议你换一个坐标系重新观察。`,
+            (m) => `人脑据说只开发了10%。如果剩下90%开发出来，我肯定不会${m}。你不该怪我，应该去怪科技不够发达。`,
+            (m) => `根据能量守恒定律，能量不会凭空消失。我没用在"不${m}"上的能量一定转移到了呼吸、心跳和维持体温上。你不能怪我把能量优先用在保命上。`,
+            (m) => `科学表明人对时间的估计存在20%到30%的系统误差。${m}只是所有人类都会犯的认知偏差，只不过我运气不好被逮到了。统计学上讲这叫回归均值。`,
+            (m) => `太阳每秒燃烧420万吨物质也没人说它浪费。我${m}消耗的资源连太阳一秒的百亿分之一都不到，你为什么对我比对太阳还严格？`,
+            (m) => `手机辐射会影响大脑的前额叶功能，我每天看5个小时手机，脑子结构已经被电磁波重塑了。${m}是数字时代的集体代价，不是我个人的问题。`
+        ];
+
+        const universeTemplates = [
+            (m) => `今天出门左脚先迈的门槛。众所周知左脚出门诸事不顺，${m}已经是最轻的后果了。你应该庆幸我人还在这里。`,
+            (m) => `${m}这事我也没办法。我上辈子八成是只树懒，灵魂的惯性改不了的。你要怪就怪轮回系统的分配算法有bug。`,
+            (m) => `我问了算命先生，他说我今年犯太岁。${m}是犯太岁的标准症状之一。你真想帮我就帮我请尊太岁符，比骂我管用。`,
+            (m) => `宇宙大爆炸那一刻起，每个粒子的轨迹就已经定好了。我今天${m}是138亿年前就写好的剧本。你跟我说没用，找宇宙大爆炸去。`,
+            (m) => `我妈说我出生那天正好停电了。我怀疑出厂时系统没加载完，部分功能缺失。${m}就是其中一个bug，等下辈子打补丁吧。`,
+            (m) => `你有没有想过，也许我们活在一个模拟程序里？${m}是程序员故意写的bug，用来测试你的反应。你现在发火说明你这轮测试没通过。`,
+            (m) => `昨晚月亮特别圆，潮汐力会影响人体内的水分分布。我体内70%是水，受月球引力影响${m}很正常。等月亮缺了自然就好了。`,
+            (m) => `我属龙的，龙是天上的生物，不习惯地面规则。${m}是因为我灵魂还没完全适应地球的节奏，大概再修炼个一千年就好了。`,
+            (m) => `平行宇宙理论说所有可能性都存在。在无数个平行宇宙里我都没${m}，你恰好待在这个宇宙，只能说你运气差。`,
+            (m) => `我奶奶说我名字五行缺水。缺水就容易上火，上火就容易犯糊涂。${m}归根到底是我爸妈起名没找对先生。`,
+            (m) => `俗话说事不过三。你数数我${m}几次了？还没到三次吧。你这属于提前预支怒气，不合规矩。`,
+            (m) => `"塞翁失马焉知非福"。也许我${m}反而帮咱们避免了一场更大的灾难。你不但不该怪我，还应该谢我用${m}挡了一劫。`,
+            (m) => `水逆期间一切跟计划有关的事都会出问题。水逆一年三次每次三周，算下来一年有两个多月我状态都不行。这是水星的锅不是我的锅。`,
+            (m) => `${m}的那一刻我刚好打了个喷嚏。老话说打喷嚏是有人在想你。有人在关键时刻想我导致我分心才${m}的，你去查查是谁想我，那人才是始作俑者。`,
+            (m) => `锦鲤转发了几百条也没见一条灵验的。这说明运气系统本身就有bug。${m}是运气系统宕机期间发生的事故，属于不可抗力。`,
+            (m) => `道家讲无为而治。我${m}恰恰是在践行"无为"的最高境界。刻意不${m}才是"有为"，是违背天道。你分不清这层道理不怪你。`,
+            (m) => `修仙要历九九八十一难才能成正果。${m}只是我修仙路上的一个小劫，渡过去修为就涨了。你现在骂我就是在阻止我渡劫。`,
+            (m) => `根据吸引力法则，宇宙会帮你实现潜意识里的真实愿望。我潜意识里显然想${m}，宇宙听到了就帮我实现了。你要怪就怪宇宙太善解人意。`,
+            (m) => `我家猫今天早上吐毛球了，风水上这是凶兆。${m}已经是所有凶兆里最轻的后果了。如果不是我全力抵抗，后果不堪设想。`,
+            (m) => `我翻了下黄历，今天写的"诸事不宜"。${m}是因为我没看黄历就出门了。但你想想，看了黄历就该待家里，待家里就没法工作。所以问题出在黄历上。`
+        ];
+
+        const expressionSuggestions = [
+            '一脸无辜，像是第一次听说这件事',
+            '微微点头，仿佛在陈述一个众所周知的事实',
+            '深呼吸，做出"你终于问到重点了"的表情',
+            '双手一摊耸肩，国际通用的"我也没办法"手势',
+            '盯着对方眼睛三秒不说话，然后缓缓开口',
+            '假装掏手机说"等一下我查个数据"',
+            '拍拍对方肩膀，仿佛对方才是需要安慰的那个人',
+            '摇头叹气，像是对这个世界深感失望',
+            '竖起食指说"你听我说"然后开始一本正经地胡扯',
+            '面无表情语速放慢，越胡说八道越要保持镇定',
+            '歪头想一下做恍然大悟状，然后继续瞎编',
+            '掰着手指头数数，营造"这是有数据支撑的"假象',
+            '故意沉默五秒让对方以为你在酝酿什么深刻见解',
+            '拿出手机打开计算器，假装在验算某个公式',
+            '一副"你不懂很正常"的宽容微笑'
+        ];
+
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getRandomCredibility() {
+            const rand = Math.random();
+            if (rand < 0.7) {
+                return Math.floor(Math.random() * 30) + 1;
+            } else if (rand < 0.9) {
+                return Math.floor(Math.random() * 40) + 30;
+            } else {
+                return Math.floor(Math.random() * 30) + 70;
+            }
+        }
+
+        function generateExcuse(templates, style, emoji) {
+            const template = getRandomElement(templates);
+            const excuse = template(currentMistake);
+            const credibility = getRandomCredibility();
+            const expression = getRandomElement(expressionSuggestions);
+
+            return {
+                style: style,
+                emoji: emoji,
+                text: excuse,
+                credibility: credibility,
+                expression: expression
+            };
+        }
+
+        function renderExcuse(excuse) {
+            return `
+                <div class="excuse-card">
+                    <div class="excuse-tag">${excuse.emoji} ${excuse.style}</div>
+                    <div class="excuse-text">${excuse.text}</div>
+                    <div class="credibility">
+                        <div class="credibility-label">可信度: ${excuse.credibility}%</div>
+                        <div class="credibility-bar">
+                            <div class="credibility-fill" style="width: ${excuse.credibility}%"></div>
+                        </div>
+                    </div>
+                    <div class="expression-tip">建议配合表情: ${excuse.expression}</div>
+                </div>
+            `;
+        }
+
+        function showLoading() {
+            document.getElementById('results').classList.remove('active');
+            const loading = document.getElementById('loading');
+            loading.classList.add('active');
+
+            let counter = 0;
+            const interval = setInterval(() => {
+                document.getElementById('loadingText').textContent = getRandomElement(loadingTexts);
+                counter++;
+                if (counter >= 3) {
+                    clearInterval(interval);
+                    showResults();
+                }
+            }, 600);
+        }
+
+        function showResults() {
+            const excuses = [
+                generateExcuse(philosopherTemplates, '杠精哲学', '🧠'),
+                generateExcuse(scientistTemplates, '民间科学', '🔬'),
+                generateExcuse(universeTemplates, '玄学甩锅', '🔮')
+            ];
+
+            const html = excuses.map(renderExcuse).join('');
+            document.getElementById('excusesContainer').innerHTML = html;
+
+            document.getElementById('loading').classList.remove('active');
+            document.getElementById('results').classList.add('active');
+
+            setTimeout(() => {
+                document.querySelectorAll('.credibility-fill').forEach((fill, index) => {
+                    fill.style.width = excuses[index].credibility + '%';
+                });
+            }, 100);
+        }
+
+        function generateExcuses() {
+            const input = document.getElementById('mistake').value.trim();
+
+            if (!input) {
+                alert('请输入你做了什么好事~');
+                return;
+            }
+
+            currentMistake = input;
+            showLoading();
+        }
+
+        function regenerateExcuses() {
+            showLoading();
+        }
+
+        function resetApp() {
+            document.getElementById('mistake').value = '';
+            document.getElementById('results').classList.remove('active');
+            currentMistake = '';
+        }
+
+        document.getElementById('mistake').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateExcuses();
+            }
+        });
+    </script>
+</body>
+</html>
