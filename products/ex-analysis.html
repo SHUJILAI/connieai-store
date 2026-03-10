@@ -603,337 +603,84 @@
     </div>
 
     <script>
-        const exTypes = [
-            { name: '薛定谔型恋人', traits: ['已读不回', '从不主动', '生气不说原因'], keywords: ['不确定', '若即若离', '量子纠缠'] },
-            { name: '海王本王', traits: ['爱跟异性聊天', '手机不让看', '前任很多'], keywords: ['中央空调', '广撒网', '时间管理'] },
-            { name: '时间管理大师', traits: ['总说忙', '经常放鸽子', '只在需要你时找你'], keywords: ['忙碌', '档期', '预约制'] },
-            { name: '冷暴力艺术家', traits: ['吵架冷暴力', '已读不回', '生气不说原因'], keywords: ['沉默', '冰封', '情绪隔离'] },
-            { name: '决策困难症患者', traits: ['爱说随便', '从不主动'], keywords: ['随便', '都行', '无所谓'] },
-            { name: '透明人制造者', traits: ['朋友圈屏蔽你', '手机不让看', '从不主动'], keywords: ['隐身', '屏蔽', '透明'] },
-            { name: '记忆力衰退型', traits: ['忘记纪念日', '经常放鸽子'], keywords: ['失忆', '健忘', '短路'] },
-            { name: '精神PUA选手', traits: ['控制欲强', '生气不说原因', '吵架冷暴力'], keywords: ['控制', '打压', '操控'] },
-            { name: '空头支票专家', traits: ['嘴上说爱你', '从不主动', '经常放鸽子'], keywords: ['嘴炮', '画饼', '空话'] },
-            { name: '计算器人格', traits: ['经济AA到极致'], keywords: ['算账', '精打细算', '账单'] },
-            { name: '情绪黑洞型', traits: ['生气不说原因', '吵架冷暴力', '已读不回'], keywords: ['负能量', '情绪吸血鬼', '黑洞'] },
-            { name: '工具人收割机', traits: ['只在需要你时找你', '从不主动', '嘴上说爱你'], keywords: ['工具', '利用', '备胎'] },
-            { name: '社交网络幽灵', traits: ['朋友圈屏蔽你', '手机不让看', '已读不回'], keywords: ['隐藏', '地下', '不公开'] },
-            { name: '拖延症晚期', traits: ['经常放鸽子', '已读不回', '总说忙'], keywords: ['拖延', '延迟', '慢性子'] },
-            { name: '选择障碍重症', traits: ['爱说随便', '前任很多'], keywords: ['纠结', '摇摆', '不确定'] },
-            { name: '暧昧高手', traits: ['爱跟异性聊天', '朋友圈屏蔽你', '从不主动'], keywords: ['暧昧', '吊着', '不明确'] },
-            { name: '自我中心星球居民', traits: ['控制欲强', '只在需要你时找你', '忘记纪念日'], keywords: ['自私', '自我', '不在乎'] },
-            { name: '情感失能者', traits: ['嘴上说爱你', '忘记纪念日', '从不主动'], keywords: ['不会爱', '情感钝感', '无感'] },
-            { name: '红旗展览馆馆长', traits: ['手机不让看', '前任很多', '爱跟异性聊天', '朋友圈屏蔽你'], keywords: ['红旗', '警告', '危险'] },
-            { name: '随缘恋爱佛系青年', traits: ['爱说随便', '从不主动', '总说忙'], keywords: ['佛系', '随缘', '不上心'] },
-            { name: '情绪操控大师', traits: ['控制欲强', '生气不说原因', '吵架冷暴力', '嘴上说爱你'], keywords: ['操控', 'PUA', '洗脑'] },
-            { name: '关系恐慌症', traits: ['已读不回', '从不主动', '朋友圈屏蔽你'], keywords: ['逃避', '恐惧', '不敢承诺'] },
-            { name: '爱无能综合征', traits: ['从不主动', '忘记纪念日', '嘴上说爱你', '总说忙'], keywords: ['无能', '不会', '缺乏'] }
-        ];
+        const API_URL = 'https://ai-gateway.happycapy.ai/api/v1/openai/v1/chat/completions';
+        const API_KEY = '005cbe34ac934822854f1420b86fb83b';
 
-        const symptomAnalysis = {
-            '已读不回': [
-                '患者表现出选择性失明症状，眼睛可看到信息但手指失去打字功能',
-                '消息到达率100%，回复率趋近于0，符合典型冷漠型人格特征',
-                '具备超强的消息阅后即忘能力，建议申请吉尼斯世界纪录',
-                '已读功能成为其最大敌人，建议关闭该功能保护隐私',
-                '信息回复延迟症，平均延迟时间为∞小时'
-            ],
-            '爱说随便': [
-                '患有严重的决策恐惧症，大脑决策系统疑似已停止运作',
-                '"随便"使用频率高达98%，其他表达能力退化明显',
-                '将所有选择权推给他人，自身选择功能已关闭',
-                '典型的责任规避型人格，害怕承担任何决策后果',
-                '决策能力丧失，建议就诊神经内科'
-            ],
-            '手机不让看': [
-                '手机防御指数MAX，疑似藏有不可告人之秘密',
-                '手机密码更换频率堪比银行卡密码，安全意识极强',
-                '患有手机分离焦虑症和隐私过度保护综合征',
-                '手机中可能存在平行宇宙，不可让他人发现',
-                '防御等级已达军事级别，建议颁发保密工作先进个人'
-            ],
-            '总说忙': [
-                '患有时间管理混乱症，实际忙的是如何编造理由',
-                '"忙"成为其万能挡箭牌，使用频率超过呼吸频率',
-                '对象优先级排序中，你可能位于第127位',
-                '时间全部用于非你之事，建议检查是否有其他时间线',
-                '忙碌只是表象，不在意才是真相'
-            ],
-            '前任很多': [
-                '感情经历丰富，疑似从事恋爱行业专业户',
-                '前任数量已突破历史新高，建议申请专利',
-                '每段感情平均时长疑似不超过季节更替周期',
-                '恋爱经验值已满级，但忠诚度属性为0',
-                '感情流动性过强，建议就诊情感科'
-            ],
-            '朋友圈屏蔽你': [
-                '社交隔离症，你已被划入"不可见"人群',
-                '朋友圈分组管理大师，你荣获"特殊待遇"组',
-                '线上恋爱关系处于地下状态，公开度0%',
-                '社交网络幽灵模式已开启，你处于黑名单边缘',
-                '关系透明度为负值，建议检查是否真实存在'
-            ],
-            '从不主动': [
-                '主动性完全缺失，疑似关系中的NPC角色',
-                '等待他主动犹如守株待兔，成功率约等于0',
-                '互动发起者永远是你，他只负责回应或不回应',
-                '感情参与度极低，疑似只是路过你的生命',
-                '主动功能已损坏，建议返厂维修'
-            ],
-            '爱跟异性聊天': [
-                '社交范围广泛，尤以异性为主要交流对象',
-                '暧昧指数超标，建议定期检测感情纯度',
-                '异性朋友数量远超同性，边界感疑似不存在',
-                '聊天记录可能需要分类归档，你只是其中一个文件夹',
-                '中央空调属性明显，温暖范围覆盖全城'
-            ],
-            '忘记纪念日': [
-                '重要日期记忆系统损坏，只记得自己生日',
-                '纪念日对其无任何意义，记忆仅保留7天',
-                '选择性失忆症患者，关于你的事情统统忘记',
-                '日期记忆功能只对工资日有效，其他均无效',
-                '对你的在意程度可通过记忆力直接体现'
-            ],
-            '经常放鸽子': [
-                '守时观念缺失，放鸽子已成为日常操作',
-                '你的时间在其眼中毫无价值，可随意浪费',
-                '约会取消率高达90%，准时率趋近于0',
-                '鸽王认证选手，建议颁发"最不靠谱奖"',
-                '时间承诺能力为负，说到做不到典范'
-            ],
-            '嘴上说爱你': [
-                '语言表达和行动表现呈反比关系',
-                '爱的表达仅停留在口头，行动力为0',
-                '"我爱你"成为敷衍工具，已失去真实含义',
-                '空头支票专业户，兑现率不足1%',
-                '嘴炮功能强大，但实际行动功能已损坏'
-            ],
-            '吵架冷暴力': [
-                '情绪表达方式为冰封，冷暴力指数MAX',
-                '沉默是其最强武器，杀伤力堪比核弹',
-                '矛盾处理方式为逃避+冷冻，拒绝沟通',
-                '冷战持续时间可能超过战争本身',
-                '情绪处理能力为0，成熟度疑似负数'
-            ],
-            '经济AA到极致': [
-                '经济独立已上升至精神层面，账单清晰到小数点后两位',
-                '计算器属性拉满，每笔花费都需精确记录',
-                '浪漫在其字典里等同于不必要开支',
-                '约会变成AA账单核算现场，气氛全无',
-                '经济观念可嘉，但感情温度接近绝对零度'
-            ],
-            '控制欲强': [
-                '控制欲爆表，疑似需要掌控你的一切',
-                '自由在其面前是不被允许的概念',
-                '你的生活需要经过其审批才能进行',
-                '占有欲和控制欲已达病态级别',
-                'PUA倾向明显，建议立即脱离'
-            ],
-            '生气不说原因': [
-                '情绪表达障碍，生气理由需要猜测',
-                '沟通能力缺失，期待你具备读心术',
-                '冷战开启，但拒绝提供冷战原因',
-                '情绪成熟度停留在幼儿园阶段',
-                '把你当情绪垃圾桶，但不告诉你为什么'
-            ],
-            '只在需要你时找你': [
-                '你在其生命中的定位为：工具人',
-                '出现频率与需求程度呈正相关',
-                '需要时是宝贝，不需要时是路人甲',
-                '工具人使用手册标准执行者',
-                '你的价值仅体现在被需要时'
-            ]
-        };
+        const SYSTEM_PROMPT = `你是一个毒舌但专业的"前任鉴定师"，用户会提供前任的特征和补充信息，你要生成一份搞笑又有洞察力的分析报告。
 
-        const narrativeTemplates = [
-            '经临床分析，该前任在恋爱关系中表现出{traits}等典型症状。其{behavior}的行为模式严重影响了关系质量，导致情感维系困难。从心理学角度分析，{conclusion}是导致分手的主要原因。',
-            '根据症状评估，患者{traits}，这些特征形成了一个完整的{pattern}行为链。在关系中，你承担了超过90%的情感付出，而对方{behavior}。这种严重失衡的关系状态，注定了{conclusion}的结局。',
-            '该案例显示，前任{traits}等多重特征并存。其核心问题在于{core_issue}，表现为{behavior}。这种{pattern}型人格在亲密关系中往往{tendency}，最终因{conclusion}而分手。',
-            '综合诊断显示：前任具有{traits}的典型表现，属于{pattern}类型。在恋爱过程中，其{behavior}，使你长期处于{feeling}的状态。从关系发展规律来看，{conclusion}是必然结果。',
-            '案例分析表明，该前任{traits}，这些症状综合作用形成了{pattern}的相处模式。你在这段关系中{your_state}，而对方{behavior}。这种模式的最终走向只能是{conclusion}。'
-        ];
+要求：
+- 语气：像一个看透人性的老中医写病历，专业术语+毒舌吐槽混搭
+- 每个分析要针对具体特征，不能泛泛而谈
+- 搞笑但有道理，让人笑着笑着觉得"确实是这样"
 
-        const advicePool = [
-            '建议远离此类物种至少500米，并设置心理防护罩',
-            '建议打开手机通讯录，找到该联系人，点击删除，长按确认',
-            '请将对方照片贴在沙包上进行物理治疗，每日三次',
-            '建议每天对着镜子说三遍：我值得更好的',
-            '将聊天记录打印出来，配合纸巾使用效果更佳',
-            '建议观看十部爽剧，培养"我可以没有你"的自信',
-            '请立即关注三个情感博主，学习识别渣男/渣女技能',
-            '建议找闺蜜/兄弟进行为期三天的吐槽治疗',
-            '每当想起对方时，请立即去吃顿好的犒劳自己',
-            '建议制作"前任档案"，标注红旗清单，永久警戒',
-            '请将对方备注改为"人间清醒练习题"',
-            '建议删除所有共同回忆，包括但不限于照片、礼物、聊天记录',
-            '请每天运动30分钟，将想念转化为肌肉',
-            '建议立即停止一切"死灰复燃"幻想',
-            '请在手机备忘录写下：永远不要吃回头草',
-            '建议阅读至少五本情感成长书籍',
-            '每当犹豫时，请重新阅读本分析报告',
-            '建议培养三个新爱好，填补情感空白',
-            '请将"前任"改称为"前科"，永久归档',
-            '建议参加至少两次社交活动，拓展新圈子',
-            '每天睡前默念：分手是为了遇见更好的',
-            '建议制定"30天忘记前任计划"并严格执行',
-            '请将所有关于对方的物品打包，扔掉或捐赠',
-            '建议每周进行一次自我欣赏时间',
-            '请屏蔽所有可能看到对方动态的社交平台',
-            '建议培养"看到绿茶/渣男就识别"的火眼金睛',
-            '每当想联系对方时，请给自己转账200元',
-            '建议观看三部纪录片，提升人生格局',
-            '请在日历上标注"重获自由日"并每年庆祝',
-            '建议立即开始"悦己计划"，把爱用在自己身上'
-        ];
-
-        const warmReminders = [
-            '分手不是你的失败，而是为了遇见对的人腾出位置 ❤️',
-            '感谢前任的离开，让你有机会成为更好的自己 ✨',
-            '你不是不够好，只是对方不配拥有你 🌟',
-            '每一段错误的关系，都在教你什么是对的 🌈',
-            '单身比凑合强一万倍，相信我 💪',
-            '爱自己是终身浪漫的开始 🌹',
-            '失去一个不爱你的人，是幸运不是遗憾 🍀',
-            '别回头，前面有更好的风景在等你 🌅',
-            '时间会证明，离开TA是你做过最对的决定 ⏰',
-            '你值得被认真对待，被温柔以待，被全心全意爱 💝',
-            '放下过去，才能拥抱未来 🌙',
-            '治愈的第一步：承认对方真的很烂 🎯',
-            '记住：永远不要为不值得的人降低标准 ⭐',
-            '你的价值不由任何人定义 👑',
-            '下一次，请一定要找一个把你放在心上的人 💕'
-        ];
+严格按以下JSON格式回复，不要输出任何其他内容：
+{
+  "typeName": "给前任起一个搞笑的分类名称（如：薛定谔型恋人、中央空调Plus、工具人收割机等）",
+  "dangerLevel": 1到5的整数,
+  "zhaValue": 1到99的整数,
+  "symptoms": [
+    {"trait": "特征名", "analysis": "一句话毒舌分析，要针对这个特征", "isDangerous": true或false}
+  ],
+  "narrative": "2-3句话的综合诊断，用医学报告的口吻写，但内容要搞笑犀利",
+  "advice": ["医嘱1", "医嘱2", "医嘱3"],
+  "healingTime": "预计治愈时间（如：3-6个月）",
+  "reminder": "一句暖心但不油腻的话，带一个emoji"
+}`;
 
         function getSelectedTraits() {
-            const checkboxes = document.querySelectorAll('.trait-checkbox:checked');
-            return Array.from(checkboxes).map(cb => cb.value);
+            return Array.from(document.querySelectorAll('.trait-checkbox:checked')).map(cb => cb.value);
         }
 
-        function determineExType(traits) {
-            if (traits.length === 0) {
-                return { name: '迷惑型恋人', keywords: ['未知', '神秘', '不确定'] };
-            }
-
-            let bestMatch = exTypes[0];
-            let maxScore = 0;
-
-            exTypes.forEach(type => {
-                let score = 0;
-                type.traits.forEach(trait => {
-                    if (traits.some(t => trait.includes(t) || t.includes(trait))) {
-                        score++;
-                    }
-                });
-                if (score > maxScore) {
-                    maxScore = score;
-                    bestMatch = type;
-                }
-            });
-
-            return bestMatch;
-        }
-
-        function calculateDangerLevel(traits) {
-            const dangerousTraits = ['手机不让看', '前任很多', '爱跟异性聊天', '吵架冷暴力', '控制欲强', '只在需要你时找你'];
-            let dangerCount = 0;
-            traits.forEach(trait => {
-                if (dangerousTraits.includes(trait)) dangerCount++;
-            });
-
-            if (traits.length >= 10) return 5;
-            if (traits.length >= 8) return 4;
-            if (dangerCount >= 3) return 4;
-            if (traits.length >= 5) return 3;
-            if (dangerCount >= 2) return 3;
-            if (traits.length >= 3) return 2;
-            return Math.max(1, Math.min(dangerCount + 1, 5));
-        }
-
-        function calculateZhaValue(traits) {
-            const baseValue = Math.min(traits.length * 6, 70);
-            const randomBonus = Math.floor(Math.random() * 25);
-            return Math.min(baseValue + randomBonus, 99);
-        }
-
-        function generateSymptomAnalysis(traits) {
-            return traits.map(trait => {
-                const analyses = symptomAnalysis[trait] || ['该症状需要进一步观察分析'];
-                const analysis = analyses[Math.floor(Math.random() * analyses.length)];
-                const isDangerous = ['手机不让看', '控制欲强', '吵架冷暴力', '爱跟异性聊天'].includes(trait);
-                return { trait, analysis, isDangerous };
-            });
-        }
-
-        function generateNarrative(traits, exType) {
-            if (traits.length === 0) {
-                return '该前任特征不明显，但能让你产生分析需求，说明关系中必然存在问题。建议提高警惕，认真审视这段关系的真实状态。';
-            }
-
-            const template = narrativeTemplates[Math.floor(Math.random() * narrativeTemplates.length)];
-            const traitsList = traits.slice(0, 3).join('、');
-            const patterns = ['自私中心', '情感缺失', '逃避责任', '不成熟', '不尊重'];
-            const behaviors = [
-                '从未真正投入感情',
-                '将你视为可有可无的存在',
-                '只在乎自己的感受',
-                '缺乏基本的责任感',
-                '不愿意为关系做出任何努力'
-            ];
-            const conclusions = [
-                '你的清醒和离开',
-                '情感失衡导致的必然结局',
-                '你终于意识到自己值得更好的',
-                '你不再愿意委屈自己',
-                '这段不平等关系的终结'
-            ];
-            const coreIssues = ['自私', '不负责任', '情感冷漠', '缺乏边界感', '不会爱人'];
-            const feelings = ['委屈', '疲惫', '不被重视', '患得患失', '自我怀疑'];
-            const yourStates = ['付出了全部', '小心翼翼', '一再降低底线', '努力维系', '不断迁就'];
-            const tendencies = ['造成对方痛苦', '无法维持长期关系', '伤害深爱他的人', '只会索取不会付出'];
-
-            let narrative = template
-                .replace('{traits}', traitsList)
-                .replace('{pattern}', patterns[Math.floor(Math.random() * patterns.length)])
-                .replace('{behavior}', behaviors[Math.floor(Math.random() * behaviors.length)])
-                .replace('{conclusion}', conclusions[Math.floor(Math.random() * conclusions.length)])
-                .replace('{core_issue}', coreIssues[Math.floor(Math.random() * coreIssues.length)])
-                .replace('{feeling}', feelings[Math.floor(Math.random() * feelings.length)])
-                .replace('{your_state}', yourStates[Math.floor(Math.random() * yourStates.length)])
-                .replace('{tendency}', tendencies[Math.floor(Math.random() * tendencies.length)]);
-
-            return narrative;
-        }
-
-        function generateAdvice() {
-            const shuffled = [...advicePool].sort(() => 0.5 - Math.random());
-            return shuffled.slice(0, 3);
-        }
-
-        function generateHealingTime(traitCount) {
-            if (traitCount >= 10) return '6-12个月';
-            if (traitCount >= 7) return '3-6个月';
-            if (traitCount >= 4) return '1-3个月';
-            return '2-4周';
-        }
-
-        function generateReport() {
+        async function generateReport() {
             const exName = document.getElementById('exName').value.trim() || '前任';
-            const selectedTraits = getSelectedTraits();
+            const traits = getSelectedTraits();
+            const extra = document.getElementById('extraNotes').value.trim();
 
-            if (selectedTraits.length === 0) {
+            if (traits.length === 0) {
                 alert('请至少选择一个前任的特征！');
                 return;
             }
 
-            const exType = determineExType(selectedTraits);
-            const dangerLevel = calculateDangerLevel(selectedTraits);
-            const zhaValue = calculateZhaValue(selectedTraits);
-            const symptoms = generateSymptomAnalysis(selectedTraits);
-            const narrative = generateNarrative(selectedTraits, exType);
-            const advice = generateAdvice();
-            const healingTime = generateHealingTime(selectedTraits.length);
-            const warmReminder = warmReminders[Math.floor(Math.random() * warmReminders.length)];
+            const btn = document.querySelector('.btn-primary');
+            btn.disabled = true;
+            btn.textContent = '正在鉴定中...';
+
+            const userMsg = `前任昵称：${exName}\n特征：${traits.join('、')}${extra ? '\n补充：' + extra : ''}`;
+
+            try {
+                const r = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+                    body: JSON.stringify({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                            { role: 'system', content: SYSTEM_PROMPT },
+                            { role: 'user', content: userMsg }
+                        ],
+                        max_tokens: 1200,
+                        temperature: 0.95
+                    })
+                });
+                const raw = await r.json();
+                if (!r.ok) throw new Error(raw.error?.message || '服务器开小差了');
+                const content = raw.choices?.[0]?.message?.content;
+                if (!content) throw new Error('AI 没有返回内容');
+                const m = content.match(/\{[\s\S]*\}/);
+                if (!m) throw new Error('AI 返回格式不正确');
+                renderReport(exName, JSON.parse(m[0]));
+            } catch (e) {
+                alert('分析失败：' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '生成分析报告';
+            }
+        }
+
+        function renderReport(exName, d) {
             const reportNumber = Math.floor(Math.random() * 90000) + 10000;
             const today = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+            const dangerFlags = '🚩'.repeat(Math.min(d.dangerLevel || 3, 5));
+            const zha = Math.min(Math.max(d.zhaValue || 50, 1), 99);
 
             const reportHTML = `
                 <div class="card">
@@ -944,10 +691,7 @@
                     </div>
 
                     <div class="report-section">
-                        <h2 class="report-section-title">
-                            <span class="section-number">01</span>
-                            基本诊断
-                        </h2>
+                        <h2 class="report-section-title"><span class="section-number">01</span> 基本诊断</h2>
                         <div class="diagnosis-grid">
                             <div class="diagnosis-item">
                                 <span class="diagnosis-label">对象昵称</span>
@@ -955,33 +699,26 @@
                             </div>
                             <div class="diagnosis-item">
                                 <span class="diagnosis-label">前任类型</span>
-                                <span class="diagnosis-value">${exType.name}</span>
+                                <span class="diagnosis-value">${d.typeName}</span>
                             </div>
                             <div class="diagnosis-item">
                                 <span class="diagnosis-label">危险等级</span>
-                                <div class="danger-rating">
-                                    ${'🚩'.repeat(dangerLevel)}
-                                </div>
+                                <div class="danger-rating">${dangerFlags}</div>
                             </div>
                         </div>
-                        <div style="margin-top: 12px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <div style="margin-top:12px">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
                                 <span class="diagnosis-label">综合渣值</span>
-                                <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #D14D3D; font-weight: 600;">${zhaValue}%</span>
+                                <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#D14D3D;font-weight:600">${zha}%</span>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${zhaValue}%">${zhaValue}%</div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill" id="pFill" style="width:0">${zha}%</div></div>
                         </div>
                     </div>
 
                     <div class="report-section">
-                        <h2 class="report-section-title">
-                            <span class="section-number">02</span>
-                            症状分析
-                        </h2>
+                        <h2 class="report-section-title"><span class="section-number">02</span> 症状分析</h2>
                         <ul class="symptom-list">
-                            ${symptoms.map(s => `
+                            ${(d.symptoms || []).map(s => `
                                 <li class="symptom-item">
                                     <span class="symptom-tag ${s.isDangerous ? 'danger' : ''}">${s.trait}</span>
                                     ${s.analysis}
@@ -991,33 +728,24 @@
                     </div>
 
                     <div class="report-section">
-                        <h2 class="report-section-title">
-                            <span class="section-number">03</span>
-                            分手原因推测
-                        </h2>
-                        <div class="narrative">${narrative}</div>
+                        <h2 class="report-section-title"><span class="section-number">03</span> 综合诊断</h2>
+                        <div class="narrative">${d.narrative}</div>
                     </div>
 
                     <div class="report-section">
-                        <h2 class="report-section-title">
-                            <span class="section-number">04</span>
-                            医嘱
-                        </h2>
+                        <h2 class="report-section-title"><span class="section-number">04</span> 医嘱</h2>
                         <ul class="advice-list">
-                            ${advice.map(a => `<li class="advice-item">${a}</li>`).join('')}
+                            ${(d.advice || []).map(a => `<li class="advice-item">${a}</li>`).join('')}
                         </ul>
                         <div class="healing-time">
                             <div class="healing-time-label">预计治愈时间</div>
-                            <div class="healing-time-value">${healingTime}</div>
+                            <div class="healing-time-value">${d.healingTime || '1-3个月'}</div>
                         </div>
                     </div>
 
                     <div class="report-section">
-                        <h2 class="report-section-title">
-                            <span class="section-number">05</span>
-                            温馨提示
-                        </h2>
-                        <div class="warm-reminder">${warmReminder}</div>
+                        <h2 class="report-section-title"><span class="section-number">05</span> 温馨提示</h2>
+                        <div class="warm-reminder">${d.reminder || '你值得更好的 ❤️'}</div>
                     </div>
 
                     <div class="report-footer">
@@ -1035,17 +763,8 @@
             document.getElementById('reportContainer').innerHTML = reportHTML;
             document.getElementById('reportContainer').classList.add('active');
             document.getElementById('inputForm').classList.add('hidden');
-
-            // Smooth scroll to report
             document.getElementById('reportContainer').scrollIntoView({ behavior: 'smooth' });
-
-            // Animate progress bar
-            setTimeout(() => {
-                const progressFill = document.querySelector('.progress-fill');
-                if (progressFill) {
-                    progressFill.style.width = zhaValue + '%';
-                }
-            }, 100);
+            setTimeout(() => { const f = document.getElementById('pFill'); if (f) f.style.width = zha + '%'; }, 100);
         }
 
         function resetForm() {
@@ -1055,11 +774,9 @@
         }
 
         function analyzeAnother() {
-            // Clear form
             document.getElementById('exName').value = '';
             document.getElementById('extraNotes').value = '';
             document.querySelectorAll('.trait-checkbox').forEach(cb => cb.checked = false);
-
             resetForm();
         }
     </script>
