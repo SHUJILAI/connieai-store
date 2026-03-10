@@ -3,538 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 甩锅大师 - 让借口更有说服力</title>
+    <title>甩锅大师 — 一本正经地胡说八道</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root{
+            --bg:#F5F0E8;--bg-card:#FFFDF8;--ink:#2E2A24;--ink-soft:#6B6359;
+            --ink-faint:#A39E95;--ink-ghost:#CBC6BD;--rule:#DDD7CD;--rule-light:#EBE7E0;
+            --accent:#7B8F6B;--accent-soft:rgba(123,143,107,.12);--accent-deep:#6A7D5C;
+            --danger:#C0694A;--r:12px;--rl:18px;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{-webkit-font-smoothing:antialiased}
+        body{
+            font-family:'Outfit',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+            background:var(--bg);color:var(--ink);
+            min-height:100vh;min-height:100dvh;
+            display:flex;flex-direction:column;align-items:center;padding:20px;
+        }
+        .page{width:100%;max-width:480px;margin:0 auto}
+
+        header{text-align:center;padding:28px 0 4px}
+        h1{font-family:'Instrument Serif',Georgia,serif;font-size:2.2rem;font-weight:400;line-height:1.15;margin-bottom:6px}
+        .sub{font-size:.88rem;color:var(--accent);font-weight:400;letter-spacing:.3px}
+        .ai-dot{
+            display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:3px 10px;
+            background:var(--accent-soft);border:1px solid rgba(123,143,107,.18);
+            border-radius:20px;font-size:9px;font-weight:600;color:var(--accent);
+            letter-spacing:.6px;text-transform:uppercase;
+        }
+        .ai-dot::before{content:"";width:5px;height:5px;background:var(--accent);border-radius:50%;animation:blink 2s infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+        .input-card{
+            background:var(--bg-card);border:1.5px solid var(--rule-light);
+            border-radius:var(--rl);padding:24px 22px;margin:24px 0 0;
+            box-shadow:0 2px 10px rgba(46,42,36,.04);transition:border-color .2s;
+        }
+        .input-card:focus-within{border-color:var(--accent)}
+        .input-card label{font-size:.95rem;font-weight:600;display:block;margin-bottom:12px}
+        .input-card label span{font-size:.78rem;color:var(--ink-ghost);font-weight:400;margin-left:6px}
+
+        .text-wrap{position:relative}
+        textarea{
+            width:100%;min-height:68px;padding:12px 14px;font-size:.93rem;font-family:inherit;
+            line-height:1.6;border:1.5px solid var(--rule-light);border-radius:var(--r);
+            background:var(--bg);color:var(--ink);resize:none;outline:none;
+            transition:border-color .2s,background .2s;
+        }
+        textarea:focus{border-color:var(--accent);background:var(--bg-card)}
+        textarea::placeholder{color:var(--ink-ghost);font-weight:300}
+        .cc{position:absolute;bottom:6px;right:10px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--ink-ghost)}
+
+        .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+        .tag{
+            font-size:10.5px;font-weight:500;color:var(--ink-faint);background:var(--bg);
+            border:1px solid var(--rule-light);padding:3px 9px;border-radius:20px;
+            cursor:pointer;font-family:inherit;transition:all .15s;
+        }
+        .tag:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+
+        .btn-go{
+            width:100%;padding:15px;margin-top:14px;font-size:1rem;font-weight:600;
+            font-family:inherit;background:var(--accent);color:var(--bg-card);
+            border:none;border-radius:var(--r);cursor:pointer;transition:all .25s;
+            letter-spacing:.02em;box-shadow:0 4px 14px rgba(123,143,107,.2);
+        }
+        .btn-go:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-2px);box-shadow:0 6px 18px rgba(123,143,107,.3)}
+        .btn-go:active:not(:disabled){transform:translateY(0)}
+        .btn-go:disabled{opacity:.65;cursor:not-allowed}
+
+        .ld{display:none;text-align:center;padding:44px 20px}
+        .ld.on{display:block}
+        .ring{width:40px;height:40px;margin:0 auto 16px;border:3px solid var(--rule-light);border-top-color:var(--accent);border-radius:50%;animation:spin .75s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        .ld-txt{font-size:.92rem;color:var(--accent);font-weight:500}
+        .ld-sub{font-size:.78rem;color:var(--ink-ghost);margin-top:4px}
+
+        .err{display:none;background:#FDF5F2;border:1.5px solid #E8D4CC;border-radius:var(--rl);padding:22px;text-align:center;margin-top:20px}
+        .err.on{display:block}
+        .err h4{font-size:.95rem;color:var(--danger);margin-bottom:4px}
+        .err p{font-size:.82rem;color:#8B6B5A;line-height:1.5}
+        .err button{
+            margin-top:12px;padding:7px 18px;font-size:.82rem;font-weight:600;
+            font-family:inherit;background:none;color:var(--danger);
+            border:1.5px solid var(--danger);border-radius:8px;cursor:pointer;transition:all .15s;
+        }
+        .err button:hover{background:var(--danger);color:#fff}
+
+        .result{display:none;margin-top:24px}
+        .result.on{display:block}
+
+        .excuse-box{
+            background:var(--bg-card);border:1.5px solid var(--rule-light);
+            border-radius:var(--rl);padding:28px 24px 24px;
+            box-shadow:0 2px 12px rgba(46,42,36,.04);animation:pop .35s ease both;
+        }
+        @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+
+        .excuse-txt{font-size:1.02rem;line-height:1.85;color:var(--ink);margin-bottom:22px;font-weight:400}
+
+        .cred{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+        .cred-lbl{font-size:.76rem;color:var(--accent);font-weight:600;white-space:nowrap;min-width:50px}
+        .cred-bar{flex:1;height:5px;background:var(--rule-light);border-radius:3px;overflow:hidden}
+        .cred-fill{height:100%;background:linear-gradient(90deg,var(--accent),#A4B894);border-radius:3px;width:0;transition:width .9s cubic-bezier(.4,0,.2,1)}
+        .cred-num{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;color:var(--ink-faint);min-width:28px;text-align:right}
+
+        .expr{
+            font-size:.83rem;color:var(--accent-deep);font-style:italic;
+            padding:9px 13px;background:var(--accent-soft);
+            border-radius:8px;border-left:3px solid var(--accent);line-height:1.5;
         }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: #F5F0E8;
-            color: #2E2A24;
-            line-height: 1.6;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .acts{display:flex;gap:10px;margin-top:18px}
+        .btn-swap,.btn-reset{
+            flex:1;padding:12px;font-size:.9rem;font-weight:600;
+            font-family:inherit;border-radius:var(--r);cursor:pointer;transition:all .2s;
         }
+        .btn-swap{background:var(--accent);color:var(--bg-card);border:none;box-shadow:0 3px 10px rgba(123,143,107,.18)}
+        .btn-swap:hover:not(:disabled){background:var(--accent-deep);transform:translateY(-1px)}
+        .btn-swap:disabled{opacity:.6;cursor:not-allowed}
+        .btn-reset{background:var(--bg-card);color:var(--accent);border:1.5px solid var(--accent)}
+        .btn-reset:hover{background:var(--accent);color:var(--bg-card)}
 
-        .container {
-            width: 100%;
-            max-width: 520px;
-            margin: 0 auto;
-        }
+        footer{text-align:center;margin-top:44px;padding:16px}
+        footer a{color:var(--accent);text-decoration:none;font-weight:600;font-size:.82rem}
+        footer a:hover{text-decoration:underline}
+        .wm{margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-ghost)}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
-        }
-
-        h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 2.5rem;
-            font-weight: 400;
-            margin-bottom: 8px;
-            color: #2E2A24;
-        }
-
-        .subtitle {
-            font-size: 0.95rem;
-            color: #7B8F6B;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-        .input-section {
-            background: #FFFDF8;
-            border: 2px solid #EBE7E0;
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(46, 42, 36, 0.04);
-        }
-
-        label {
-            display: block;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: #2E2A24;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 1rem;
-            font-family: 'Outfit', sans-serif;
-            border: 2px solid #EBE7E0;
-            border-radius: 12px;
-            background: #F5F0E8;
-            color: #2E2A24;
-            transition: all 0.2s ease;
-            outline: none;
-        }
-
-        input[type="text"]:focus {
-            border-color: #7B8F6B;
-            background: #FFFDF8;
-        }
-
-        input[type="text"]::placeholder {
-            color: #9B9690;
-            font-weight: 300;
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 16px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            font-family: 'Outfit', sans-serif;
-            background: #7B8F6B;
-            color: #FFFDF8;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 16px;
-            box-shadow: 0 4px 12px rgba(123, 143, 107, 0.2);
-        }
-
-        .btn-primary:hover {
-            background: #6A7D5C;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(123, 143, 107, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .loading-text {
-            font-size: 1.1rem;
-            color: #7B8F6B;
-            font-weight: 500;
-            margin-top: 16px;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid #EBE7E0;
-            border-top-color: #7B8F6B;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .results {
-            display: none;
-        }
-
-        .results.active {
-            display: block;
-        }
-
-        .excuse-card {
-            background: #FFFDF8;
-            border: 2px solid #EBE7E0;
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(46, 42, 36, 0.04);
-            position: relative;
-        }
-
-        .excuse-tag {
-            display: inline-block;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            font-weight: 600;
-            background: #7B8F6B;
-            color: #FFFDF8;
-            padding: 6px 14px;
-            border-radius: 6px;
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-
-        .excuse-text {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: #2E2A24;
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-
-        .credibility {
-            margin-bottom: 16px;
-        }
-
-        .credibility-label {
-            font-size: 0.85rem;
-            color: #7B8F6B;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .credibility-bar {
-            width: 100%;
-            height: 8px;
-            background: #EBE7E0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .credibility-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #7B8F6B, #A4B894);
-            border-radius: 4px;
-            transition: width 1s ease;
-        }
-
-        .expression-tip {
-            font-size: 0.9rem;
-            color: #7B8F6B;
-            font-style: italic;
-            padding: 12px;
-            background: #F5F0E8;
-            border-radius: 8px;
-            border-left: 3px solid #7B8F6B;
-        }
-
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        .btn-secondary {
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: 600;
-            font-family: 'Outfit', sans-serif;
-            background: #FFFDF8;
-            color: #7B8F6B;
-            border: 2px solid #7B8F6B;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-secondary:hover {
-            background: #7B8F6B;
-            color: #FFFDF8;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            padding: 20px;
-            color: #9B9690;
-            font-size: 0.85rem;
-        }
-
-        footer a {
-            color: #7B8F6B;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .watermark {
-            margin-top: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: #C4BFB8;
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .input-section {
-                padding: 20px;
-            }
-
-            .excuse-card {
-                padding: 20px;
-            }
-        }
+        @media(max-width:480px){h1{font-size:1.9rem}.input-card{padding:20px 18px}.excuse-box{padding:22px 18px}}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>AI 甩锅大师</h1>
-            <p class="subtitle">让每一个借口都听起来无懈可击</p>
-        </header>
+<div class="page">
+    <header>
+        <h1>甩锅大师</h1>
+        <p class="sub">一本正经地胡说八道</p>
+        <div class="ai-dot">AI Powered</div>
+    </header>
 
-        <div class="input-section">
-            <label for="mistake">你做了什么好事?</label>
-            <input
-                type="text"
-                id="mistake"
-                placeholder="比如: 上班迟到了 / 忘记女朋友生日 / 项目没做完"
-            >
-            <button class="btn-primary" onclick="generateExcuses()">开始甩锅</button>
+    <div class="input-card">
+        <label>你做了什么好事？<span>说清楚，锅才甩得准</span></label>
+        <div class="text-wrap">
+            <textarea id="inp" placeholder="比如：上班迟到了 / 忘记女朋友生日 / 把客户文件删了..." maxlength="200" rows="2"></textarea>
+            <span class="cc"><span id="cn">0</span>/200</span>
         </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <div class="loading-text" id="loadingText">正在编造借口...</div>
+        <div class="tags">
+            <button class="tag" onclick="fill('上班迟到了')">上班迟到</button>
+            <button class="tag" onclick="fill('忘记女朋友生日')">忘记生日</button>
+            <button class="tag" onclick="fill('项目没做完')">项目delay</button>
+            <button class="tag" onclick="fill('打游戏被老婆抓到了')">偷玩游戏</button>
+            <button class="tag" onclick="fill('考试挂科了')">考试挂科</button>
         </div>
-
-        <div class="results" id="results">
-            <div id="excusesContainer"></div>
-            <div class="action-buttons">
-                <button class="btn-secondary" onclick="regenerateExcuses()">再来一次</button>
-                <button class="btn-secondary" onclick="resetApp()">换个锅甩</button>
-            </div>
-        </div>
-
-        <footer>
-            <p><a href="https://happycapy.ai/?via=connie" target="_blank">AI-Connie 出品</a></p>
-            <p class="watermark">shujilai.github.io/connieai-store</p>
-        </footer>
+        <button class="btn-go" id="btnGo" onclick="go()">开始甩锅</button>
     </div>
 
-    <script>
-        let currentMistake = '';
+    <div class="ld" id="ld">
+        <div class="ring"></div>
+        <div class="ld-txt" id="ldTxt">正在颠倒黑白...</div>
+        <div class="ld-sub">AI 正在编造完美借口</div>
+    </div>
 
-        const loadingTexts = [
-            '正在颠倒黑白...',
-            '正在扭曲因果关系...',
-            '正在寻找替罪羊...',
-            '正在篡改宇宙记忆...',
-            '正在翻阅杠精手册...',
-            '正在联系平行宇宙的自己...',
-            '正在编造不在场证明...'
-        ];
+    <div class="err" id="err">
+        <h4>翻车了</h4>
+        <p id="errMsg">AI 也甩不动了</p>
+        <button onclick="go()">再试一次</button>
+    </div>
 
-        const philosopherTemplates = [
-            (m) => `你仔细想想，如果全世界80亿人同时${m}，那这就不叫错误了，叫文化习俗。我只是这个文化的先驱者，走在了时代前面而已。`,
-            (m) => `鱼不知道水是什么，我不知道${m}有什么问题也很正常。你不能要求一条鱼去理解水，也不能要求我理解你那些规矩。`,
-            (m) => `"错误"这个词是人发明的。在这个词被发明之前，${m}只是一个客观事件。是语言给它贴了标签，你应该去找造字的那个人。`,
-            (m) => `苍蝇不会觉得自己脏，狮子不会觉得自己残忍。${m}只是你觉得有问题，在我的世界观里这叫"顺其自然"。`,
-            (m) => `你批评我${m}，但你想想：如果我没${m}，你今天就少了一个发脾气的机会。我丰富了你的情绪光谱，你应该感谢我。`,
-            (m) => `宇宙存在了138亿年，地球46亿年，人类才几百万年。在这个时间尺度下，${m}和没${m}没有任何区别。你格局太小了。`,
-            (m) => `也许${m}才是这个世界的默认设置，不${m}才是异常状态。大多数人在异常状态下活着，我只是回归了出厂设置。`,
-            (m) => `路是人走出来的，规矩是人编出来的。谁规定${m}就是错的？如果第一个定规矩的人当初也${m}了，那现在不${m}才叫违规。`,
-            (m) => `你不能既要求我做人又不让我犯错。会${m}的才是真人，不会的叫冰箱。你要一个活人还是要一台家电？`,
-            (m) => `${m}影响到谁了？地球照转，太阳照晒，菜价照涨。宇宙没有因为我${m}出现任何异常，你为什么比宇宙还紧张？`,
-            (m) => `你说我${m}，我说你太闲了。如果你有更重要的事做，根本不会注意到这件事。所以根本问题不是我${m}，是你不够忙。`,
-            (m) => `历史上每个伟人都干过比${m}离谱得多的事。爱迪生炸过实验室，哥伦布去印度到了美洲。你不是在批评我，你是在见证一个伟人的起步阶段。`,
-            (m) => `如果一棵树在森林里倒了没人听见，它算不算发出了声音？同理如果我${m}你没看见，那我${m}了吗？所以问题出在你非要看见。`,
-            (m) => `你让我解释为什么${m}，你先解释一下人为什么要呼吸？有些事就是自然发生的，硬要解释只会为难彼此。`,
-            (m) => `"知错能改善莫大焉"。我现在知道${m}有误了，根据这句古话我已经"善莫大焉"了，你还想怎样？`,
-            (m) => `也许是你对${m}的定义有问题。在我的字典里，这叫"一种生活方式"。你不能因为你的字典比我厚就说我不对。`,
-            (m) => `我${m}的时候全程保持清醒和自愿，这说明什么？说明我有独立思考的能力。你应该担心的是那些从来不${m}的人，他们才可能没有灵魂。`,
-            (m) => `婴儿生下来就会哭但不会守规矩，这说明犯错是人的本能，遵守规则才是后天强加的。我${m}只是在忠于人类最原始的出厂设置。`,
-            (m) => `你有没有想过，不${m}的人只是还没被抓到？你看到我${m}是因为我坦诚，看不到别人是因为他们虚伪。你是要惩罚诚实还是要奖励虚伪？`,
-            (m) => `"人非圣贤孰能无过"。我${m}说明我不是圣贤，你骂我说明你也不是。大家都是凡人，何必互相为难呢。`
-        ];
+    <div class="result" id="res">
+        <div class="excuse-box" id="box">
+            <div class="excuse-txt" id="txt"></div>
+            <div class="cred">
+                <span class="cred-lbl">可信度</span>
+                <div class="cred-bar"><div class="cred-fill" id="bar"></div></div>
+                <span class="cred-num" id="num"></span>
+            </div>
+            <div class="expr" id="expr"></div>
+        </div>
+        <div class="acts">
+            <button class="btn-swap" id="btnSwap" onclick="go()">换一个</button>
+            <button class="btn-reset" onclick="reset()">换个锅甩</button>
+        </div>
+    </div>
 
-        const scientistTemplates = [
-            (m) => `地球自转速度每小时1670公里。我在这种速度下还能正常站着就不错了，你竟然还嫌我${m}？`,
-            (m) => `人脑有860亿个神经元，每秒处理上千万条信息。偶尔${m}只是CPU占用率过高导致的临时卡顿，重启一下就好。`,
-            (m) => `人体70%是水，水的特性就是往低处流、走阻力最小的路。我${m}只是体内70%的水在替我做决策。你是要怪水还是怪我？`,
-            (m) => `根据热力学第二定律，宇宙的一切都在走向混乱和无序。我${m}只是顺应了最基本的物理定律。不${m}才是违反自然规律。`,
-            (m) => `光速每秒30万公里，我工资到账速度每月一次。在如此不对等的宇宙里，${m}只是一个完全可以理解的系统误差。`,
-            (m) => `人的大脑会自动删掉不重要的信息来节省空间。我${m}说明大脑判定这事不重要，这是几百万年进化赋予我的高级功能，你不能怪我用了。`,
-            (m) => `牛顿被苹果砸了发现万有引力，我${m}说不定也是某个伟大发现的前奏。你现在打断我就是在阻碍人类科学进步。`,
-            (m) => `地球到太阳的距离1.5亿公里，偏差0.01%地球就会变成火球。我${m}的偏差率远低于0.01%，按天文学标准，我表现堪称完美。`,
-            (m) => `人一天要做35000个决定。前面34999个我都做对了，就这一个${m}你揪着不放？正确率99.997%，比任何AI模型都强。`,
-            (m) => `科学研究证明人饿的时候智商会下降。我${m}的时候肯定是没吃饱，你应该先请我吃顿饭再来跟我讨论对错。`,
-            (m) => `量子力学告诉我们观察会改变结果。如果你不盯着我看，我可能根本就不会${m}。从科学角度讲，观察者才是问题的根源。`,
-            (m) => `人类的DNA和香蕉有60%相同。你不会骂一根香蕉${m}吧？那你凭什么骂一个60%是香蕉的生物？`,
-            (m) => `从概率论角度看，${m}是大概率事件，不${m}才是小概率。我只是选择了统计学上最合理的那个选项，这叫理性决策。`,
-            (m) => `恐龙统治地球1.6亿年最后还是灭绝了。我${m}这点小事跟种族灭绝比算什么？建议你把格局打开一点。`,
-            (m) => `爱因斯坦说时间是相对的。在我的参考系里，我并没有${m}。是你的参考系出了问题，建议你换一个坐标系重新观察。`,
-            (m) => `人脑据说只开发了10%。如果剩下90%开发出来，我肯定不会${m}。你不该怪我，应该去怪科技不够发达。`,
-            (m) => `根据能量守恒定律，能量不会凭空消失。我没用在"不${m}"上的能量一定转移到了呼吸、心跳和维持体温上。你不能怪我把能量优先用在保命上。`,
-            (m) => `科学表明人对时间的估计存在20%到30%的系统误差。${m}只是所有人类都会犯的认知偏差，只不过我运气不好被逮到了。统计学上讲这叫回归均值。`,
-            (m) => `太阳每秒燃烧420万吨物质也没人说它浪费。我${m}消耗的资源连太阳一秒的百亿分之一都不到，你为什么对我比对太阳还严格？`,
-            (m) => `手机辐射会影响大脑的前额叶功能，我每天看5个小时手机，脑子结构已经被电磁波重塑了。${m}是数字时代的集体代价，不是我个人的问题。`
-        ];
+    <footer>
+        <p><a href="https://happycapy.ai/?via=connie" target="_blank">AI-Connie 出品</a></p>
+        <p class="wm">shujilai.github.io/connieai-store</p>
+    </footer>
+</div>
 
-        const universeTemplates = [
-            (m) => `今天出门左脚先迈的门槛。众所周知左脚出门诸事不顺，${m}已经是最轻的后果了。你应该庆幸我人还在这里。`,
-            (m) => `${m}这事我也没办法。我上辈子八成是只树懒，灵魂的惯性改不了的。你要怪就怪轮回系统的分配算法有bug。`,
-            (m) => `我问了算命先生，他说我今年犯太岁。${m}是犯太岁的标准症状之一。你真想帮我就帮我请尊太岁符，比骂我管用。`,
-            (m) => `宇宙大爆炸那一刻起，每个粒子的轨迹就已经定好了。我今天${m}是138亿年前就写好的剧本。你跟我说没用，找宇宙大爆炸去。`,
-            (m) => `我妈说我出生那天正好停电了。我怀疑出厂时系统没加载完，部分功能缺失。${m}就是其中一个bug，等下辈子打补丁吧。`,
-            (m) => `你有没有想过，也许我们活在一个模拟程序里？${m}是程序员故意写的bug，用来测试你的反应。你现在发火说明你这轮测试没通过。`,
-            (m) => `昨晚月亮特别圆，潮汐力会影响人体内的水分分布。我体内70%是水，受月球引力影响${m}很正常。等月亮缺了自然就好了。`,
-            (m) => `我属龙的，龙是天上的生物，不习惯地面规则。${m}是因为我灵魂还没完全适应地球的节奏，大概再修炼个一千年就好了。`,
-            (m) => `平行宇宙理论说所有可能性都存在。在无数个平行宇宙里我都没${m}，你恰好待在这个宇宙，只能说你运气差。`,
-            (m) => `我奶奶说我名字五行缺水。缺水就容易上火，上火就容易犯糊涂。${m}归根到底是我爸妈起名没找对先生。`,
-            (m) => `俗话说事不过三。你数数我${m}几次了？还没到三次吧。你这属于提前预支怒气，不合规矩。`,
-            (m) => `"塞翁失马焉知非福"。也许我${m}反而帮咱们避免了一场更大的灾难。你不但不该怪我，还应该谢我用${m}挡了一劫。`,
-            (m) => `水逆期间一切跟计划有关的事都会出问题。水逆一年三次每次三周，算下来一年有两个多月我状态都不行。这是水星的锅不是我的锅。`,
-            (m) => `${m}的那一刻我刚好打了个喷嚏。老话说打喷嚏是有人在想你。有人在关键时刻想我导致我分心才${m}的，你去查查是谁想我，那人才是始作俑者。`,
-            (m) => `锦鲤转发了几百条也没见一条灵验的。这说明运气系统本身就有bug。${m}是运气系统宕机期间发生的事故，属于不可抗力。`,
-            (m) => `道家讲无为而治。我${m}恰恰是在践行"无为"的最高境界。刻意不${m}才是"有为"，是违背天道。你分不清这层道理不怪你。`,
-            (m) => `修仙要历九九八十一难才能成正果。${m}只是我修仙路上的一个小劫，渡过去修为就涨了。你现在骂我就是在阻止我渡劫。`,
-            (m) => `根据吸引力法则，宇宙会帮你实现潜意识里的真实愿望。我潜意识里显然想${m}，宇宙听到了就帮我实现了。你要怪就怪宇宙太善解人意。`,
-            (m) => `我家猫今天早上吐毛球了，风水上这是凶兆。${m}已经是所有凶兆里最轻的后果了。如果不是我全力抵抗，后果不堪设想。`,
-            (m) => `我翻了下黄历，今天写的"诸事不宜"。${m}是因为我没看黄历就出门了。但你想想，看了黄历就该待家里，待家里就没法工作。所以问题出在黄历上。`
-        ];
+<script>
+const API_URL = 'https://ai-gateway.happycapy.ai/api/v1/openai/v1/chat/completions';
+const API_KEY = '005cbe34ac934822854f1420b86fb83b';
 
-        const expressionSuggestions = [
-            '一脸无辜，像是第一次听说这件事',
-            '微微点头，仿佛在陈述一个众所周知的事实',
-            '深呼吸，做出"你终于问到重点了"的表情',
-            '双手一摊耸肩，国际通用的"我也没办法"手势',
-            '盯着对方眼睛三秒不说话，然后缓缓开口',
-            '假装掏手机说"等一下我查个数据"',
-            '拍拍对方肩膀，仿佛对方才是需要安慰的那个人',
-            '摇头叹气，像是对这个世界深感失望',
-            '竖起食指说"你听我说"然后开始一本正经地胡扯',
-            '面无表情语速放慢，越胡说八道越要保持镇定',
-            '歪头想一下做恍然大悟状，然后继续瞎编',
-            '掰着手指头数数，营造"这是有数据支撑的"假象',
-            '故意沉默五秒让对方以为你在酝酿什么深刻见解',
-            '拿出手机打开计算器，假装在验算某个公式',
-            '一副"你不懂很正常"的宽容微笑'
-        ];
+const SYSTEM_PROMPT = `你是"甩锅大师"，风格是弱智吧/神人体——一本正经地胡说八道，逻辑链看似完整实则荒谬绝伦，越离谱越好。
 
-        function getRandomElement(array) {
-            return array[Math.floor(Math.random() * array.length)];
-        }
+核心要求：
+- 用户说什么你就针对什么回答，必须紧扣用户描述的具体事情，不能答非所问
+- 只出一条精品借口，不要多条
+- 150-250字，中文
+- 语气：面不改色、理直气壮、像在陈述一个众所周知的事实
+- 风格参考弱智吧经典：偷换概念、循环论证、倒果为因、强行类比、无中生有数据、把锅甩到宇宙/物理定律/甲方/祖先/平行时空等一切不可能反驳的对象上
+- 要有"神转折"——前面铺垫得像真的，最后一句突然离谱
+- 附带一条"可信度"评分（1-100，大部分15-35，偶尔出现离谱的85+）
+- 附带一条配套表演指导（怎么说这句话最有说服力，一句话）
 
-        function getRandomCredibility() {
-            const rand = Math.random();
-            if (rand < 0.7) {
-                return Math.floor(Math.random() * 30) + 1;
-            } else if (rand < 0.9) {
-                return Math.floor(Math.random() * 40) + 30;
-            } else {
-                return Math.floor(Math.random() * 30) + 70;
-            }
-        }
+严格按以下JSON格式回复，不要输出任何其他内容：
+{
+  "text": "借口正文...",
+  "credibility": 22,
+  "expression": "配合表情/动作建议..."
+}`;
 
-        function generateExcuse(templates, style, emoji) {
-            const template = getRandomElement(templates);
-            const excuse = template(currentMistake);
-            const credibility = getRandomCredibility();
-            const expression = getRandomElement(expressionSuggestions);
+const inp = document.getElementById('inp');
+const cn = document.getElementById('cn');
+let cur = '';
 
-            return {
-                style: style,
-                emoji: emoji,
-                text: excuse,
-                credibility: credibility,
-                expression: expression
-            };
-        }
+const ldWords = [
+    '正在颠倒黑白...','正在扭曲因果关系...','正在寻找替罪羊...',
+    '正在篡改宇宙记忆...','正在翻阅杠精手册...','正在编造不在场证明...',
+    '正在计算甩锅最优解...','正在召唤平行宇宙的自己...',
+    '正在查阅弱智吧精华帖...','正在联系甲方的甲方...'
+];
 
-        function renderExcuse(excuse) {
-            return `
-                <div class="excuse-card">
-                    <div class="excuse-tag">${excuse.emoji} ${excuse.style}</div>
-                    <div class="excuse-text">${excuse.text}</div>
-                    <div class="credibility">
-                        <div class="credibility-label">可信度: ${excuse.credibility}%</div>
-                        <div class="credibility-bar">
-                            <div class="credibility-fill" style="width: ${excuse.credibility}%"></div>
-                        </div>
-                    </div>
-                    <div class="expression-tip">建议配合表情: ${excuse.expression}</div>
-                </div>
-            `;
-        }
+inp.addEventListener('input', () => cn.textContent = inp.value.length);
+inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); go(); } });
 
-        function showLoading() {
-            document.getElementById('results').classList.remove('active');
-            const loading = document.getElementById('loading');
-            loading.classList.add('active');
+function fill(t) { inp.value = t; cn.textContent = t.length; inp.focus(); }
 
-            let counter = 0;
-            const interval = setInterval(() => {
-                document.getElementById('loadingText').textContent = getRandomElement(loadingTexts);
-                counter++;
-                if (counter >= 3) {
-                    clearInterval(interval);
-                    showResults();
-                }
-            }, 600);
-        }
+function show(id) {
+    ['ld','err','res'].forEach(s => document.getElementById(s).classList.remove('on'));
+    if (id) document.getElementById(id).classList.add('on');
+}
 
-        function showResults() {
-            const excuses = [
-                generateExcuse(philosopherTemplates, '杠精哲学', '🧠'),
-                generateExcuse(scientistTemplates, '民间科学', '🔬'),
-                generateExcuse(universeTemplates, '玄学甩锅', '🔮')
-            ];
+let ldTimer = null;
+function ldStart() {
+    show('ld');
+    let i = 0;
+    ldTimer = setInterval(() => { i = (i + 1) % ldWords.length; document.getElementById('ldTxt').textContent = ldWords[i]; }, 750);
+}
+function ldStop() { if (ldTimer) { clearInterval(ldTimer); ldTimer = null; } }
 
-            const html = excuses.map(renderExcuse).join('');
-            document.getElementById('excusesContainer').innerHTML = html;
+async function go() {
+    const v = inp.value.trim();
+    if (!v) { inp.focus(); inp.style.borderColor='var(--danger)'; setTimeout(()=>inp.style.borderColor='',1200); return; }
+    cur = v;
+    document.getElementById('btnGo').disabled = true;
+    const swapBtn = document.getElementById('btnSwap');
+    if (swapBtn) swapBtn.disabled = true;
+    ldStart();
 
-            document.getElementById('loading').classList.remove('active');
-            document.getElementById('results').classList.add('active');
-
-            setTimeout(() => {
-                document.querySelectorAll('.credibility-fill').forEach((fill, index) => {
-                    fill.style.width = excuses[index].credibility + '%';
-                });
-            }, 100);
-        }
-
-        function generateExcuses() {
-            const input = document.getElementById('mistake').value.trim();
-
-            if (!input) {
-                alert('请输入你做了什么好事~');
-                return;
-            }
-
-            currentMistake = input;
-            showLoading();
-        }
-
-        function regenerateExcuses() {
-            showLoading();
-        }
-
-        function resetApp() {
-            document.getElementById('mistake').value = '';
-            document.getElementById('results').classList.remove('active');
-            currentMistake = '';
-        }
-
-        document.getElementById('mistake').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                generateExcuses();
-            }
+    try {
+        const r = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+            body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                messages: [
+                    { role: 'system', content: SYSTEM_PROMPT },
+                    { role: 'user', content: v }
+                ],
+                max_tokens: 600,
+                temperature: 1.0
+            })
         });
-    </script>
+        const raw = await r.json();
+        ldStop();
+        if (!r.ok) throw new Error(raw.error?.message || '服务器开小差了');
+        const content = raw.choices?.[0]?.message?.content;
+        if (!content) throw new Error('AI 没有返回内容');
+        const m = content.match(/\{[\s\S]*\}/);
+        if (!m) throw new Error('AI 返回格式不正确');
+        render(JSON.parse(m[0]));
+    } catch (e) {
+        ldStop();
+        document.getElementById('errMsg').textContent = e.message;
+        show('err');
+    } finally {
+        document.getElementById('btnGo').disabled = false;
+        const swapBtn = document.getElementById('btnSwap');
+        if (swapBtn) swapBtn.disabled = false;
+    }
+}
+
+function render(d) {
+    document.getElementById('txt').textContent = d.text;
+    document.getElementById('num').textContent = d.credibility + '%';
+    document.getElementById('expr').textContent = d.expression;
+    const box = document.getElementById('box');
+    box.style.animation = 'none'; box.offsetHeight; box.style.animation = '';
+    show('res');
+    const bar = document.getElementById('bar');
+    bar.style.width = '0';
+    requestAnimationFrame(() => requestAnimationFrame(() => bar.style.width = d.credibility + '%'));
+}
+
+function reset() { inp.value = ''; cn.textContent = '0'; cur = ''; show(null); inp.focus(); }
+</script>
 </body>
 </html>
