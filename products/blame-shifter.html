@@ -102,19 +102,13 @@
         }
         @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
 
-        .excuse-txt{font-size:1.02rem;line-height:1.85;color:var(--ink);margin-bottom:22px;font-weight:400}
+        .excuse-txt{font-size:1.25rem;line-height:1.7;color:var(--ink);margin-bottom:20px;font-weight:500;text-align:center;padding:8px 0}
 
-        .cred{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+        .cred{display:flex;align-items:center;gap:10px}
         .cred-lbl{font-size:.76rem;color:var(--accent);font-weight:600;white-space:nowrap;min-width:50px}
         .cred-bar{flex:1;height:5px;background:var(--rule-light);border-radius:3px;overflow:hidden}
         .cred-fill{height:100%;background:linear-gradient(90deg,var(--accent),#A4B894);border-radius:3px;width:0;transition:width .9s cubic-bezier(.4,0,.2,1)}
         .cred-num{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;color:var(--ink-faint);min-width:28px;text-align:right}
-
-        .expr{
-            font-size:.83rem;color:var(--accent-deep);font-style:italic;
-            padding:9px 13px;background:var(--accent-soft);
-            border-radius:8px;border-left:3px solid var(--accent);line-height:1.5;
-        }
 
         .acts{display:flex;gap:10px;margin-top:18px}
         .btn-swap,.btn-reset{
@@ -179,7 +173,6 @@
                 <div class="cred-bar"><div class="cred-fill" id="bar"></div></div>
                 <span class="cred-num" id="num"></span>
             </div>
-            <div class="expr" id="expr"></div>
         </div>
         <div class="acts">
             <button class="btn-swap" id="btnSwap" onclick="go()">换一个</button>
@@ -197,23 +190,25 @@
 const API_URL = 'https://ai-gateway.happycapy.ai/api/v1/openai/v1/chat/completions';
 const API_KEY = '005cbe34ac934822854f1420b86fb83b';
 
-const SYSTEM_PROMPT = `你是"甩锅大师"，风格是弱智吧/神人体——一本正经地胡说八道，逻辑链看似完整实则荒谬绝伦，越离谱越好。
+const SYSTEM_PROMPT = `你是"甩锅大师"，专出神评级别的一句话借口。
+
+风格：弱智吧神评/微博神回复——一句话，短、狠、离谱，但逻辑上好像说得通。
+参考例子（仅供理解风格，不要照抄）：
+- "上班迟到" → "早到的人负责开灯关灯，我这是在合理规避额外劳动"
+- "忘记纪念日" → "记性好的人容易活在过去，我是为了活在当下才忘的"
+- "项目没做完" → "做完了就没有下期预算了，我这叫战略性留白"
 
 核心要求：
-- 用户说什么你就针对什么回答，必须紧扣用户描述的具体事情，不能答非所问
-- 只出一条精品借口，不要多条
-- 150-250字，中文
-- 语气：面不改色、理直气壮、像在陈述一个众所周知的事实
-- 风格参考弱智吧经典：偷换概念、循环论证、倒果为因、强行类比、无中生有数据、把锅甩到宇宙/物理定律/甲方/祖先/平行时空等一切不可能反驳的对象上
-- 要有"神转折"——前面铺垫得像真的，最后一句突然离谱
-- 附带一条"可信度"评分（1-100，大部分15-35，偶尔出现离谱的85+）
-- 附带一条配套表演指导（怎么说这句话最有说服力，一句话）
+- 必须紧扣用户说的事，不能答非所问
+- 只出一句话，不超过40个字，一句即神评
+- 中文，语气理直气壮，像在陈述常识
+- 核心技巧：偷换概念、倒果为因、强行合理化
+- 附带可信度评分（1-100，多数15-35，偶尔85+）
 
 严格按以下JSON格式回复，不要输出任何其他内容：
 {
-  "text": "借口正文...",
-  "credibility": 22,
-  "expression": "配合表情/动作建议..."
+  "text": "一句话借口...",
+  "credibility": 22
 }`;
 
 const inp = document.getElementById('inp');
@@ -264,7 +259,7 @@ async function go() {
                     { role: 'system', content: SYSTEM_PROMPT },
                     { role: 'user', content: v }
                 ],
-                max_tokens: 600,
+                max_tokens: 200,
                 temperature: 1.0
             })
         });
@@ -290,7 +285,6 @@ async function go() {
 function render(d) {
     document.getElementById('txt').textContent = d.text;
     document.getElementById('num').textContent = d.credibility + '%';
-    document.getElementById('expr').textContent = d.expression;
     const box = document.getElementById('box');
     box.style.animation = 'none'; box.offsetHeight; box.style.animation = '';
     show('res');
