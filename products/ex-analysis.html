@@ -653,7 +653,7 @@
                     body: JSON.stringify({
                         model: 'openai',
                         messages: [
-                            { role: 'system', content: SYSTEM_PROMPT },
+                            { role: 'system', content: '[' + Date.now() + '] ' + SYSTEM_PROMPT },
                             { role: 'user', content: userMsg }
                         ],
                         max_tokens: 1200,
