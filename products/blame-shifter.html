@@ -187,8 +187,7 @@
 </div>
 
 <script>
-const API_URL = 'https://ai-gateway.happycapy.ai/api/v1/openai/v1/chat/completions';
-const API_KEY = '005cbe34ac934822854f1420b86fb83b';
+const API_URL = 'https://text.pollinations.ai/openai';
 
 const SYSTEM_PROMPT = `你是弱智吧的神。用户说了蠢事，你一句话甩锅。
 
@@ -251,9 +250,9 @@ async function go() {
     try {
         const r = await fetch(API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + API_KEY },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                model: 'gpt-4o-mini',
+                model: 'openai',
                 messages: [
                     { role: 'system', content: SYSTEM_PROMPT },
                     { role: 'user', content: v }
