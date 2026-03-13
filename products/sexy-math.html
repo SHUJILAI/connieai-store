@@ -371,21 +371,21 @@
     </header>
     <div class="gender-grid">
         <div class="gender-card" onclick="pickGender('f')">
-            <div class="g-bg" style="background-image:url('sexy-img/f-kr-med.jpg')"></div>
+            <div class="g-bg" style="background-image:url('sexy-img/f-preview.jpg')"></div>
             <div class="g-overlay"></div>
             <div class="g-content">
                 <div class="g-label">我要看美女</div>
                 <div class="g-desc">日韩欧美 4种风格</div>
-                <div class="g-tag">12张高清大图</div>
+                <div class="g-tag">每次AI生成不同图片</div>
             </div>
         </div>
         <div class="gender-card" onclick="pickGender('m')">
-            <div class="g-bg" style="background-image:url('sexy-img/m-kr-med.jpg')"></div>
+            <div class="g-bg" style="background-image:url('sexy-img/m-preview.jpg')"></div>
             <div class="g-overlay"></div>
             <div class="g-content">
                 <div class="g-label">我要看帅哥</div>
                 <div class="g-desc">鲜肉偶像硬汉猛男</div>
-                <div class="g-tag">12张高清大图</div>
+                <div class="g-tag">每次AI生成不同图片</div>
             </div>
         </div>
     </div>
@@ -528,31 +528,48 @@ const MOTI_WRONG = [
 // ===== TYPE-BASED IMAGES =====
 const TYPES = {
     f: [
-        { id:'jp', name:'日系清纯', desc:'甜美可爱 温柔如水', preview:'sexy-img/f-jp-easy.jpg' },
-        { id:'kr', name:'韩系御姐', desc:'气场全开 女王范儿', preview:'sexy-img/f-kr-easy.jpg' },
-        { id:'us', name:'欧美辣妹', desc:'热辣奔放 性感火爆', preview:'sexy-img/f-us-easy.jpg' },
-        { id:'body', name:'性感身材', desc:'完美曲线 一览无余', preview:'sexy-img/f-body-easy.jpg' },
+        { id:'jp', name:'日系清纯', desc:'甜美可爱 温柔如水', preview:'sexy-img/f-jp-preview.jpg' },
+        { id:'kr', name:'韩系御姐', desc:'气场全开 女王范儿', preview:'sexy-img/f-kr-preview.jpg' },
+        { id:'us', name:'欧美辣妹', desc:'热辣奔放 性感火爆', preview:'sexy-img/f-us-preview.jpg' },
+        { id:'body', name:'性感身材', desc:'完美曲线 一览无余', preview:'sexy-img/f-body-preview.jpg' },
     ],
     m: [
-        { id:'jp', name:'日系鲜肉', desc:'清秀白净 少年感满满', preview:'sexy-img/m-jp-easy.jpg' },
-        { id:'kr', name:'韩系偶像', desc:'精致五官 爱豆气质', preview:'sexy-img/m-kr-easy.jpg' },
-        { id:'us', name:'欧美硬汉', desc:'粗犷阳刚 荷尔蒙爆棚', preview:'sexy-img/m-us-easy.jpg' },
-        { id:'body', name:'肌肉猛男', desc:'爆炸肌肉 力量美学', preview:'sexy-img/m-body-easy.jpg' },
+        { id:'jp', name:'日系鲜肉', desc:'清秀白净 少年感满满', preview:'sexy-img/m-jp-preview.jpg' },
+        { id:'kr', name:'韩系偶像', desc:'精致五官 爱豆气质', preview:'sexy-img/m-kr-preview.jpg' },
+        { id:'us', name:'欧美硬汉', desc:'粗犷阳刚 荷尔蒙爆棚', preview:'sexy-img/m-us-preview.jpg' },
+        { id:'body', name:'肌肉猛男', desc:'爆炸肌肉 力量美学', preview:'sexy-img/m-body-preview.jpg' },
     ]
 };
 
+// Each type/tier has 3 AI-generated variants for variety
 const IMAGES = {
     f: {
-        jp:   { easy:'sexy-img/f-jp-easy.jpg', medium:'sexy-img/f-jp-med.jpg', hard:'sexy-img/f-jp-hard.jpg' },
-        kr:   { easy:'sexy-img/f-kr-easy.jpg', medium:'sexy-img/f-kr-med.jpg', hard:'sexy-img/f-kr-hard.jpg' },
-        us:   { easy:'sexy-img/f-us-easy.jpg', medium:'sexy-img/f-us-med.jpg', hard:'sexy-img/f-us-hard.jpg' },
-        body: { easy:'sexy-img/f-body-easy.jpg', medium:'sexy-img/f-body-med.jpg', hard:'sexy-img/f-body-hard.jpg' },
+        jp:   { easy:['sexy-img/f-jp-easy.jpg','sexy-img/f-jp-easy-2.jpg','sexy-img/f-jp-easy-3.jpg'],
+                medium:['sexy-img/f-jp-med.jpg','sexy-img/f-jp-med-2.jpg','sexy-img/f-jp-med-3.jpg'],
+                hard:['sexy-img/f-jp-hard.jpg','sexy-img/f-jp-hard-2.jpg','sexy-img/f-jp-hard-3.jpg'] },
+        kr:   { easy:['sexy-img/f-kr-easy.jpg','sexy-img/f-kr-easy-2.jpg','sexy-img/f-kr-easy-3.jpg'],
+                medium:['sexy-img/f-kr-med.jpg','sexy-img/f-kr-med-2.jpg','sexy-img/f-kr-med-3.jpg'],
+                hard:['sexy-img/f-kr-hard.jpg','sexy-img/f-kr-hard-2.jpg','sexy-img/f-kr-hard-3.jpg'] },
+        us:   { easy:['sexy-img/f-us-easy.jpg','sexy-img/f-us-easy-2.jpg','sexy-img/f-us-easy-3.jpg'],
+                medium:['sexy-img/f-us-med.jpg','sexy-img/f-us-med-2.jpg','sexy-img/f-us-med-3.jpg'],
+                hard:['sexy-img/f-us-hard.jpg','sexy-img/f-us-hard-2.jpg','sexy-img/f-us-hard-3.jpg'] },
+        body: { easy:['sexy-img/f-body-easy.jpg','sexy-img/f-body-easy-2.jpg','sexy-img/f-body-easy-3.jpg'],
+                medium:['sexy-img/f-body-med.jpg','sexy-img/f-body-med-2.jpg','sexy-img/f-body-med-3.jpg'],
+                hard:['sexy-img/f-body-hard.jpg','sexy-img/f-body-hard-2.jpg','sexy-img/f-body-hard-3.jpg'] },
     },
     m: {
-        jp:   { easy:'sexy-img/m-jp-easy.jpg', medium:'sexy-img/m-jp-med.jpg', hard:'sexy-img/m-jp-hard.jpg' },
-        kr:   { easy:'sexy-img/m-kr-easy.jpg', medium:'sexy-img/m-kr-med.jpg', hard:'sexy-img/m-kr-hard.jpg' },
-        us:   { easy:'sexy-img/m-us-easy.jpg', medium:'sexy-img/m-us-med.jpg', hard:'sexy-img/m-us-hard.jpg' },
-        body: { easy:'sexy-img/m-body-easy.jpg', medium:'sexy-img/m-body-med.jpg', hard:'sexy-img/m-body-hard.jpg' },
+        jp:   { easy:['sexy-img/m-jp-easy.jpg','sexy-img/m-jp-easy-2.jpg','sexy-img/m-jp-easy-3.jpg'],
+                medium:['sexy-img/m-jp-med.jpg','sexy-img/m-jp-med-2.jpg','sexy-img/m-jp-med-3.jpg'],
+                hard:['sexy-img/m-jp-hard.jpg','sexy-img/m-jp-hard-2.jpg','sexy-img/m-jp-hard-3.jpg'] },
+        kr:   { easy:['sexy-img/m-kr-easy.jpg','sexy-img/m-kr-easy-2.jpg','sexy-img/m-kr-easy-3.jpg'],
+                medium:['sexy-img/m-kr-med.jpg','sexy-img/m-kr-med-2.jpg','sexy-img/m-kr-med-3.jpg'],
+                hard:['sexy-img/m-kr-hard.jpg','sexy-img/m-kr-hard-2.jpg','sexy-img/m-kr-hard-3.jpg'] },
+        us:   { easy:['sexy-img/m-us-easy.jpg','sexy-img/m-us-easy-2.jpg','sexy-img/m-us-easy-3.jpg'],
+                medium:['sexy-img/m-us-med.jpg','sexy-img/m-us-med-2.jpg','sexy-img/m-us-med-3.jpg'],
+                hard:['sexy-img/m-us-hard.jpg','sexy-img/m-us-hard-2.jpg','sexy-img/m-us-hard-3.jpg'] },
+        body: { easy:['sexy-img/m-body-easy.jpg','sexy-img/m-body-easy-2.jpg','sexy-img/m-body-easy-3.jpg'],
+                medium:['sexy-img/m-body-med.jpg','sexy-img/m-body-med-2.jpg','sexy-img/m-body-med-3.jpg'],
+                hard:['sexy-img/m-body-hard.jpg','sexy-img/m-body-hard-2.jpg','sexy-img/m-body-hard-3.jpg'] },
     }
 };
 
@@ -662,7 +679,7 @@ function buildTypeGrid() {
             <div class="t-content">
                 <div class="t-label">${type.name}</div>
                 <div class="t-desc">${type.desc}</div>
-                <div class="t-tag">3张独家大图</div>
+                <div class="t-tag">AI生成 每次不同</div>
             </div>
         `;
         grid.appendChild(card);
@@ -827,7 +844,9 @@ function startGame(diff) {
     revealed = 0; score = 0; streak = 0; qNum = 0;
     startTime = Date.now();
 
-    currentImg = IMAGES[gender][currentType.id][diff.tier];
+    // Randomly pick from the variant pool so each game gets a different image
+    const imgPool = IMAGES[gender][currentType.id][diff.tier];
+    currentImg = imgPool[Math.floor(Math.random() * imgPool.length)];
 
     // Shuffle questions from the 80+ pool
     const pool = [...Q[currentCat.id]];
