@@ -47,6 +47,8 @@
         .btn-up:hover{background:var(--accent-deep);transform:translateY(-1px)}
         .btn-login{background:#333;color:var(--ink-soft)}
         .btn-login:hover{background:#444}
+        .btn-wrong-book{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3) !important}
+        .btn-wrong-book:hover{background:rgba(231,76,60,.25)}
 
         /* ========== CATEGORY TABS BAR ========== */
         .ph-tabs{
@@ -118,6 +120,27 @@
         .gender-card .g-tag{display:inline-block;font-size:.6rem;font-weight:700;
             padding:3px 10px;border-radius:20px;margin-top:6px;
             background:rgba(255,144,0,.2);color:var(--accent);backdrop-filter:blur(4px)}
+
+        /* ========== TYPE SELECT ========== */
+        #typeSelect{display:none}
+        .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+        .type-card{border:2px solid #333;border-radius:var(--rl);
+            padding:0;cursor:pointer;transition:.25s;position:relative;overflow:hidden;
+            height:200px;display:flex;flex-direction:column;justify-content:flex-end}
+        .type-card .t-bg{position:absolute;inset:0;background-size:cover;background-position:center top;
+            transition:transform .4s ease,filter .4s ease;filter:brightness(.65)}
+        .type-card:hover .t-bg{transform:scale(1.08);filter:brightness(.85)}
+        .type-card .t-overlay{position:absolute;inset:0;
+            background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
+        .type-card:hover{border-color:var(--accent);transform:translateY(-3px);
+            box-shadow:0 8px 25px rgba(255,144,0,.15)}
+        .type-card:active{transform:translateY(0);transition:.1s}
+        .type-card .t-content{position:relative;z-index:2;padding:12px}
+        .type-card .t-label{font-size:1rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+        .type-card .t-desc{font-size:.65rem;color:rgba(255,255,255,.6);margin-top:2px}
+        .type-card .t-tag{display:inline-block;font-size:.55rem;font-weight:700;
+            padding:2px 8px;border-radius:20px;margin-top:4px;
+            background:rgba(255,144,0,.2);color:var(--accent)}
 
         /* ========== CATEGORY SELECT ========== */
         #catSelect{display:none}
@@ -250,6 +273,35 @@
         .btn-back{background:#333;color:var(--ink-soft)}
         .btn-back:hover{background:#444}
 
+        /* ========== WRONG ANSWER REVIEW ========== */
+        #wrongReview{display:none}
+        .wr-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+        .wr-header .back-btn{background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer;
+            padding:4px 8px;border-radius:var(--r);transition:.15s}
+        .wr-header .back-btn:hover{background:var(--bg-card);color:var(--ink)}
+        .wr-tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+        .wr-tab{padding:6px 14px;border-radius:20px;border:1px solid #333;background:transparent;
+            color:var(--ink-soft);font-family:inherit;font-size:.75rem;font-weight:600;cursor:pointer;transition:.2s}
+        .wr-tab.active{background:var(--accent);color:#000;border-color:var(--accent)}
+        .wr-tab:hover{border-color:var(--accent)}
+        .wr-empty{text-align:center;padding:40px 20px;color:var(--ink-faint);font-size:.85rem}
+        .wr-list{display:grid;gap:8px}
+        .wr-item{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:14px;
+            animation:slideUp .3s ease}
+        .wr-q{font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.4}
+        .wr-opts{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+        .wr-opt{font-size:.72rem;padding:5px 8px;border-radius:var(--r);background:#111;color:var(--ink-faint)}
+        .wr-opt.wr-correct{background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.3)}
+        .wr-opt.wr-wrong-pick{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.3);text-decoration:line-through}
+        .wr-meta{font-size:.62rem;color:var(--ink-faint);margin-top:6px;display:flex;justify-content:space-between}
+        .wr-clear{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.3);
+            padding:8px 20px;border-radius:var(--r);font-family:inherit;font-size:.78rem;font-weight:600;
+            cursor:pointer;transition:.2s;margin-top:12px}
+        .wr-clear:hover{background:rgba(231,76,60,.25)}
+        .wr-count{display:inline-block;background:var(--red);color:#fff;font-size:.6rem;
+            min-width:16px;height:16px;line-height:16px;border-radius:8px;text-align:center;
+            font-weight:700;margin-left:4px}
+
         /* ========== CONFETTI ========== */
         .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;overflow:hidden}
         .confetti{position:absolute;width:8px;height:8px;top:-10px;animation:confettiDrop 2.5s linear forwards}
@@ -267,6 +319,7 @@
             .ph-search{display:none}
             .diff-grid{gap:6px}
             .diff-card{padding:14px 6px}
+            .type-card{height:160px}
         }
     </style>
 </head>
@@ -277,6 +330,7 @@
     <div class="ph-logo" onclick="location.reload()"><span class="lw">性感</span><span class="lo">上岸</span></div>
     <div class="ph-search"><input type="text" placeholder="搜索题库..." disabled></div>
     <div class="ph-nav">
+        <button class="btn-up btn-wrong-book" onclick="openWrongReview()" id="wrongBookBtn" style="display:none">错题本<span class="wr-count" id="wrongCount">0</span></button>
         <button class="btn-up">上传</button>
         <button class="btn-login">登录</button>
     </div>
@@ -317,27 +371,39 @@
     </header>
     <div class="gender-grid">
         <div class="gender-card" onclick="pickGender('f')">
-            <div class="g-bg" style="background-image:url('sexy-img/f4.jpg')"></div>
+            <div class="g-bg" style="background-image:url('sexy-img/f-kr-med.jpg')"></div>
             <div class="g-overlay"></div>
             <div class="g-content">
                 <div class="g-label">我要看美女</div>
-                <div class="g-desc">性感辣妹等你解锁</div>
-                <div class="g-tag">8张高清大图</div>
+                <div class="g-desc">日韩欧美 4种风格</div>
+                <div class="g-tag">12张高清大图</div>
             </div>
         </div>
         <div class="gender-card" onclick="pickGender('m')">
-            <div class="g-bg" style="background-image:url('sexy-img/m1.jpg')"></div>
+            <div class="g-bg" style="background-image:url('sexy-img/m-kr-med.jpg')"></div>
             <div class="g-overlay"></div>
             <div class="g-content">
                 <div class="g-label">我要看帅哥</div>
-                <div class="g-desc">肌肉猛男等你解锁</div>
-                <div class="g-tag">8张高清大图</div>
+                <div class="g-desc">鲜肉偶像硬汉猛男</div>
+                <div class="g-tag">12张高清大图</div>
             </div>
         </div>
     </div>
     <div class="ph-footer">
         <a href="../">AI-Connie 出品</a><br>
         <span class="src">shujilai.github.io/connieai-store</span>
+    </div>
+</div>
+
+<!-- Type Select -->
+<div id="typeSelect">
+    <header>
+        <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">类型</span></div>
+        <div class="sub">你喜欢什么风格?</div>
+    </header>
+    <div class="type-grid" id="typeGrid"></div>
+    <div style="text-align:center;margin-top:14px">
+        <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择</button>
     </div>
 </div>
 
@@ -349,7 +415,7 @@
     </header>
     <div class="cat-grid" id="catGrid"></div>
     <div style="text-align:center;margin-top:14px">
-        <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择</button>
+        <button onclick="backToType()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 换风格</button>
     </div>
     <div class="ph-footer">
         <a href="../">AI-Connie 出品</a><br>
@@ -409,13 +475,30 @@
     </div>
 </div>
 
+<!-- Wrong Answer Review -->
+<div id="wrongReview">
+    <div class="wr-header">
+        <button class="back-btn" onclick="closeWrongReview()">&larr; 返回</button>
+        <div style="font-size:1rem;font-weight:700">错题本</div>
+        <div style="width:48px"></div>
+    </div>
+    <div class="wr-tabs" id="wrTabs"></div>
+    <div class="wr-list" id="wrList"></div>
+    <div style="text-align:center">
+        <button class="wr-clear" id="wrClearBtn" onclick="clearWrongAnswers()">清空当前分类错题</button>
+    </div>
+</div>
+
 </div><!-- .page -->
 
 <!-- Confetti container -->
 <div class="confetti-container" id="confettiBox"></div>
 
+<!-- External question bank (80+ per category) -->
+<script src="sexy-questions.js"></script>
+
 <script>
-// ===== MOTIVATION PHRASES (shown after correct/wrong) =====
+// ===== MOTIVATION PHRASES =====
 const MOTI_CORRECT = [
     '太强了! 衣服又少了一件~',
     '答对了! 继续脱...不是, 继续答!',
@@ -442,17 +525,34 @@ const MOTI_WRONG = [
     '差点意思, 加油!',
 ];
 
-// ===== IMAGE TIERS =====
+// ===== TYPE-BASED IMAGES =====
+const TYPES = {
+    f: [
+        { id:'jp', name:'日系清纯', desc:'甜美可爱 温柔如水', preview:'sexy-img/f-jp-easy.jpg' },
+        { id:'kr', name:'韩系御姐', desc:'气场全开 女王范儿', preview:'sexy-img/f-kr-easy.jpg' },
+        { id:'us', name:'欧美辣妹', desc:'热辣奔放 性感火爆', preview:'sexy-img/f-us-easy.jpg' },
+        { id:'body', name:'性感身材', desc:'完美曲线 一览无余', preview:'sexy-img/f-body-easy.jpg' },
+    ],
+    m: [
+        { id:'jp', name:'日系鲜肉', desc:'清秀白净 少年感满满', preview:'sexy-img/m-jp-easy.jpg' },
+        { id:'kr', name:'韩系偶像', desc:'精致五官 爱豆气质', preview:'sexy-img/m-kr-easy.jpg' },
+        { id:'us', name:'欧美硬汉', desc:'粗犷阳刚 荷尔蒙爆棚', preview:'sexy-img/m-us-easy.jpg' },
+        { id:'body', name:'肌肉猛男', desc:'爆炸肌肉 力量美学', preview:'sexy-img/m-body-easy.jpg' },
+    ]
+};
+
 const IMAGES = {
     f: {
-        easy:  ['sexy-img/f1.jpg','sexy-img/f5.jpg'],
-        medium:['sexy-img/f2.jpg','sexy-img/f3.jpg','sexy-img/f6.jpg'],
-        hard:  ['sexy-img/f4.jpg','sexy-img/f7.jpg','sexy-img/f8.jpg']
+        jp:   { easy:'sexy-img/f-jp-easy.jpg', medium:'sexy-img/f-jp-med.jpg', hard:'sexy-img/f-jp-hard.jpg' },
+        kr:   { easy:'sexy-img/f-kr-easy.jpg', medium:'sexy-img/f-kr-med.jpg', hard:'sexy-img/f-kr-hard.jpg' },
+        us:   { easy:'sexy-img/f-us-easy.jpg', medium:'sexy-img/f-us-med.jpg', hard:'sexy-img/f-us-hard.jpg' },
+        body: { easy:'sexy-img/f-body-easy.jpg', medium:'sexy-img/f-body-med.jpg', hard:'sexy-img/f-body-hard.jpg' },
     },
     m: {
-        easy:  ['sexy-img/m4.jpg','sexy-img/m5.jpg'],
-        medium:['sexy-img/m2.jpg','sexy-img/m3.jpg','sexy-img/m6.jpg'],
-        hard:  ['sexy-img/m1.jpg','sexy-img/m7.jpg','sexy-img/m8.jpg']
+        jp:   { easy:'sexy-img/m-jp-easy.jpg', medium:'sexy-img/m-jp-med.jpg', hard:'sexy-img/m-jp-hard.jpg' },
+        kr:   { easy:'sexy-img/m-kr-easy.jpg', medium:'sexy-img/m-kr-med.jpg', hard:'sexy-img/m-kr-hard.jpg' },
+        us:   { easy:'sexy-img/m-us-easy.jpg', medium:'sexy-img/m-us-med.jpg', hard:'sexy-img/m-us-hard.jpg' },
+        body: { easy:'sexy-img/m-body-easy.jpg', medium:'sexy-img/m-body-med.jpg', hard:'sexy-img/m-body-hard.jpg' },
     }
 };
 
@@ -470,116 +570,41 @@ const DIFFICULTIES = [
     { id:'hard', label:'困难', grid:5, tier:'hard', spicy:'大尺度', tagClass:'t3', preview:'🔞' },
 ];
 
-// ===== QUESTION BANKS =====
-const Q = {
-drive: [
-{q:"驾驶机动车上道路行驶前，驾驶人应先检查什么？",o:["机动车驾驶证","居民身份证","从业资格证","机动车通行证"],a:0},
-{q:"机动车驾驶人初次申领驾驶证后的实习期是多长？",o:["6个月","12个月","18个月","24个月"],a:1},
-{q:"饮酒后驾驶机动车一次记几分？",o:["2分","6分","9分","12分"],a:3},
-{q:"道路交通安全违法行为累积记分一个周期是多久？",o:["6个月","12个月","24个月","3个月"],a:1},
-{q:"驾驶人在驾驶证有效期满多少日内可以申请换证？",o:["30日","60日","90日","120日"],a:2},
-{q:"驾驶证丢失后，驾驶人应向哪个部门申请补发？",o:["交通部门","公安机关","驾校","保险公司"],a:1},
-{q:"在高速公路上行驶时最低时速不得低于多少？",o:["40公里","50公里","60公里","80公里"],a:2},
-{q:"机动车在高速公路上发生故障时，应在车后方多远设置警告标志？",o:["50米","100米","150米以外","200米"],a:2},
-{q:"驾驶机动车在没有中心线的道路上，最高速度不能超过多少？",o:["30公里/时","40公里/时","50公里/时","60公里/时"],a:1},
-{q:"机动车驾驶人违法驾驶造成重大交通事故构成犯罪的，处几年以下有期徒刑？",o:["1年","2年","3年","5年"],a:2},
-{q:"夜间会车应该在距对方来车多远改用近光灯？",o:["50米","100米","150米以内","200米"],a:2},
-{q:"红灯亮时，车辆应停在哪里？",o:["路口以内","路口以外","停止线以外","交叉路口"],a:2},
-{q:"在狭窄山路会车时，不靠山体的一方应该怎么做？",o:["让行","鸣喇叭","加速通过","靠右停车"],a:0},
-{q:"车辆在交叉路口绿灯亮时，转弯车辆应注意什么？",o:["抢行通过","加速通过","让直行车辆和行人先行","只让行人先行"],a:2},
-{q:"行车中发现前方道路拥堵时应该怎么做？",o:["借对向车道通过","依次排队通过","鸣喇叭催促","从右侧超越"],a:1},
-{q:"进入减速车道时，应提前开启什么灯？",o:["前照灯","左转向灯","右转向灯","危险报警闪光灯"],a:2},
-{q:"超过机动车驾驶证有效期一年以上未换证的，会被怎样处理？",o:["注销驾驶证","罚款200元","吊销驾驶证","扣留驾驶证"],a:0},
-{q:"造成交通事故后逃逸构成犯罪的，处几年以上有期徒刑？",o:["1年","3年","5年","7年"],a:1},
-{q:"行车中遇儿童在路边玩耍时应怎么做？",o:["鸣喇叭驱赶","加速通过","减速慢行注意观察","正常通过"],a:2},
-{q:"驾驶机动车在雨天行驶应注意什么？",o:["加速行驶","保持安全车距","紧跟前车","关闭雨刷器"],a:1},
-{q:"小型客车在高速公路上行驶最高速度不得超过多少？",o:["100公里/时","110公里/时","120公里/时","130公里/时"],a:2},
-{q:"机动车在道路上临时停车时应开启什么灯？",o:["前照灯","转向灯","危险报警闪光灯","雾灯"],a:2},
-{q:"在没有限速标志的城市道路上最高速度是多少？",o:["20公里/时","30公里/时","40公里/时","50公里/时"],a:1},
-{q:"雾天行车应开启什么灯？",o:["近光灯和雾灯","远光灯","示廓灯","远光灯和雾灯"],a:0},
-{q:"连续驾驶机动车超过4小时应停车休息不得少于多长时间？",o:["10分钟","15分钟","20分钟","30分钟"],a:2},
-{q:"驾驶人血液中酒精含量达到多少为醉酒驾车？",o:["20mg/100ml","50mg/100ml","80mg/100ml","100mg/100ml"],a:2},
-{q:"行人闯红灯时驾驶人应怎么做？",o:["鸣喇叭通过","减速或停车避让","加速绕行","正常行驶"],a:1},
-{q:"在冰雪路面行驶时应注意什么？",o:["加速行驶","急踩刹车","降低车速缓慢行驶","紧跟前车"],a:2},
-{q:"车辆在隧道内行驶时不得超车的原因是什么？",o:["隧道内光线暗视线差","隧道太短","隧道太窄","有摄像头"],a:0},
-{q:"小型汽车驾驶人年龄超过多少岁需每年体检？",o:["50岁","55岁","60岁","70岁"],a:3},
-],
-civil: [
-{q:"中国最长的河流是？",o:["黄河","长江","珠江","黑龙江"],a:1},
-{q:"中国最大的淡水湖是？",o:["洞庭湖","鄱阳湖","太湖","巢湖"],a:1},
-{q:"\"四个全面\"不包括以下哪项？",o:["全面建设社会主义现代化国家","全面深化改革","全面推进科技创新","全面从严治党"],a:2},
-{q:"我国的根本政治制度是？",o:["多党合作制度","民族区域自治","人民代表大会制度","政治协商制度"],a:2},
-{q:"GDP的全称是？",o:["国内生产总值","国民生产总值","国内生产净值","国民收入"],a:0},
-{q:"世界上面积最大的大洋是？",o:["大西洋","太平洋","印度洋","北冰洋"],a:1},
-{q:"光年是什么单位？",o:["时间单位","长度单位","速度单位","质量单位"],a:1},
-{q:"中国第一部编年体通史是？",o:["史记","春秋","资治通鉴","汉书"],a:2},
-{q:"\"三权分立\"最早由谁提出？",o:["卢梭","洛克","孟德斯鸠","伏尔泰"],a:2},
-{q:"以下哪个不属于可再生能源？",o:["太阳能","风能","天然气","水能"],a:2},
-{q:"中国四大发明不包括以下哪项？",o:["火药","印刷术","丝绸","指南针"],a:2},
-{q:"\"不以规矩，不能成方圆\"出自哪本书？",o:["论语","孟子","荀子","大学"],a:1},
-{q:"最早的纸币\"交子\"出现在哪个朝代？",o:["唐朝","宋朝","元朝","明朝"],a:1},
-{q:"人体最大的器官是？",o:["肝脏","大脑","皮肤","肺"],a:2},
-{q:"世界上海拔最高的高原是？",o:["巴西高原","东非高原","青藏高原","蒙古高原"],a:2},
-{q:"以下哪种气体是温室气体？",o:["氧气","氮气","二氧化碳","氢气"],a:2},
-{q:"太阳系中最大的行星是？",o:["地球","土星","木星","天王星"],a:2},
-{q:"DNA的全称是？",o:["核糖核酸","脱氧核糖核酸","氨基酸","蛋白质"],a:1},
-{q:"中国面积最大的省级行政区是？",o:["内蒙古","西藏","新疆","青海"],a:2},
-{q:"\"一带一路\"中的\"一路\"指的是？",o:["丝绸之路经济带","21世纪海上丝绸之路","茶马古道","京杭大运河"],a:1},
-{q:"以下哪位不是唐宋八大家之一？",o:["韩愈","柳宗元","李白","欧阳修"],a:2},
-{q:"人体含量最多的金属元素是？",o:["铁","锌","钙","钾"],a:2},
-{q:"联合国总部设在哪个城市？",o:["华盛顿","日内瓦","纽约","伦敦"],a:2},
-{q:"我国现行宪法是哪一年通过的？",o:["1954年","1975年","1978年","1982年"],a:3},
-{q:"以下哪个不属于世界三大宗教？",o:["基督教","佛教","道教","伊斯兰教"],a:2},
-{q:"声音在以下哪种介质中传播最快？",o:["空气","水","钢铁","真空"],a:2},
-{q:"\"出师表\"的作者是？",o:["刘备","关羽","诸葛亮","曹操"],a:2},
-{q:"世界上国土面积最大的国家是？",o:["中国","美国","加拿大","俄罗斯"],a:3},
-{q:"血液中运输氧气的细胞是？",o:["白细胞","红细胞","血小板","淋巴细胞"],a:1},
-{q:"中国最早的全国性统一货币是哪个朝代发行的？",o:["夏朝","商朝","秦朝","汉朝"],a:2},
-{q:"马克思主义哲学的核心是？",o:["唯物论","辩证法","实践论","唯物辩证法"],a:3},
-{q:"\"己所不欲，勿施于人\"出自哪本书？",o:["道德经","论语","孟子","中庸"],a:1},
-{q:"以下哪个城市不是直辖市？",o:["北京","天津","深圳","重庆"],a:2},
-],
-ielts: [
-{q:"'Ubiquitous' means:",o:["Rare","Everywhere","Dangerous","Beautiful"],a:1},
-{q:"'Procrastinate' means:",o:["To hurry","To delay","To organize","To forget"],a:1},
-{q:"'If I ___ rich, I would travel.'",o:["am","was","were","be"],a:2},
-{q:"'Break the ice' means:",o:["Damage something","Make people comfortable","Start a fight","Cool down"],a:1},
-{q:"'Ambiguous' is the opposite of:",o:["Clear","Vague","Dark","Simple"],a:0},
-{q:"'She ___ here since 2020.'",o:["is living","has lived","lived","lives"],a:1},
-{q:"'Inevitable' means:",o:["Avoidable","Certain to happen","Invisible","Unbelievable"],a:1},
-{q:"'A piece of cake' means:",o:["A dessert","Very easy","Very expensive","A small portion"],a:1},
-{q:"'Neither Tom ___ Jerry came.'",o:["or","and","nor","but"],a:2},
-{q:"'Pragmatic' means:",o:["Practical","Dramatic","Romantic","Automatic"],a:0},
-{q:"'By the time he arrived, she ___.'",o:["left","has left","had left","leaves"],a:2},
-{q:"'Resilient' means:",o:["Fragile","Recover quickly","Resistant","Silent"],a:1},
-{q:"'Spill the beans' means:",o:["Make a mess","Reveal a secret","Cook badly","Waste food"],a:1},
-{q:"'The report ___ by the manager.'",o:["wrote","was written","has written","is writing"],a:1},
-{q:"'Ephemeral' means:",o:["Eternal","Short-lived","Powerful","Beautiful"],a:1},
-{q:"'I wish I ___ harder last semester.'",o:["study","studied","had studied","have studied"],a:2},
-{q:"'Benevolent' means:",o:["Evil","Kind and generous","Intelligent","Wealthy"],a:1},
-{q:"'She is ___ than her sister.'",o:["more tall","taller","most tall","tallest"],a:1},
-{q:"'Under the weather' means:",o:["Outside","Feeling ill","During rain","Cold weather"],a:1},
-{q:"'Paradox' means:",o:["A paradise","A contradiction","A parallel line","A parachute"],a:1},
-{q:"'He suggested ___ early.'",o:["to leave","leaving","leave","left"],a:1},
-{q:"'Diligent' means:",o:["Lazy","Hardworking","Intelligent","Careless"],a:1},
-{q:"'Hit the nail on the head' means:",o:["Use a hammer","Be exactly right","Cause pain","Build something"],a:1},
-{q:"'I ___ to the store when it rained.'",o:["walk","walked","was walking","have walked"],a:2},
-{q:"'Eloquent' means:",o:["Silent","Fluent and persuasive","Elegant","Electric"],a:1},
-{q:"Which means 'to make worse'?",o:["Exacerbate","Exaggerate","Excavate","Exonerate"],a:0},
-{q:"'Burn the midnight oil' means:",o:["Waste energy","Work late at night","Start a fire","Use old resources"],a:1},
-{q:"'Despite ___ hard, he failed.'",o:["study","studied","studying","to study"],a:2},
-{q:"'Meticulous' means:",o:["Careless","Very careful","Dangerous","Mysterious"],a:1},
-{q:"'Not only ___ smart, but also kind.'",o:["she is","is she","she was","was she"],a:1},
-{q:"'Alleviate' means:",o:["To worsen","To relieve","To elevate","To alienate"],a:1},
-{q:"'Once in a blue moon' means:",o:["At night","Very rarely","Monthly","During full moon"],a:1},
-{q:"'Had I known, I ___ differently.'",o:["would act","would acted","would have acted","will act"],a:2},
-{q:"'Conundrum' means:",o:["A container","A difficult problem","A musical instrument","A building"],a:1},
-{q:"'She asked me where I ___.'",o:["live","lived","am living","do live"],a:1},
-]
-};
+// ===== WRONG ANSWER STORAGE =====
+const WR_KEY = 'sexy_wrong_answers';
+function getWrongAnswers() {
+    try { return JSON.parse(localStorage.getItem(WR_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveWrongAnswer(catId, question, userAnswer) {
+    const wa = getWrongAnswers();
+    if (!wa[catId]) wa[catId] = [];
+    // Avoid duplicates
+    const exists = wa[catId].some(item => item.q === question.q);
+    if (!exists) {
+        wa[catId].push({
+            q: question.q,
+            o: question.o,
+            a: question.a,
+            userAnswer: userAnswer,
+            time: Date.now()
+        });
+    }
+    localStorage.setItem(WR_KEY, JSON.stringify(wa));
+    updateWrongCount();
+}
+function updateWrongCount() {
+    const wa = getWrongAnswers();
+    let total = 0;
+    Object.values(wa).forEach(arr => total += arr.length);
+    const el = document.getElementById('wrongCount');
+    const btn = document.getElementById('wrongBookBtn');
+    el.textContent = total;
+    btn.style.display = total > 0 ? 'inline-flex' : 'none';
+}
 
 // ===== GAME STATE =====
 let gender = '';
+let currentType = null;
 let currentCat = null;
 let currentDiff = null;
 let currentImg = '';
@@ -592,10 +617,10 @@ let qNum = 0;
 let gameQuestions = [];
 let currentQ = null;
 let startTime = 0;
-let imgCounters = { easy:0, medium:0, hard:0 };
+let previousScreen = 'genderSelect';
 
 // ===== SCREENS =====
-const screens = ['ageGate','genderSelect','catSelect','diffSelect','gameArea','winScreen'];
+const screens = ['ageGate','genderSelect','typeSelect','catSelect','diffSelect','gameArea','winScreen','wrongReview'];
 function showScreen(id) {
     screens.forEach(s => document.getElementById(s).style.display = 'none');
     const el = document.getElementById(id);
@@ -607,19 +632,53 @@ function showScreen(id) {
     // Show/hide PH bar
     const showBar = (id !== 'ageGate' && id !== 'genderSelect');
     document.getElementById('phBar').style.display = showBar ? 'flex' : 'none';
-    document.getElementById('phTabs').style.display = showBar ? 'flex' : 'none';
+    document.getElementById('phTabs').style.display = (showBar && id !== 'wrongReview') ? 'flex' : 'none';
 }
 
-function passAge() { showScreen('genderSelect'); }
+function passAge() {
+    showScreen('genderSelect');
+    updateWrongCount();
+}
 
 function pickGender(g) {
     gender = g;
-    imgCounters = { easy:0, medium:0, hard:0 };
+    showScreen('typeSelect');
+    buildTypeGrid();
+}
+
+function backToGender() { showScreen('genderSelect'); }
+
+function buildTypeGrid() {
+    const grid = document.getElementById('typeGrid');
+    grid.innerHTML = '';
+    TYPES[gender].forEach((type, i) => {
+        const card = document.createElement('div');
+        card.className = 'type-card';
+        card.style.animationDelay = (i * 0.08) + 's';
+        card.onclick = () => pickType(type);
+        card.innerHTML = `
+            <div class="t-bg" style="background-image:url('${type.preview}')"></div>
+            <div class="t-overlay"></div>
+            <div class="t-content">
+                <div class="t-label">${type.name}</div>
+                <div class="t-desc">${type.desc}</div>
+                <div class="t-tag">3张独家大图</div>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function pickType(type) {
+    currentType = type;
     showScreen('catSelect');
     buildCatGrid();
 }
 
-function backToGender() { showScreen('genderSelect'); }
+function backToType() {
+    showScreen('typeSelect');
+    buildTypeGrid();
+}
 
 function buildCatGrid() {
     const grid = document.getElementById('catGrid');
@@ -634,7 +693,7 @@ function buildCatGrid() {
             <div class="c-info">
                 <div class="c-name">${cat.name}</div>
                 <div class="c-desc">${cat.desc}</div>
-                <div class="c-count">3种难度 -- 难度越高尺度越大</div>
+                <div class="c-count">80+题库 -- 每次随机抽题</div>
             </div>
             ${cat.hot ? '<div class="c-hot">HOT</div>' : ''}
         `;
@@ -677,6 +736,90 @@ function backToDiff() {
     buildDiffGrid();
 }
 
+// ===== WRONG ANSWER REVIEW =====
+let wrActiveTab = 'all';
+function openWrongReview() {
+    previousScreen = 'catSelect';
+    showScreen('wrongReview');
+    wrActiveTab = 'all';
+    buildWrongReview();
+}
+function closeWrongReview() {
+    showScreen(previousScreen);
+    if (previousScreen === 'catSelect') buildCatGrid();
+}
+function buildWrongReview() {
+    const wa = getWrongAnswers();
+    // Build tabs
+    const tabsEl = document.getElementById('wrTabs');
+    const cats = [{id:'all',name:'全部'},...CATEGORIES];
+    tabsEl.innerHTML = '';
+    cats.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'wr-tab' + (wrActiveTab === cat.id ? ' active' : '');
+        const count = cat.id === 'all'
+            ? Object.values(wa).reduce((s,a) => s + a.length, 0)
+            : (wa[cat.id] || []).length;
+        btn.textContent = cat.name + ' (' + count + ')';
+        btn.onclick = () => { wrActiveTab = cat.id; buildWrongReview(); };
+        tabsEl.appendChild(btn);
+    });
+
+    // Build list
+    const listEl = document.getElementById('wrList');
+    let items = [];
+    if (wrActiveTab === 'all') {
+        Object.entries(wa).forEach(([catId, arr]) => {
+            const catName = CATEGORIES.find(c => c.id === catId)?.name || catId;
+            arr.forEach(item => items.push({...item, catName, catId}));
+        });
+    } else {
+        const catName = CATEGORIES.find(c => c.id === wrActiveTab)?.name || wrActiveTab;
+        (wa[wrActiveTab] || []).forEach(item => items.push({...item, catName, catId: wrActiveTab}));
+    }
+    items.sort((a,b) => b.time - a.time);
+
+    if (items.length === 0) {
+        listEl.innerHTML = '<div class="wr-empty">还没有错题记录, 继续加油!</div>';
+        document.getElementById('wrClearBtn').style.display = 'none';
+        return;
+    }
+    document.getElementById('wrClearBtn').style.display = 'inline-block';
+
+    listEl.innerHTML = '';
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'wr-item';
+        let optsHtml = '';
+        item.o.forEach((opt, i) => {
+            let cls = 'wr-opt';
+            if (i === item.a) cls += ' wr-correct';
+            if (i === item.userAnswer && i !== item.a) cls += ' wr-wrong-pick';
+            optsHtml += `<div class="${cls}">${opt}</div>`;
+        });
+        const date = new Date(item.time);
+        const timeStr = date.getMonth()+1 + '/' + date.getDate() + ' ' +
+            String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
+        div.innerHTML = `
+            <div class="wr-q">${item.q}</div>
+            <div class="wr-opts">${optsHtml}</div>
+            <div class="wr-meta"><span>${item.catName}</span><span>${timeStr}</span></div>
+        `;
+        listEl.appendChild(div);
+    });
+}
+function clearWrongAnswers() {
+    const wa = getWrongAnswers();
+    if (wrActiveTab === 'all') {
+        localStorage.removeItem(WR_KEY);
+    } else {
+        delete wa[wrActiveTab];
+        localStorage.setItem(WR_KEY, JSON.stringify(wa));
+    }
+    updateWrongCount();
+    buildWrongReview();
+}
+
 // ===== GAME =====
 function startGame(diff) {
     currentDiff = diff;
@@ -684,11 +827,9 @@ function startGame(diff) {
     revealed = 0; score = 0; streak = 0; qNum = 0;
     startTime = Date.now();
 
-    const tierImgs = IMAGES[gender][diff.tier];
-    currentImg = tierImgs[imgCounters[diff.tier] % tierImgs.length];
-    imgCounters[diff.tier]++;
+    currentImg = IMAGES[gender][currentType.id][diff.tier];
 
-    // Shuffle questions
+    // Shuffle questions from the 80+ pool
     const pool = [...Q[currentCat.id]];
     for (let i = pool.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -703,7 +844,7 @@ function startGame(diff) {
     document.getElementById('progFill').style.width = '0%';
     document.getElementById('motiBar').innerHTML = '';
 
-    // Set image (clear underneath mosaic)
+    // Set image
     const imgLayer = document.getElementById('imgLayer');
     imgLayer.innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
     imgLayer.style.filter = 'none';
@@ -721,7 +862,6 @@ function startGame(diff) {
     }
     nextQuestion();
 }
-
 
 function showMotivation(isCorrect) {
     const arr = isCorrect ? MOTI_CORRECT : MOTI_WRONG;
@@ -766,17 +906,13 @@ function checkAnswer(idx, btn) {
         streak++;
         document.getElementById('scoreNum').textContent = score;
         const streakEl = document.getElementById('streakText');
-        streakEl.textContent = streak > 1 ? `${streak}连对 🔥` : '';
+        streakEl.textContent = streak > 1 ? streak + '连对' : '';
         if (streak > 1) { streakEl.classList.remove('big'); void streakEl.offsetWidth; streakEl.classList.add('big'); }
 
         revealTile(); revealed++;
         document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
-
         showMotivation(true);
-
-        // Mini confetti on correct
         if (streak >= 3) spawnMiniConfetti();
-
         setTimeout(nextQuestion, 500);
     } else {
         btn.classList.add('wrong');
@@ -784,10 +920,12 @@ function checkAnswer(idx, btn) {
         document.getElementById('streakText').textContent = '';
         allBtns.forEach((b, i) => { if (i === currentQ.a) b.classList.add('correct'); });
 
+        // Save wrong answer
+        saveWrongAnswer(currentCat.id, currentQ, idx);
+
         if (revealed > 0 && Math.random() < 0.4) {
             coverTile(); revealed--;
             document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
-    
         }
 
         const unrevealed = tiles.filter(t => !t.classList.contains('revealed'));
@@ -869,6 +1007,9 @@ function winGame() {
         `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 -- 共 ${qNum} 题`;
     spawnWinConfetti();
 }
+
+// Init wrong count on load
+updateWrongCount();
 </script>
 </body>
 </html>
