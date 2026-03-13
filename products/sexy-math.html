@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>性感数学 — 做对题才能看</title>
+    <title>性感答题 — 做对题才能看</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,16 +45,28 @@
         .btn-no{background:#333;color:var(--ink-soft)}
         .btn-no:hover{background:#444}
 
-        /* Level Select */
-        #levelSelect{display:none}
-        .level-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-        .level-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
-            padding:16px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
-        .level-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-        .level-card .lvl-num{font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1}
-        .level-card .lvl-label{font-size:.8rem;color:var(--ink-soft);margin-top:4px}
-        .level-card .lvl-desc{font-size:.7rem;color:var(--ink-faint);margin-top:8px}
-        .level-card .lvl-hot{position:absolute;top:8px;right:8px;background:var(--accent);
+        /* Gender Select */
+        #genderSelect{display:none}
+        .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+        .gender-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
+            padding:28px 16px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+        .gender-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+        .gender-card .g-icon{font-size:3rem;margin-bottom:8px}
+        .gender-card .g-label{font-size:1.1rem;font-weight:600;color:var(--ink)}
+        .gender-card .g-desc{font-size:.75rem;color:var(--ink-faint);margin-top:4px}
+
+        /* Category Select */
+        #catSelect{display:none}
+        .cat-grid{display:grid;gap:12px;margin-top:16px}
+        .cat-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
+            padding:18px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:.2s;position:relative}
+        .cat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+        .cat-card .c-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0}
+        .cat-card .c-info{flex:1}
+        .cat-card .c-name{font-size:1rem;font-weight:600;color:var(--ink)}
+        .cat-card .c-desc{font-size:.75rem;color:var(--ink-faint);margin-top:2px}
+        .cat-card .c-count{font-size:.65rem;color:var(--accent);margin-top:4px}
+        .cat-card .c-hot{position:absolute;top:8px;right:8px;background:var(--accent);
             color:#fff;font-size:.6rem;padding:2px 6px;border-radius:8px;font-weight:600}
 
         /* Game */
@@ -71,6 +83,7 @@
         .img-container{position:relative;width:100%;aspect-ratio:1;border-radius:var(--rl);
             overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
         .img-layer{position:absolute;top:0;left:0;width:100%;height:100%}
+        .img-layer img{width:100%;height:100%;object-fit:cover}
         .tile-grid{display:grid;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
         .tile{background:var(--bg);border:1px solid #222;transition:all .6s cubic-bezier(.4,0,.2,1);
             display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#444}
@@ -78,19 +91,15 @@
         .tile.wrong{animation:shake .4s;background:#3a1020}
         @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
-        /* Sexy CSS Art underneath */
-        .art-layer{width:100%;height:100%;position:relative;overflow:hidden}
-        .art-bg{width:100%;height:100%;position:absolute;top:0;left:0}
-
         /* Question */
-        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:20px;text-align:center}
-        .q-label{font-size:.75rem;color:var(--ink-faint);margin-bottom:8px}
-        .q-text{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;
-            color:var(--gold);margin-bottom:16px}
+        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:20px}
+        .q-label{font-size:.75rem;color:var(--ink-faint);margin-bottom:8px;text-align:center}
+        .q-text{font-size:1rem;font-weight:500;color:var(--gold);margin-bottom:16px;
+            text-align:center;line-height:1.5;min-height:3em}
         .q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-        .q-opt{padding:12px;border-radius:var(--r);border:2px solid #333;background:transparent;
-            color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:500;
-            cursor:pointer;transition:.2s}
+        .q-opt{padding:10px 8px;border-radius:var(--r);border:2px solid #333;background:transparent;
+            color:var(--ink);font-family:inherit;font-size:.85rem;font-weight:500;
+            cursor:pointer;transition:.2s;text-align:center;line-height:1.3}
         .q-opt:hover{border-color:var(--accent);background:var(--accent-soft)}
         .q-opt.correct{border-color:#2ecc71;background:rgba(46,204,113,.15);color:#2ecc71}
         .q-opt.wrong{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
@@ -123,20 +132,47 @@
     <div class="age-box">
         <h2>本游戏仅限 18 岁以上玩家<br>你满 18 了吗？</h2>
         <div class="age-btns">
-            <button class="btn-yes" onclick="enterGame()">满了</button>
+            <button class="btn-yes" onclick="passAge()">满了</button>
             <button class="btn-no" onclick="location.href='../'">没有</button>
         </div>
     </div>
 </div>
 
-<!-- Level Select -->
-<div id="levelSelect">
+<!-- Gender Select -->
+<div id="genderSelect">
     <header>
-        <h1>性感数学</h1>
+        <h1>性感答题</h1>
         <div class="sub">做对题才能看 - 做错了穿回去</div>
         <div class="badge">18+</div>
     </header>
-    <div class="level-grid" id="lvlGrid"></div>
+    <div class="gender-grid">
+        <div class="gender-card" onclick="pickGender('f')">
+            <div class="g-icon">👩</div>
+            <div class="g-label">我要看美女</div>
+            <div class="g-desc">性感辣妹 等你解锁</div>
+        </div>
+        <div class="gender-card" onclick="pickGender('m')">
+            <div class="g-icon">👨</div>
+            <div class="g-label">我要看帅哥</div>
+            <div class="g-desc">肌肉猛男 等你解锁</div>
+        </div>
+    </div>
+    <footer>
+        <a href="../">AI-Connie 出品</a><br>
+        <span class="src">shujilai.github.io/connieai-store</span>
+    </footer>
+</div>
+
+<!-- Category Select -->
+<div id="catSelect">
+    <header>
+        <h1>选择题库</h1>
+        <div class="sub" id="catSub">答对题解锁图片 · 答错穿回去</div>
+    </header>
+    <div class="cat-grid" id="catGrid"></div>
+    <div style="text-align:center;margin-top:16px">
+        <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择</button>
+    </div>
     <footer>
         <a href="../">AI-Connie 出品</a><br>
         <span class="src">shujilai.github.io/connieai-store</span>
@@ -147,7 +183,7 @@
 <div id="gameArea">
     <header style="padding:12px 0 4px">
         <div style="display:flex;align-items:center;justify-content:space-between">
-            <button onclick="backToLevels()" style="background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer">&larr; 返回</button>
+            <button onclick="backToCats()" style="background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer">&larr; 返回</button>
             <h1 style="font-size:1.3rem;margin:0" id="gameTitle"></h1>
             <div></div>
         </div>
@@ -158,14 +194,12 @@
     </div>
     <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
     <div class="img-container">
-        <div class="img-layer">
-            <canvas id="artCanvas" class="art-bg"></canvas>
-        </div>
+        <div class="img-layer" id="imgLayer"></div>
         <div class="tile-grid" id="tileGrid"></div>
     </div>
     <div class="q-card">
         <div class="q-label" id="qLabel">第 1 题 / 共 16 题</div>
-        <div class="q-text" id="qText">? x ? = ?</div>
+        <div class="q-text" id="qText"></div>
         <div class="q-options" id="qOpts"></div>
     </div>
 </div>
@@ -173,16 +207,14 @@
 <!-- Win Screen -->
 <div id="winScreen">
     <header>
-        <h1>性感数学</h1>
+        <h1>性感答题</h1>
     </header>
-    <div class="img-container" id="winImg">
-        <canvas id="winCanvas" class="art-bg" style="width:100%;height:100%"></canvas>
-    </div>
+    <div class="img-container" id="winImg"></div>
     <div class="win-box">
-        <h2>全部解锁</h2>
+        <h2 id="winTitle">全部解锁</h2>
         <div class="win-stats" id="winStats"></div>
         <div class="win-btns">
-            <button class="btn-next" onclick="backToLevels()">下一关</button>
+            <button class="btn-next" onclick="backToCats()">再来一局</button>
             <button class="btn-back" onclick="location.href='../'">回商店</button>
         </div>
     </div>
@@ -191,157 +223,232 @@
 </div>
 
 <script>
-// ===== LEVELS =====
-const LEVELS = [
-    { id:1, label:'入门', desc:'个位数乘法', grid:4, range:[2,9], hot:false },
-    { id:2, label:'进阶', desc:'两位数乘法', grid:5, range:[10,30], hot:true },
-    { id:3, label:'疯狂', desc:'三位数混合', grid:6, range:[20,99], hot:false },
-    { id:4, label:'地狱', desc:'你算得出来吗', grid:7, range:[50,200], hot:false },
+// ===== IMAGE SETS =====
+const IMAGES = {
+    f: ['sexy-img/f1.jpg','sexy-img/f2.jpg','sexy-img/f3.jpg','sexy-img/f4.jpg','sexy-img/f5.jpg','sexy-img/f6.jpg'],
+    m: ['sexy-img/m1.jpg','sexy-img/m2.jpg','sexy-img/m3.jpg','sexy-img/m4.jpg','sexy-img/m5.jpg','sexy-img/m6.jpg']
+};
+
+// ===== CATEGORIES =====
+const CATEGORIES = [
+    { id:'drive', icon:'🚗', name:'驾照科目一', desc:'科目一都答不对还想开车？', grid:4, hot:true },
+    { id:'civil', icon:'📝', name:'考公行测', desc:'考不上公就去送外卖吧', grid:4, hot:false },
+    { id:'ielts', icon:'🌍', name:'雅思英语', desc:'背不下单词别想出国', grid:4, hot:false },
 ];
 
-// ===== CSS ART GENERATOR =====
-function generateArt(canvas, levelId) {
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width = canvas.offsetWidth * 2;
-    const h = canvas.height = canvas.offsetHeight * 2;
-    ctx.scale(2, 2);
-    const W = w/2, H = h/2;
-
-    // Each level has a unique artistic style
-    const palettes = [
-        ['#e94560','#f5a623','#ff6b6b','#c44569','#e17055'], // warm reds
-        ['#a29bfe','#6c5ce7','#fd79a8','#e84393','#ff6b81'], // purple pink
-        ['#00b894','#00cec9','#0984e3','#6c5ce7','#e17055'], // cool mixed
-        ['#ff6348','#ff4757','#ffa502','#ff6b81','#c44569'], // hot
-    ];
-    const pal = palettes[(levelId - 1) % palettes.length];
-
-    // Background gradient
-    const bg = ctx.createLinearGradient(0, 0, W, H);
-    bg.addColorStop(0, '#1a1a2e');
-    bg.addColorStop(1, '#16213e');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, W, H);
-
-    // Abstract body-like curves
-    const seed = levelId * 137;
-    function seededRand(i) { return ((Math.sin(seed + i * 9301 + 49297) * 49297) % 1 + 1) % 1; }
-
-    // Large flowing curves
-    for (let i = 0; i < 5 + levelId; i++) {
-        ctx.beginPath();
-        const sx = seededRand(i * 3) * W;
-        const sy = seededRand(i * 3 + 1) * H;
-        ctx.moveTo(sx, sy);
-        for (let j = 0; j < 3; j++) {
-            const cx1 = seededRand(i * 10 + j * 5) * W;
-            const cy1 = seededRand(i * 10 + j * 5 + 1) * H;
-            const cx2 = seededRand(i * 10 + j * 5 + 2) * W;
-            const cy2 = seededRand(i * 10 + j * 5 + 3) * H;
-            const ex = seededRand(i * 10 + j * 5 + 4) * W;
-            const ey = seededRand(i * 10 + j * 5 + 5) * H;
-            ctx.bezierCurveTo(cx1, cy1, cx2, cy2, ex, ey);
-        }
-        ctx.closePath();
-        const g = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.6);
-        g.addColorStop(0, pal[i % pal.length] + 'cc');
-        g.addColorStop(1, pal[(i + 2) % pal.length] + '33');
-        ctx.fillStyle = g;
-        ctx.fill();
-    }
-
-    // Silhouette shapes
-    ctx.globalCompositeOperation = 'screen';
-    for (let i = 0; i < 8; i++) {
-        const cx = seededRand(i * 7 + 50) * W;
-        const cy = seededRand(i * 7 + 51) * H;
-        const rx = (seededRand(i * 7 + 52) * 0.3 + 0.1) * W;
-        const ry = (seededRand(i * 7 + 53) * 0.4 + 0.15) * H;
-        ctx.beginPath();
-        ctx.ellipse(cx, cy, rx, ry, seededRand(i * 7 + 54) * Math.PI, 0, Math.PI * 2);
-        const eg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
-        eg.addColorStop(0, pal[i % pal.length] + '88');
-        eg.addColorStop(1, 'transparent');
-        ctx.fillStyle = eg;
-        ctx.fill();
-    }
-    ctx.globalCompositeOperation = 'source-over';
-
-    // Decorative dots
-    for (let i = 0; i < 30; i++) {
-        const x = seededRand(i + 100) * W;
-        const y = seededRand(i + 200) * H;
-        const r = seededRand(i + 300) * 4 + 1;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = pal[i % pal.length] + '66';
-        ctx.fill();
-    }
-
-    // "SEXY" watermark
-    ctx.globalAlpha = 0.05;
-    ctx.font = `bold ${W * 0.3}px 'Outfit', sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#fff';
-    ctx.fillText('18+', W/2, H/2 + W * 0.1);
-    ctx.globalAlpha = 1;
-}
+// ===== QUESTION BANKS =====
+const Q = {
+drive: [
+{q:"驾驶机动车上道路行驶前，驾驶人应先检查什么？",o:["机动车驾驶证","居民身份证","从业资格证","机动车通行证"],a:0},
+{q:"机动车驾驶人初次申领驾驶证后的实习期是多长？",o:["6个月","12个月","18个月","24个月"],a:1},
+{q:"饮酒后驾驶机动车一次记几分？",o:["2分","6分","9分","12分"],a:3},
+{q:"道路交通安全违法行为累积记分一个周期是多久？",o:["6个月","12个月","24个月","3个月"],a:1},
+{q:"驾驶人在驾驶证有效期满多少日内可以申请换证？",o:["30日","60日","90日","120日"],a:2},
+{q:"驾驶证丢失后，驾驶人应向哪个部门申请补发？",o:["交通部门","公安机关","驾校","保险公司"],a:1},
+{q:"在高速公路上行驶时最低时速不得低于多少？",o:["40公里","50公里","60公里","80公里"],a:2},
+{q:"机动车在高速公路上发生故障时，应在车后方多远设置警告标志？",o:["50米","100米","150米以外","200米"],a:2},
+{q:"驾驶机动车在没有中心线的道路上，最高速度不能超过多少？",o:["30公里/小时","40公里/小时","50公里/小时","60公里/小时"],a:1},
+{q:"机动车驾驶人违法驾驶造成重大交通事故构成犯罪的，处几年以下有期徒刑？",o:["1年","2年","3年","5年"],a:2},
+{q:"夜间会车应该在距对方来车多远改用近光灯？",o:["50米","100米","150米以内","200米"],a:2},
+{q:"红灯亮时，车辆应停在哪里？",o:["路口以内","路口以外","停止线以外","交叉路口"],a:2},
+{q:"在狭窄山路会车时，不靠山体的一方应该怎么做？",o:["让行","鸣喇叭","加速通过","靠右停车"],a:0},
+{q:"车辆在交叉路口绿灯亮时，转弯车辆应注意什么？",o:["抢行通过","加速通过","让直行车辆和行人先行","只让行人先行"],a:2},
+{q:"行车中发现前方道路拥堵时应该怎么做？",o:["借对向车道通过","依次排队通过","鸣喇叭催促","从右侧超越"],a:1},
+{q:"进入减速车道时，应提前开启什么灯？",o:["前照灯","左转向灯","右转向灯","危险报警闪光灯"],a:2},
+{q:"超过机动车驾驶证有效期一年以上未换证的，会被怎样处理？",o:["注销驾驶证","罚款200元","吊销驾驶证","扣留驾驶证"],a:0},
+{q:"造成交通事故后逃逸构成犯罪的，处几年以上有期徒刑？",o:["1年","3年","5年","7年"],a:1},
+{q:"机动车不得在哪些路段掉头？",o:["有禁止掉头标志的路段","宽阔道路","三车道路段","双向道路"],a:0},
+{q:"行车中遇儿童在路边玩耍时应怎么做？",o:["鸣喇叭驱赶","加速通过","减速慢行注意观察","正常通过"],a:2},
+{q:"驾驶机动车在雨天行驶应注意什么？",o:["加速行驶","保持安全车距","紧跟前车","关闭雨刷器"],a:1},
+{q:"小型客车在高速公路上行驶最高速度不得超过多少？",o:["100公里/小时","110公里/小时","120公里/小时","130公里/小时"],a:2},
+{q:"机动车在道路上临时停车时应开启什么灯？",o:["前照灯","转向灯","危险报警闪光灯","雾灯"],a:2},
+{q:"在没有限速标志的城市道路上最高速度是多少？",o:["20公里/小时","30公里/小时","40公里/小时","50公里/小时"],a:1},
+{q:"年龄在70周岁以上的机动车驾驶人应当每年进行什么检查？",o:["视力检查","身体检查","驾驶技能检查","安全知识考试"],a:1},
+{q:"雾天行车应开启什么灯？",o:["近光灯和雾灯","远光灯","示廓灯","远光灯和雾灯"],a:0},
+{q:"连续驾驶机动车超过4小时应停车休息不得少于多长时间？",o:["10分钟","15分钟","20分钟","30分钟"],a:2},
+{q:"驾驶人血液中酒精含量达到多少为醉酒驾车？",o:["20mg/100ml","50mg/100ml","80mg/100ml","100mg/100ml"],a:2},
+{q:"机动车号牌应当安装在什么位置？",o:["随意位置","前后固定位置","仅前方","仅后方"],a:1},
+{q:"行人闯红灯时驾驶人应怎么做？",o:["鸣喇叭通过","减速或停车避让","加速绕行","正常行驶"],a:1},
+{q:"在冰雪路面行驶时应注意什么？",o:["加速行驶","急踩刹车","降低车速缓慢行驶","紧跟前车"],a:2},
+{q:"车辆在隧道内行驶时不得超车的原因是什么？",o:["隧道内光线暗视线差","隧道太短","隧道太窄","有摄像头"],a:0},
+{q:"驾驶证审验期限是多久？",o:["半年","一年","两年","三年"],a:1},
+{q:"小型汽车驾驶人年龄超过多少岁需每年体检？",o:["50岁","55岁","60岁","70岁"],a:3},
+{q:"使用其他车辆的机动车登记证书、号牌、行驶证的，一次记几分？",o:["3分","6分","9分","12分"],a:3},
+],
+civil: [
+{q:"中国最长的河流是？",o:["黄河","长江","珠江","黑龙江"],a:1},
+{q:"中国最大的淡水湖是？",o:["洞庭湖","鄱阳湖","太湖","巢湖"],a:1},
+{q:"\"四个全面\"不包括以下哪项？",o:["全面建设社会主义现代化国家","全面深化改革","全面推进科技创新","全面从严治党"],a:2},
+{q:"我国的根本政治制度是？",o:["多党合作制度","民族区域自治","人民代表大会制度","政治协商制度"],a:2},
+{q:"GDP的全称是？",o:["国内生产总值","国民生产总值","国内生产净值","国民收入"],a:0},
+{q:"世界上面积最大的大洋是？",o:["大西洋","太平洋","印度洋","北冰洋"],a:1},
+{q:"光年是什么单位？",o:["时间单位","长度单位","速度单位","质量单位"],a:1},
+{q:"中国第一部编年体通史是？",o:["史记","春秋","资治通鉴","汉书"],a:2},
+{q:"\"三权分立\"最早由谁提出？",o:["卢梭","洛克","孟德斯鸠","伏尔泰"],a:2},
+{q:"以下哪个不属于可再生能源？",o:["太阳能","风能","天然气","水能"],a:2},
+{q:"中国四大发明不包括以下哪项？",o:["火药","印刷术","丝绸","指南针"],a:2},
+{q:"\"不以规矩，不能成方圆\"出自哪本书？",o:["论语","孟子","荀子","大学"],a:1},
+{q:"最早的纸币\"交子\"出现在哪个朝代？",o:["唐朝","宋朝","元朝","明朝"],a:1},
+{q:"人体最大的器官是？",o:["肝脏","大脑","皮肤","肺"],a:2},
+{q:"世界上海拔最高的高原是？",o:["巴西高原","东非高原","青藏高原","蒙古高原"],a:2},
+{q:"以下哪种气体是温室气体？",o:["氧气","氮气","二氧化碳","氢气"],a:2},
+{q:"太阳系中最大的行星是？",o:["地球","土星","木星","天王星"],a:2},
+{q:"DNA的全称是？",o:["核糖核酸","脱氧核糖核酸","氨基酸","蛋白质"],a:1},
+{q:"中国面积最大的省级行政区是？",o:["内蒙古","西藏","新疆","青海"],a:2},
+{q:"\"一带一路\"中的\"一路\"指的是？",o:["丝绸之路经济带","21世纪海上丝绸之路","茶马古道","京杭大运河"],a:1},
+{q:"以下哪位不是唐宋八大家之一？",o:["韩愈","柳宗元","李白","欧阳修"],a:2},
+{q:"人体含量最多的金属元素是？",o:["铁","锌","钙","钾"],a:2},
+{q:"中国的国花是什么？（2024年确定）",o:["牡丹","梅花","菊花","荷花"],a:0},
+{q:"联合国总部设在哪个城市？",o:["华盛顿","日内瓦","纽约","伦敦"],a:2},
+{q:"我国现行宪法是哪一年通过的？",o:["1954年","1975年","1978年","1982年"],a:3},
+{q:"以下哪个不属于世界三大宗教？",o:["基督教","佛教","道教","伊斯兰教"],a:2},
+{q:"声音在以下哪种介质中传播最快？",o:["空气","水","钢铁","真空"],a:2},
+{q:"\"出师表\"的作者是？",o:["刘备","关羽","诸葛亮","曹操"],a:2},
+{q:"世界上国土面积最大的国家是？",o:["中国","美国","加拿大","俄罗斯"],a:3},
+{q:"血液中运输氧气的细胞是？",o:["白细胞","红细胞","血小板","淋巴细胞"],a:1},
+{q:"中国最早的全国性统一货币是哪个朝代发行的？",o:["夏朝","商朝","秦朝","汉朝"],a:2},
+{q:"以下哪项不属于公民的基本权利？",o:["选举权","受教育权","劳动权","经商权"],a:3},
+{q:"马克思主义哲学的核心是？",o:["唯物论","辩证法","实践论","唯物辩证法"],a:3},
+{q:"\"己所不欲，勿施于人\"出自哪本书？",o:["道德经","论语","孟子","中庸"],a:1},
+{q:"以下哪个城市不是直辖市？",o:["北京","天津","深圳","重庆"],a:2},
+],
+ielts: [
+{q:"'Ubiquitous' means:",o:["Rare","Everywhere","Dangerous","Beautiful"],a:1},
+{q:"'Procrastinate' means:",o:["To hurry","To delay","To organize","To forget"],a:1},
+{q:"Choose the correct form: 'If I ___ rich, I would travel.'",o:["am","was","were","be"],a:2},
+{q:"'Break the ice' means:",o:["Damage something","Make people comfortable","Start a fight","Cool down"],a:1},
+{q:"'Ambiguous' is the opposite of:",o:["Clear","Vague","Dark","Simple"],a:0},
+{q:"'She ___ here since 2020.' Choose correctly:",o:["is living","has lived","lived","lives"],a:1},
+{q:"'Inevitable' means:",o:["Avoidable","Certain to happen","Invisible","Unbelievable"],a:1},
+{q:"'A piece of cake' means:",o:["A dessert","Very easy","Very expensive","A small portion"],a:1},
+{q:"Which is correct? 'Neither Tom ___ Jerry came.'",o:["or","and","nor","but"],a:2},
+{q:"'Pragmatic' means:",o:["Practical","Dramatic","Romantic","Automatic"],a:0},
+{q:"'By the time he arrived, she ___.'",o:["left","has left","had left","leaves"],a:2},
+{q:"'Resilient' means:",o:["Fragile","Able to recover quickly","Resistant","Silent"],a:1},
+{q:"'Spill the beans' means:",o:["Make a mess","Reveal a secret","Cook badly","Waste food"],a:1},
+{q:"'The report ___ by the manager yesterday.'",o:["wrote","was written","has written","is writing"],a:1},
+{q:"'Ephemeral' means:",o:["Eternal","Short-lived","Powerful","Beautiful"],a:1},
+{q:"'I wish I ___ harder last semester.'",o:["study","studied","had studied","have studied"],a:2},
+{q:"'Benevolent' means:",o:["Evil","Kind and generous","Intelligent","Wealthy"],a:1},
+{q:"Which is correct? 'She is ___ than her sister.'",o:["more tall","taller","most tall","tallest"],a:1},
+{q:"'Under the weather' means:",o:["Outside","Feeling ill","During rain","Cold weather"],a:1},
+{q:"'Paradox' means:",o:["A paradise","A contradictory statement","A parallel line","A parachute"],a:1},
+{q:"'He suggested ___ early.' Choose correctly:",o:["to leave","leaving","leave","left"],a:1},
+{q:"'Diligent' means:",o:["Lazy","Hardworking","Intelligent","Careless"],a:1},
+{q:"'Hit the nail on the head' means:",o:["Use a hammer","Be exactly right","Cause pain","Build something"],a:1},
+{q:"'I ___ to the store when it started raining.'",o:["walk","walked","was walking","have walked"],a:2},
+{q:"'Eloquent' means:",o:["Silent","Fluent and persuasive","Elegant","Electric"],a:1},
+{q:"Which word means 'to make worse'?",o:["Exacerbate","Exaggerate","Excavate","Exonerate"],a:0},
+{q:"'Burn the midnight oil' means:",o:["Waste energy","Work late at night","Start a fire","Use old resources"],a:1},
+{q:"'Despite ___ hard, he failed the exam.'",o:["study","studied","studying","to study"],a:2},
+{q:"'Meticulous' means:",o:["Careless","Very careful with details","Dangerous","Mysterious"],a:1},
+{q:"'Not only ___ smart, but also hardworking.'",o:["she is","is she","she was","was she"],a:1},
+{q:"'Alleviate' means:",o:["To worsen","To relieve","To elevate","To alienate"],a:1},
+{q:"'Once in a blue moon' means:",o:["At night","Very rarely","Monthly","During full moon"],a:1},
+{q:"'Had I known, I ___ differently.'",o:["would act","would acted","would have acted","will act"],a:2},
+{q:"'Conundrum' means:",o:["A container","A difficult problem","A musical instrument","A building"],a:1},
+{q:"'She asked me where I ___.'",o:["live","lived","am living","do live"],a:1},
+]
+};
 
 // ===== GAME STATE =====
-let currentLevel = null;
+let gender = '';
+let currentCat = null;
+let currentImg = '';
 let tiles = [];
 let totalTiles = 0;
 let revealed = 0;
 let score = 0;
 let streak = 0;
 let qNum = 0;
-let correctAnswer = 0;
+let gameQuestions = [];
+let currentQ = null;
 let startTime = 0;
+let imgIndex = 0;
 
-// ===== UI =====
-function enterGame() {
-    document.getElementById('ageGate').style.display = 'none';
-    document.getElementById('levelSelect').style.display = 'block';
-    buildLevelGrid();
+// ===== SCREENS =====
+const screens = ['ageGate','genderSelect','catSelect','gameArea','winScreen'];
+function showScreen(id) {
+    screens.forEach(s => document.getElementById(s).style.display = 'none');
+    document.getElementById(id).style.display = id === 'ageGate' ? 'flex' : 'block';
 }
 
-function buildLevelGrid() {
-    const grid = document.getElementById('lvlGrid');
+function passAge() {
+    showScreen('genderSelect');
+}
+
+function pickGender(g) {
+    gender = g;
+    imgIndex = 0;
+    showScreen('catSelect');
+    buildCatGrid();
+}
+
+function backToGender() {
+    showScreen('genderSelect');
+}
+
+function buildCatGrid() {
+    const grid = document.getElementById('catGrid');
     grid.innerHTML = '';
-    LEVELS.forEach(lv => {
+    CATEGORIES.forEach(cat => {
         const card = document.createElement('div');
-        card.className = 'level-card';
-        card.onclick = () => startLevel(lv);
+        card.className = 'cat-card';
+        card.onclick = () => startGame(cat);
         card.innerHTML = `
-            <div class="lvl-num">${lv.id}</div>
-            <div class="lvl-label">${lv.label}</div>
-            <div class="lvl-desc">${lv.desc}<br>${lv.grid}x${lv.grid} = ${lv.grid*lv.grid}题</div>
-            ${lv.hot ? '<div class="lvl-hot">HOT</div>' : ''}
+            <div class="c-icon">${cat.icon}</div>
+            <div class="c-info">
+                <div class="c-name">${cat.name}</div>
+                <div class="c-desc">${cat.desc}</div>
+                <div class="c-count">${cat.grid}x${cat.grid} = ${cat.grid*cat.grid}题 · 答对解锁一格</div>
+            </div>
+            ${cat.hot ? '<div class="c-hot">HOT</div>' : ''}
         `;
         grid.appendChild(card);
     });
 }
 
-function startLevel(lv) {
-    currentLevel = lv;
-    totalTiles = lv.grid * lv.grid;
+function backToCats() {
+    showScreen('catSelect');
+    buildCatGrid();
+}
+
+// ===== GAME =====
+function startGame(cat) {
+    currentCat = cat;
+    totalTiles = cat.grid * cat.grid;
     revealed = 0;
     score = 0;
     streak = 0;
     qNum = 0;
     startTime = Date.now();
 
-    document.getElementById('levelSelect').style.display = 'none';
-    document.getElementById('winScreen').style.display = 'none';
-    document.getElementById('gameArea').style.display = 'block';
-    document.getElementById('gameTitle').textContent = `第${lv.id}关 · ${lv.label}`;
+    // Pick random image
+    const imgs = IMAGES[gender];
+    currentImg = imgs[imgIndex % imgs.length];
+    imgIndex++;
+
+    // Shuffle and pick questions
+    const pool = [...Q[cat.id]];
+    for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    gameQuestions = pool.slice(0, totalTiles + 10); // extra for wrong answers
+
+    showScreen('gameArea');
+    document.getElementById('gameTitle').textContent = cat.name;
     document.getElementById('scoreNum').textContent = '0';
     document.getElementById('streakText').textContent = '';
     document.getElementById('progFill').style.width = '0%';
 
+    // Set image
+    const imgLayer = document.getElementById('imgLayer');
+    imgLayer.innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
+
     // Build tile grid
     const tg = document.getElementById('tileGrid');
-    tg.style.gridTemplateColumns = `repeat(${lv.grid}, 1fr)`;
+    tg.style.gridTemplateColumns = `repeat(${cat.grid}, 1fr)`;
     tg.innerHTML = '';
     tiles = [];
     for (let i = 0; i < totalTiles; i++) {
@@ -352,64 +459,49 @@ function startLevel(lv) {
         tiles.push(t);
     }
 
-    // Draw art
-    setTimeout(() => {
-        const canvas = document.getElementById('artCanvas');
-        generateArt(canvas, lv.id);
-    }, 50);
-
     nextQuestion();
 }
 
 function nextQuestion() {
     if (revealed >= totalTiles) return winGame();
+    if (qNum >= gameQuestions.length) {
+        // Ran out of unique questions, reshuffle
+        const pool = [...Q[currentCat.id]];
+        for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+        }
+        gameQuestions = gameQuestions.concat(pool);
+    }
+
+    currentQ = gameQuestions[qNum];
     qNum++;
-    const lv = currentLevel;
-    document.getElementById('qLabel').textContent = `第 ${qNum} 题 / 共 ${totalTiles} 题`;
+    document.getElementById('qLabel').textContent = `第 ${revealed + 1} / ${totalTiles} 格 · 已答 ${qNum - 1} 题`;
+    document.getElementById('qText').textContent = currentQ.q;
 
-    // Generate question
-    const [lo, hi] = lv.range;
-    const a = Math.floor(Math.random() * (hi - lo + 1)) + lo;
-    const b = Math.floor(Math.random() * (hi - lo + 1)) + lo;
-    correctAnswer = a * b;
-    document.getElementById('qText').textContent = `${a} × ${b} = ?`;
-
-    // Generate options
-    const opts = [correctAnswer];
-    while (opts.length < 4) {
-        const offset = Math.floor(Math.random() * (a + b) * 3) - (a + b);
-        const fake = correctAnswer + offset;
-        if (fake > 0 && fake !== correctAnswer && !opts.includes(fake)) opts.push(fake);
-    }
-    // Shuffle
-    for (let i = opts.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [opts[i], opts[j]] = [opts[j], opts[i]];
-    }
-
+    // Render options
     const optsDiv = document.getElementById('qOpts');
     optsDiv.innerHTML = '';
-    opts.forEach(v => {
+    currentQ.o.forEach((text, idx) => {
         const btn = document.createElement('button');
         btn.className = 'q-opt';
-        btn.textContent = v;
-        btn.onclick = () => checkAnswer(v, btn);
+        btn.textContent = text;
+        btn.onclick = () => checkAnswer(idx, btn);
         optsDiv.appendChild(btn);
     });
 }
 
-function checkAnswer(val, btn) {
+function checkAnswer(idx, btn) {
     const allBtns = document.querySelectorAll('.q-opt');
     allBtns.forEach(b => b.disabled = true);
 
-    if (val === correctAnswer) {
+    if (idx === currentQ.a) {
         btn.classList.add('correct');
         score += 10 + streak * 5;
         streak++;
         document.getElementById('scoreNum').textContent = score;
-        document.getElementById('streakText').textContent = streak > 1 ? `${streak}连对` : '';
+        document.getElementById('streakText').textContent = streak > 1 ? `🔥${streak}连对` : '';
 
-        // Reveal a tile
         revealTile();
         revealed++;
         document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
@@ -419,22 +511,25 @@ function checkAnswer(val, btn) {
         btn.classList.add('wrong');
         streak = 0;
         document.getElementById('streakText').textContent = '';
-        // Show correct answer
-        allBtns.forEach(b => { if (parseInt(b.textContent) === correctAnswer) b.classList.add('correct'); });
-        // Cover a tile back if any revealed
+
+        // Show correct
+        allBtns.forEach((b, i) => { if (i === currentQ.a) b.classList.add('correct'); });
+
+        // Cover tile back (40% chance)
         if (revealed > 0 && Math.random() < 0.4) {
             coverTile();
             revealed--;
             document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
         }
-        // Shake a random unrevealed tile
+
+        // Shake random tile
         const unrevealed = tiles.filter(t => !t.classList.contains('revealed'));
         if (unrevealed.length) {
             const rt = unrevealed[Math.floor(Math.random() * unrevealed.length)];
             rt.classList.add('wrong');
             setTimeout(() => rt.classList.remove('wrong'), 500);
         }
-        setTimeout(nextQuestion, 1000);
+        setTimeout(nextQuestion, 1200);
     }
 }
 
@@ -447,10 +542,10 @@ function revealTile() {
 }
 
 function coverTile() {
-    const revealedTiles = [];
-    tiles.forEach((t, i) => { if (t.classList.contains('revealed')) revealedTiles.push(i); });
-    if (revealedTiles.length === 0) return;
-    const idx = revealedTiles[Math.floor(Math.random() * revealedTiles.length)];
+    const revTiles = [];
+    tiles.forEach((t, i) => { if (t.classList.contains('revealed')) revTiles.push(i); });
+    if (revTiles.length === 0) return;
+    const idx = revTiles[Math.floor(Math.random() * revTiles.length)];
     tiles[idx].classList.remove('revealed');
 }
 
@@ -459,26 +554,18 @@ function winGame() {
     const mins = Math.floor(elapsed / 60);
     const secs = elapsed % 60;
 
-    document.getElementById('gameArea').style.display = 'none';
-    document.getElementById('winScreen').style.display = 'block';
+    showScreen('winScreen');
+
+    // Show full image
+    const winImgDiv = document.getElementById('winImg');
+    winImgDiv.innerHTML = `<div class="img-layer"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
+
+    const catNames = {drive:'驾照',civil:'考公',ielts:'雅思'};
+    document.getElementById('winTitle').textContent = `${catNames[currentCat.id]}答题 · 全部解锁`;
     document.getElementById('winStats').innerHTML =
         `得分 <strong style="color:var(--gold)">${score}</strong> · ` +
         `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 · ` +
         `共 ${qNum} 题`;
-
-    // Draw full art on win canvas
-    setTimeout(() => {
-        const canvas = document.getElementById('winCanvas');
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        generateArt(canvas, currentLevel.id);
-    }, 50);
-}
-
-function backToLevels() {
-    document.getElementById('gameArea').style.display = 'none';
-    document.getElementById('winScreen').style.display = 'none';
-    document.getElementById('levelSelect').style.display = 'block';
 }
 </script>
 </body>
