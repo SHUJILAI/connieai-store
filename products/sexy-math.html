@@ -101,17 +101,23 @@
         /* ========== GENDER SELECT ========== */
         #genderSelect{display:none}
         .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
-        .gender-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
-            padding:28px 16px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-        .gender-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-            background:linear-gradient(90deg,transparent,rgba(255,144,0,.06),transparent);transition:.5s}
-        .gender-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateY(-3px);
-            box-shadow:0 8px 25px rgba(255,144,0,.1)}
-        .gender-card:hover::before{left:100%}
+        .gender-card{border:2px solid #333;border-radius:var(--rl);
+            padding:0;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden;
+            height:260px;display:flex;flex-direction:column;justify-content:flex-end}
+        .gender-card .g-bg{position:absolute;inset:0;background-size:cover;background-position:center top;
+            transition:transform .4s ease,filter .4s ease;filter:brightness(.7)}
+        .gender-card:hover .g-bg{transform:scale(1.06);filter:brightness(.85)}
+        .gender-card .g-overlay{position:absolute;inset:0;
+            background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.3) 50%,rgba(0,0,0,.1) 100%)}
+        .gender-card:hover{border-color:var(--accent);transform:translateY(-3px);
+            box-shadow:0 8px 25px rgba(255,144,0,.15)}
         .gender-card:active{transform:translateY(0);transition:.1s}
-        .gender-card .g-icon{font-size:3rem;margin-bottom:8px}
-        .gender-card .g-label{font-size:1.1rem;font-weight:700;color:var(--ink)}
-        .gender-card .g-desc{font-size:.72rem;color:var(--ink-faint);margin-top:4px}
+        .gender-card .g-content{position:relative;z-index:2;padding:16px}
+        .gender-card .g-label{font-size:1.15rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+        .gender-card .g-desc{font-size:.72rem;color:rgba(255,255,255,.7);margin-top:4px}
+        .gender-card .g-tag{display:inline-block;font-size:.6rem;font-weight:700;
+            padding:3px 10px;border-radius:20px;margin-top:6px;
+            background:rgba(255,144,0,.2);color:var(--accent);backdrop-filter:blur(4px)}
 
         /* ========== CATEGORY SELECT ========== */
         #catSelect{display:none}
@@ -311,14 +317,22 @@
     </header>
     <div class="gender-grid">
         <div class="gender-card" onclick="pickGender('f')">
-            <div class="g-icon">👩</div>
-            <div class="g-label">我要看美女</div>
-            <div class="g-desc">性感辣妹等你解锁</div>
+            <div class="g-bg" style="background-image:url('sexy-img/f4.jpg')"></div>
+            <div class="g-overlay"></div>
+            <div class="g-content">
+                <div class="g-label">我要看美女</div>
+                <div class="g-desc">性感辣妹等你解锁</div>
+                <div class="g-tag">8张高清大图</div>
+            </div>
         </div>
         <div class="gender-card" onclick="pickGender('m')">
-            <div class="g-icon">👨</div>
-            <div class="g-label">我要看帅哥</div>
-            <div class="g-desc">肌肉猛男等你解锁</div>
+            <div class="g-bg" style="background-image:url('sexy-img/m1.jpg')"></div>
+            <div class="g-overlay"></div>
+            <div class="g-content">
+                <div class="g-label">我要看帅哥</div>
+                <div class="g-desc">肌肉猛男等你解锁</div>
+                <div class="g-tag">8张高清大图</div>
+            </div>
         </div>
     </div>
     <div class="ph-footer">
