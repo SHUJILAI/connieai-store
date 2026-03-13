@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>性感答题 — 做对题才能看</title>
+    <title>性感上岸 — 做对题才能看</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root{
-            --bg:#1a1a2e;--bg-card:#16213e;--ink:#e0e0e0;--ink-soft:#a0a0b0;
-            --ink-faint:#606070;--accent:#e94560;--accent-soft:rgba(233,69,96,.2);
-            --accent-deep:#c81e45;--gold:#f5a623;--r:12px;--rl:18px;
+            --bg:#000;--bg-card:#1b1b1b;--bg-hover:#272727;
+            --ink:#fff;--ink-soft:#999;--ink-faint:#666;
+            --accent:#ff9000;--accent-deep:#e68200;--accent-soft:rgba(255,144,0,.15);
+            --green:#2ecc71;--red:#e74c3c;
+            --r:4px;--rl:8px;
         }
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
         html{-webkit-font-smoothing:antialiased}
@@ -20,106 +22,118 @@
             background:var(--bg);color:var(--ink);
             min-height:100vh;min-height:100dvh;
             display:flex;flex-direction:column;align-items:center;
-            padding:16px;overflow-x:hidden;
+            padding:12px;overflow-x:hidden;
         }
         .page{width:100%;max-width:480px;margin:0 auto}
-        header{text-align:center;padding:24px 0 8px}
-        h1{font-family:'Instrument Serif',Georgia,serif;font-size:2rem;font-weight:400;
-            line-height:1.15;margin-bottom:4px;color:var(--accent)}
-        .sub{font-size:.85rem;color:var(--ink-soft);font-weight:400}
-        .badge{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:1.5px;
-            text-transform:uppercase;padding:3px 10px;border:1px solid var(--accent);
-            border-radius:20px;color:var(--accent);margin-top:8px}
+
+        /* PH-style Logo */
+        .logo{display:inline-flex;align-items:center;gap:0;font-size:2rem;font-weight:900;letter-spacing:-1px}
+        .logo-w{color:#fff}
+        .logo-o{background:var(--accent);color:#000;padding:2px 8px;border-radius:var(--r);margin-left:2px}
+
+        header{text-align:center;padding:20px 0 8px}
+        .sub{font-size:.85rem;color:var(--ink-soft);font-weight:400;margin-top:4px}
+        .badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:1.5px;
+            padding:3px 10px;border:1px solid var(--accent);border-radius:var(--r);color:var(--accent);margin-top:8px}
 
         /* Age Gate */
         #ageGate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);
             z-index:9999;display:flex;align-items:center;justify-content:center}
         .age-box{background:var(--bg-card);border-radius:var(--rl);padding:40px;
             text-align:center;max-width:360px;border:1px solid #333}
-        .age-box h2{font-family:'Instrument Serif',serif;font-size:1.5rem;margin-bottom:20px;color:var(--ink)}
+        .age-box h2{font-size:1.4rem;font-weight:700;margin-bottom:8px;color:var(--ink)}
+        .age-box p{font-size:.85rem;color:var(--ink-soft);margin-bottom:20px}
         .age-btns{display:flex;gap:12px;justify-content:center}
-        .age-btns button{padding:10px 32px;border-radius:var(--r);border:none;
-            font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:.2s}
-        .btn-yes{background:var(--accent);color:#fff}
+        .age-btns button{padding:12px 36px;border-radius:var(--r);border:none;
+            font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:.15s}
+        .btn-yes{background:var(--accent);color:#000}
         .btn-yes:hover{background:var(--accent-deep)}
         .btn-no{background:#333;color:var(--ink-soft)}
         .btn-no:hover{background:#444}
 
         /* Gender Select */
         #genderSelect{display:none}
-        .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
-        .gender-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
-            padding:28px 16px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
-        .gender-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-        .gender-card .g-icon{font-size:3rem;margin-bottom:8px}
-        .gender-card .g-label{font-size:1.1rem;font-weight:600;color:var(--ink)}
-        .gender-card .g-desc{font-size:.75rem;color:var(--ink-faint);margin-top:4px}
+        .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+        .gender-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
+            padding:24px 16px;text-align:center;cursor:pointer;transition:.15s}
+        .gender-card:hover{border-color:var(--accent);background:var(--bg-hover)}
+        .gender-card .g-icon{font-size:2.5rem;margin-bottom:6px}
+        .gender-card .g-label{font-size:1rem;font-weight:700;color:var(--ink)}
+        .gender-card .g-desc{font-size:.7rem;color:var(--ink-faint);margin-top:4px}
 
         /* Category Select */
         #catSelect{display:none}
-        .cat-grid{display:grid;gap:12px;margin-top:16px}
-        .cat-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
-            padding:18px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:.2s;position:relative}
-        .cat-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-        .cat-card .c-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0}
+        .cat-grid{display:grid;gap:10px;margin-top:16px}
+        .cat-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
+            padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.15s;position:relative}
+        .cat-card:hover{border-color:var(--accent);background:var(--bg-hover)}
+        .cat-card .c-icon{font-size:1.8rem;width:44px;text-align:center;flex-shrink:0}
         .cat-card .c-info{flex:1}
-        .cat-card .c-name{font-size:1rem;font-weight:600;color:var(--ink)}
-        .cat-card .c-desc{font-size:.75rem;color:var(--ink-faint);margin-top:2px}
-        .cat-card .c-count{font-size:.65rem;color:var(--accent);margin-top:4px}
-        .cat-card .c-hot{position:absolute;top:8px;right:8px;background:var(--accent);
-            color:#fff;font-size:.6rem;padding:2px 6px;border-radius:8px;font-weight:600}
+        .cat-card .c-name{font-size:1rem;font-weight:700;color:var(--ink)}
+        .cat-card .c-desc{font-size:.72rem;color:var(--ink-faint);margin-top:2px}
+        .cat-card .c-meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+        .cat-card .c-tag{font-size:.6rem;font-weight:600;padding:2px 8px;border-radius:var(--r);
+            background:var(--accent-soft);color:var(--accent)}
+        .cat-card .c-tag.spicy{background:rgba(231,76,60,.15);color:var(--red)}
+        .cat-card .c-hot{position:absolute;top:-1px;right:-1px;background:var(--accent);
+            color:#000;font-size:.6rem;padding:3px 8px;border-radius:0 var(--rl) 0 var(--rl);font-weight:700}
 
         /* Game */
         #gameArea{display:none}
-        .stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+        .top-bar .back-btn{background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer;
+            padding:4px 8px;border-radius:var(--r);transition:.15s}
+        .top-bar .back-btn:hover{background:var(--bg-card);color:var(--ink)}
+        .top-bar .g-title{font-size:1rem;font-weight:700}
+        .stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
         .stats .score{font-size:.85rem;color:var(--ink-soft)}
-        .stats .score span{color:var(--gold);font-weight:600}
-        .stats .streak{font-size:.75rem;color:var(--accent)}
-        .progress-bar{height:4px;background:#333;border-radius:2px;margin-bottom:16px;overflow:hidden}
-        .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));
-            transition:width .4s ease;width:0%}
+        .stats .score span{color:var(--accent);font-weight:700}
+        .stats .streak{font-size:.75rem;color:var(--accent);font-weight:600}
+        .progress-bar{height:3px;background:#333;border-radius:2px;margin-bottom:12px;overflow:hidden}
+        .progress-fill{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
 
         /* Image Grid */
         .img-container{position:relative;width:100%;aspect-ratio:1;border-radius:var(--rl);
-            overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
+            overflow:hidden;margin-bottom:12px;background:var(--bg-card)}
         .img-layer{position:absolute;top:0;left:0;width:100%;height:100%}
         .img-layer img{width:100%;height:100%;object-fit:cover}
         .tile-grid{display:grid;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
-        .tile{background:var(--bg);border:1px solid #222;transition:all .6s cubic-bezier(.4,0,.2,1);
-            display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#444}
-        .tile.revealed{opacity:0;pointer-events:none;transform:scale(.8) rotateY(90deg)}
-        .tile.wrong{animation:shake .4s;background:#3a1020}
+        .tile{background:var(--bg);border:1px solid #1a1a1a;transition:all .5s cubic-bezier(.4,0,.2,1);
+            display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#333}
+        .tile.revealed{opacity:0;pointer-events:none;transform:scale(.85) rotateY(90deg)}
+        .tile.wrong{animation:shake .4s;background:#2a0a0a}
         @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
         /* Question */
-        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:20px}
-        .q-label{font-size:.75rem;color:var(--ink-faint);margin-bottom:8px;text-align:center}
-        .q-text{font-size:1rem;font-weight:500;color:var(--gold);margin-bottom:16px;
-            text-align:center;line-height:1.5;min-height:3em}
-        .q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-        .q-opt{padding:10px 8px;border-radius:var(--r);border:2px solid #333;background:transparent;
-            color:var(--ink);font-family:inherit;font-size:.85rem;font-weight:500;
-            cursor:pointer;transition:.2s;text-align:center;line-height:1.3}
+        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:16px}
+        .q-label{font-size:.7rem;color:var(--ink-faint);margin-bottom:6px;text-align:center}
+        .q-text{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:14px;
+            text-align:center;line-height:1.5;min-height:2.5em}
+        .q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+        .q-opt{padding:10px 6px;border-radius:var(--r);border:2px solid #333;background:transparent;
+            color:var(--ink);font-family:inherit;font-size:.82rem;font-weight:500;
+            cursor:pointer;transition:.15s;text-align:center;line-height:1.3}
         .q-opt:hover{border-color:var(--accent);background:var(--accent-soft)}
-        .q-opt.correct{border-color:#2ecc71;background:rgba(46,204,113,.15);color:#2ecc71}
-        .q-opt.wrong{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+        .q-opt.correct{border-color:var(--green);background:rgba(46,204,113,.12);color:var(--green)}
+        .q-opt.wrong{border-color:var(--red);background:rgba(231,76,60,.12);color:var(--red)}
         .q-opt:disabled{cursor:default;opacity:.7}
 
         /* Win */
         #winScreen{display:none}
         .win-box{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
-            padding:28px;text-align:center;margin-top:16px}
-        .win-box h2{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--gold);margin-bottom:8px}
+            padding:24px;text-align:center;margin-top:12px}
+        .win-box h2{font-size:1.4rem;font-weight:800;color:var(--accent);margin-bottom:6px}
         .win-stats{font-size:.85rem;color:var(--ink-soft);margin-bottom:16px}
-        .win-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+        .win-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
         .win-btns button{padding:10px 24px;border-radius:var(--r);border:none;
-            font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
-        .btn-next{background:var(--accent);color:#fff}
+            font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.15s}
+        .btn-next{background:var(--accent);color:#000}
         .btn-next:hover{background:var(--accent-deep)}
         .btn-back{background:#333;color:var(--ink-soft)}
+        .btn-back:hover{background:#444}
 
         /* Footer */
-        footer{text-align:center;padding:24px 0 12px;font-size:.75rem}
+        footer{text-align:center;padding:20px 0 8px;font-size:.7rem}
         footer a{color:var(--accent);text-decoration:none}
         footer .src{color:var(--ink-faint)}
     </style>
@@ -130,10 +144,11 @@
 <!-- Age Gate -->
 <div id="ageGate">
     <div class="age-box">
-        <h2>本游戏仅限 18 岁以上玩家<br>你满 18 了吗？</h2>
+        <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
+        <p style="margin-top:16px">本站内容仅限 18 岁以上用户<br>请确认你的年龄</p>
         <div class="age-btns">
-            <button class="btn-yes" onclick="passAge()">满了</button>
-            <button class="btn-no" onclick="location.href='../'">没有</button>
+            <button class="btn-yes" onclick="passAge()">我已满18岁</button>
+            <button class="btn-no" onclick="location.href='../'">离开</button>
         </div>
     </div>
 </div>
@@ -141,20 +156,20 @@
 <!-- Gender Select -->
 <div id="genderSelect">
     <header>
-        <h1>性感答题</h1>
-        <div class="sub">做对题才能看 - 做错了穿回去</div>
+        <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
+        <div class="sub">答对题才能看 · 做错了穿回去</div>
         <div class="badge">18+</div>
     </header>
     <div class="gender-grid">
         <div class="gender-card" onclick="pickGender('f')">
             <div class="g-icon">👩</div>
             <div class="g-label">我要看美女</div>
-            <div class="g-desc">性感辣妹 等你解锁</div>
+            <div class="g-desc">性感辣妹等你解锁</div>
         </div>
         <div class="gender-card" onclick="pickGender('m')">
             <div class="g-icon">👨</div>
             <div class="g-label">我要看帅哥</div>
-            <div class="g-desc">肌肉猛男 等你解锁</div>
+            <div class="g-desc">肌肉猛男等你解锁</div>
         </div>
     </div>
     <footer>
@@ -166,11 +181,11 @@
 <!-- Category Select -->
 <div id="catSelect">
     <header>
-        <h1>选择题库</h1>
-        <div class="sub" id="catSub">答对题解锁图片 · 答错穿回去</div>
+        <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">题库</span></div>
+        <div class="sub">难度越高 · 尺度越大</div>
     </header>
     <div class="cat-grid" id="catGrid"></div>
-    <div style="text-align:center;margin-top:16px">
+    <div style="text-align:center;margin-top:14px">
         <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择</button>
     </div>
     <footer>
@@ -181,13 +196,11 @@
 
 <!-- Game Area -->
 <div id="gameArea">
-    <header style="padding:12px 0 4px">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-            <button onclick="backToCats()" style="background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer">&larr; 返回</button>
-            <h1 style="font-size:1.3rem;margin:0" id="gameTitle"></h1>
-            <div></div>
-        </div>
-    </header>
+    <div class="top-bar">
+        <button class="back-btn" onclick="backToCats()">&larr; 返回</button>
+        <div class="g-title" id="gameTitle"></div>
+        <div style="width:48px"></div>
+    </div>
     <div class="stats">
         <div class="score">得分 <span id="scoreNum">0</span></div>
         <div class="streak" id="streakText"></div>
@@ -198,7 +211,7 @@
         <div class="tile-grid" id="tileGrid"></div>
     </div>
     <div class="q-card">
-        <div class="q-label" id="qLabel">第 1 题 / 共 16 题</div>
+        <div class="q-label" id="qLabel"></div>
         <div class="q-text" id="qText"></div>
         <div class="q-options" id="qOpts"></div>
     </div>
@@ -207,7 +220,7 @@
 <!-- Win Screen -->
 <div id="winScreen">
     <header>
-        <h1>性感答题</h1>
+        <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
     </header>
     <div class="img-container" id="winImg"></div>
     <div class="win-box">
@@ -223,17 +236,29 @@
 </div>
 
 <script>
-// ===== IMAGE SETS =====
+// ===== IMAGE TIERS (by difficulty) =====
+// Easy: casual/cute | Medium: suggestive | Hard: spicy
 const IMAGES = {
-    f: ['sexy-img/f1.jpg','sexy-img/f2.jpg','sexy-img/f3.jpg','sexy-img/f4.jpg','sexy-img/f5.jpg','sexy-img/f6.jpg'],
-    m: ['sexy-img/m1.jpg','sexy-img/m2.jpg','sexy-img/m3.jpg','sexy-img/m4.jpg','sexy-img/m5.jpg','sexy-img/m6.jpg']
+    f: {
+        easy:  ['sexy-img/f1.jpg','sexy-img/f5.jpg'],
+        medium:['sexy-img/f2.jpg','sexy-img/f3.jpg','sexy-img/f6.jpg'],
+        hard:  ['sexy-img/f4.jpg','sexy-img/f7.jpg','sexy-img/f8.jpg']
+    },
+    m: {
+        easy:  ['sexy-img/m4.jpg','sexy-img/m5.jpg'],
+        medium:['sexy-img/m2.jpg','sexy-img/m3.jpg','sexy-img/m6.jpg'],
+        hard:  ['sexy-img/m1.jpg','sexy-img/m7.jpg','sexy-img/m8.jpg']
+    }
 };
 
 // ===== CATEGORIES =====
 const CATEGORIES = [
-    { id:'drive', icon:'🚗', name:'驾照科目一', desc:'科目一都答不对还想开车？', grid:4, hot:true },
-    { id:'civil', icon:'📝', name:'考公行测', desc:'考不上公就去送外卖吧', grid:4, hot:false },
-    { id:'ielts', icon:'🌍', name:'雅思英语', desc:'背不下单词别想出国', grid:4, hot:false },
+    { id:'drive', icon:'🚗', name:'驾照科目一', desc:'科目一都答不对还想开车？',
+      grid:3, tier:'easy', spicy:'微微露', hot:false },
+    { id:'civil', icon:'📝', name:'考公行测', desc:'考不上公就去送外卖吧',
+      grid:4, tier:'medium', spicy:'若隐若现', hot:true },
+    { id:'ielts', icon:'🌍', name:'雅思英语', desc:'背不下单词别想出国',
+      grid:5, tier:'hard', spicy:'大尺度', hot:false },
 ];
 
 // ===== QUESTION BANKS =====
@@ -247,7 +272,7 @@ drive: [
 {q:"驾驶证丢失后，驾驶人应向哪个部门申请补发？",o:["交通部门","公安机关","驾校","保险公司"],a:1},
 {q:"在高速公路上行驶时最低时速不得低于多少？",o:["40公里","50公里","60公里","80公里"],a:2},
 {q:"机动车在高速公路上发生故障时，应在车后方多远设置警告标志？",o:["50米","100米","150米以外","200米"],a:2},
-{q:"驾驶机动车在没有中心线的道路上，最高速度不能超过多少？",o:["30公里/小时","40公里/小时","50公里/小时","60公里/小时"],a:1},
+{q:"驾驶机动车在没有中心线的道路上，最高速度不能超过多少？",o:["30公里/时","40公里/时","50公里/时","60公里/时"],a:1},
 {q:"机动车驾驶人违法驾驶造成重大交通事故构成犯罪的，处几年以下有期徒刑？",o:["1年","2年","3年","5年"],a:2},
 {q:"夜间会车应该在距对方来车多远改用近光灯？",o:["50米","100米","150米以内","200米"],a:2},
 {q:"红灯亮时，车辆应停在哪里？",o:["路口以内","路口以外","停止线以外","交叉路口"],a:2},
@@ -257,23 +282,18 @@ drive: [
 {q:"进入减速车道时，应提前开启什么灯？",o:["前照灯","左转向灯","右转向灯","危险报警闪光灯"],a:2},
 {q:"超过机动车驾驶证有效期一年以上未换证的，会被怎样处理？",o:["注销驾驶证","罚款200元","吊销驾驶证","扣留驾驶证"],a:0},
 {q:"造成交通事故后逃逸构成犯罪的，处几年以上有期徒刑？",o:["1年","3年","5年","7年"],a:1},
-{q:"机动车不得在哪些路段掉头？",o:["有禁止掉头标志的路段","宽阔道路","三车道路段","双向道路"],a:0},
 {q:"行车中遇儿童在路边玩耍时应怎么做？",o:["鸣喇叭驱赶","加速通过","减速慢行注意观察","正常通过"],a:2},
 {q:"驾驶机动车在雨天行驶应注意什么？",o:["加速行驶","保持安全车距","紧跟前车","关闭雨刷器"],a:1},
-{q:"小型客车在高速公路上行驶最高速度不得超过多少？",o:["100公里/小时","110公里/小时","120公里/小时","130公里/小时"],a:2},
+{q:"小型客车在高速公路上行驶最高速度不得超过多少？",o:["100公里/时","110公里/时","120公里/时","130公里/时"],a:2},
 {q:"机动车在道路上临时停车时应开启什么灯？",o:["前照灯","转向灯","危险报警闪光灯","雾灯"],a:2},
-{q:"在没有限速标志的城市道路上最高速度是多少？",o:["20公里/小时","30公里/小时","40公里/小时","50公里/小时"],a:1},
-{q:"年龄在70周岁以上的机动车驾驶人应当每年进行什么检查？",o:["视力检查","身体检查","驾驶技能检查","安全知识考试"],a:1},
+{q:"在没有限速标志的城市道路上最高速度是多少？",o:["20公里/时","30公里/时","40公里/时","50公里/时"],a:1},
 {q:"雾天行车应开启什么灯？",o:["近光灯和雾灯","远光灯","示廓灯","远光灯和雾灯"],a:0},
 {q:"连续驾驶机动车超过4小时应停车休息不得少于多长时间？",o:["10分钟","15分钟","20分钟","30分钟"],a:2},
 {q:"驾驶人血液中酒精含量达到多少为醉酒驾车？",o:["20mg/100ml","50mg/100ml","80mg/100ml","100mg/100ml"],a:2},
-{q:"机动车号牌应当安装在什么位置？",o:["随意位置","前后固定位置","仅前方","仅后方"],a:1},
 {q:"行人闯红灯时驾驶人应怎么做？",o:["鸣喇叭通过","减速或停车避让","加速绕行","正常行驶"],a:1},
 {q:"在冰雪路面行驶时应注意什么？",o:["加速行驶","急踩刹车","降低车速缓慢行驶","紧跟前车"],a:2},
 {q:"车辆在隧道内行驶时不得超车的原因是什么？",o:["隧道内光线暗视线差","隧道太短","隧道太窄","有摄像头"],a:0},
-{q:"驾驶证审验期限是多久？",o:["半年","一年","两年","三年"],a:1},
 {q:"小型汽车驾驶人年龄超过多少岁需每年体检？",o:["50岁","55岁","60岁","70岁"],a:3},
-{q:"使用其他车辆的机动车登记证书、号牌、行驶证的，一次记几分？",o:["3分","6分","9分","12分"],a:3},
 ],
 civil: [
 {q:"中国最长的河流是？",o:["黄河","长江","珠江","黑龙江"],a:1},
@@ -298,7 +318,6 @@ civil: [
 {q:"\"一带一路\"中的\"一路\"指的是？",o:["丝绸之路经济带","21世纪海上丝绸之路","茶马古道","京杭大运河"],a:1},
 {q:"以下哪位不是唐宋八大家之一？",o:["韩愈","柳宗元","李白","欧阳修"],a:2},
 {q:"人体含量最多的金属元素是？",o:["铁","锌","钙","钾"],a:2},
-{q:"中国的国花是什么？（2024年确定）",o:["牡丹","梅花","菊花","荷花"],a:0},
 {q:"联合国总部设在哪个城市？",o:["华盛顿","日内瓦","纽约","伦敦"],a:2},
 {q:"我国现行宪法是哪一年通过的？",o:["1954年","1975年","1978年","1982年"],a:3},
 {q:"以下哪个不属于世界三大宗教？",o:["基督教","佛教","道教","伊斯兰教"],a:2},
@@ -307,7 +326,6 @@ civil: [
 {q:"世界上国土面积最大的国家是？",o:["中国","美国","加拿大","俄罗斯"],a:3},
 {q:"血液中运输氧气的细胞是？",o:["白细胞","红细胞","血小板","淋巴细胞"],a:1},
 {q:"中国最早的全国性统一货币是哪个朝代发行的？",o:["夏朝","商朝","秦朝","汉朝"],a:2},
-{q:"以下哪项不属于公民的基本权利？",o:["选举权","受教育权","劳动权","经商权"],a:3},
 {q:"马克思主义哲学的核心是？",o:["唯物论","辩证法","实践论","唯物辩证法"],a:3},
 {q:"\"己所不欲，勿施于人\"出自哪本书？",o:["道德经","论语","孟子","中庸"],a:1},
 {q:"以下哪个城市不是直辖市？",o:["北京","天津","深圳","重庆"],a:2},
@@ -315,34 +333,34 @@ civil: [
 ielts: [
 {q:"'Ubiquitous' means:",o:["Rare","Everywhere","Dangerous","Beautiful"],a:1},
 {q:"'Procrastinate' means:",o:["To hurry","To delay","To organize","To forget"],a:1},
-{q:"Choose the correct form: 'If I ___ rich, I would travel.'",o:["am","was","were","be"],a:2},
+{q:"'If I ___ rich, I would travel.'",o:["am","was","were","be"],a:2},
 {q:"'Break the ice' means:",o:["Damage something","Make people comfortable","Start a fight","Cool down"],a:1},
 {q:"'Ambiguous' is the opposite of:",o:["Clear","Vague","Dark","Simple"],a:0},
-{q:"'She ___ here since 2020.' Choose correctly:",o:["is living","has lived","lived","lives"],a:1},
+{q:"'She ___ here since 2020.'",o:["is living","has lived","lived","lives"],a:1},
 {q:"'Inevitable' means:",o:["Avoidable","Certain to happen","Invisible","Unbelievable"],a:1},
 {q:"'A piece of cake' means:",o:["A dessert","Very easy","Very expensive","A small portion"],a:1},
-{q:"Which is correct? 'Neither Tom ___ Jerry came.'",o:["or","and","nor","but"],a:2},
+{q:"'Neither Tom ___ Jerry came.'",o:["or","and","nor","but"],a:2},
 {q:"'Pragmatic' means:",o:["Practical","Dramatic","Romantic","Automatic"],a:0},
 {q:"'By the time he arrived, she ___.'",o:["left","has left","had left","leaves"],a:2},
-{q:"'Resilient' means:",o:["Fragile","Able to recover quickly","Resistant","Silent"],a:1},
+{q:"'Resilient' means:",o:["Fragile","Recover quickly","Resistant","Silent"],a:1},
 {q:"'Spill the beans' means:",o:["Make a mess","Reveal a secret","Cook badly","Waste food"],a:1},
-{q:"'The report ___ by the manager yesterday.'",o:["wrote","was written","has written","is writing"],a:1},
+{q:"'The report ___ by the manager.'",o:["wrote","was written","has written","is writing"],a:1},
 {q:"'Ephemeral' means:",o:["Eternal","Short-lived","Powerful","Beautiful"],a:1},
 {q:"'I wish I ___ harder last semester.'",o:["study","studied","had studied","have studied"],a:2},
 {q:"'Benevolent' means:",o:["Evil","Kind and generous","Intelligent","Wealthy"],a:1},
-{q:"Which is correct? 'She is ___ than her sister.'",o:["more tall","taller","most tall","tallest"],a:1},
+{q:"'She is ___ than her sister.'",o:["more tall","taller","most tall","tallest"],a:1},
 {q:"'Under the weather' means:",o:["Outside","Feeling ill","During rain","Cold weather"],a:1},
-{q:"'Paradox' means:",o:["A paradise","A contradictory statement","A parallel line","A parachute"],a:1},
-{q:"'He suggested ___ early.' Choose correctly:",o:["to leave","leaving","leave","left"],a:1},
+{q:"'Paradox' means:",o:["A paradise","A contradiction","A parallel line","A parachute"],a:1},
+{q:"'He suggested ___ early.'",o:["to leave","leaving","leave","left"],a:1},
 {q:"'Diligent' means:",o:["Lazy","Hardworking","Intelligent","Careless"],a:1},
 {q:"'Hit the nail on the head' means:",o:["Use a hammer","Be exactly right","Cause pain","Build something"],a:1},
-{q:"'I ___ to the store when it started raining.'",o:["walk","walked","was walking","have walked"],a:2},
+{q:"'I ___ to the store when it rained.'",o:["walk","walked","was walking","have walked"],a:2},
 {q:"'Eloquent' means:",o:["Silent","Fluent and persuasive","Elegant","Electric"],a:1},
-{q:"Which word means 'to make worse'?",o:["Exacerbate","Exaggerate","Excavate","Exonerate"],a:0},
+{q:"Which means 'to make worse'?",o:["Exacerbate","Exaggerate","Excavate","Exonerate"],a:0},
 {q:"'Burn the midnight oil' means:",o:["Waste energy","Work late at night","Start a fire","Use old resources"],a:1},
-{q:"'Despite ___ hard, he failed the exam.'",o:["study","studied","studying","to study"],a:2},
-{q:"'Meticulous' means:",o:["Careless","Very careful with details","Dangerous","Mysterious"],a:1},
-{q:"'Not only ___ smart, but also hardworking.'",o:["she is","is she","she was","was she"],a:1},
+{q:"'Despite ___ hard, he failed.'",o:["study","studied","studying","to study"],a:2},
+{q:"'Meticulous' means:",o:["Careless","Very careful","Dangerous","Mysterious"],a:1},
+{q:"'Not only ___ smart, but also kind.'",o:["she is","is she","she was","was she"],a:1},
 {q:"'Alleviate' means:",o:["To worsen","To relieve","To elevate","To alienate"],a:1},
 {q:"'Once in a blue moon' means:",o:["At night","Very rarely","Monthly","During full moon"],a:1},
 {q:"'Had I known, I ___ differently.'",o:["would act","would acted","would have acted","will act"],a:2},
@@ -364,7 +382,7 @@ let qNum = 0;
 let gameQuestions = [];
 let currentQ = null;
 let startTime = 0;
-let imgIndex = 0;
+let imgCounters = { easy:0, medium:0, hard:0 };
 
 // ===== SCREENS =====
 const screens = ['ageGate','genderSelect','catSelect','gameArea','winScreen'];
@@ -373,24 +391,21 @@ function showScreen(id) {
     document.getElementById(id).style.display = id === 'ageGate' ? 'flex' : 'block';
 }
 
-function passAge() {
-    showScreen('genderSelect');
-}
+function passAge() { showScreen('genderSelect'); }
 
 function pickGender(g) {
     gender = g;
-    imgIndex = 0;
+    imgCounters = { easy:0, medium:0, hard:0 };
     showScreen('catSelect');
     buildCatGrid();
 }
 
-function backToGender() {
-    showScreen('genderSelect');
-}
+function backToGender() { showScreen('genderSelect'); }
 
 function buildCatGrid() {
     const grid = document.getElementById('catGrid');
     grid.innerHTML = '';
+    const spicyColors = { easy:'', medium:'', hard:'spicy' };
     CATEGORIES.forEach(cat => {
         const card = document.createElement('div');
         card.className = 'cat-card';
@@ -400,7 +415,10 @@ function buildCatGrid() {
             <div class="c-info">
                 <div class="c-name">${cat.name}</div>
                 <div class="c-desc">${cat.desc}</div>
-                <div class="c-count">${cat.grid}x${cat.grid} = ${cat.grid*cat.grid}题 · 答对解锁一格</div>
+                <div class="c-meta">
+                    <span class="c-tag">${cat.grid}x${cat.grid} = ${cat.grid*cat.grid}题</span>
+                    <span class="c-tag ${cat.tier === 'hard' ? 'spicy' : ''}">${cat.spicy}</span>
+                </div>
             </div>
             ${cat.hot ? '<div class="c-hot">HOT</div>' : ''}
         `;
@@ -417,24 +435,21 @@ function backToCats() {
 function startGame(cat) {
     currentCat = cat;
     totalTiles = cat.grid * cat.grid;
-    revealed = 0;
-    score = 0;
-    streak = 0;
-    qNum = 0;
+    revealed = 0; score = 0; streak = 0; qNum = 0;
     startTime = Date.now();
 
-    // Pick random image
-    const imgs = IMAGES[gender];
-    currentImg = imgs[imgIndex % imgs.length];
-    imgIndex++;
+    // Pick image from correct tier
+    const tierImgs = IMAGES[gender][cat.tier];
+    currentImg = tierImgs[imgCounters[cat.tier] % tierImgs.length];
+    imgCounters[cat.tier]++;
 
-    // Shuffle and pick questions
+    // Shuffle questions
     const pool = [...Q[cat.id]];
     for (let i = pool.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [pool[i], pool[j]] = [pool[j], pool[i]];
     }
-    gameQuestions = pool.slice(0, totalTiles + 10); // extra for wrong answers
+    gameQuestions = pool.slice(0, totalTiles + 15);
 
     showScreen('gameArea');
     document.getElementById('gameTitle').textContent = cat.name;
@@ -443,8 +458,7 @@ function startGame(cat) {
     document.getElementById('progFill').style.width = '0%';
 
     // Set image
-    const imgLayer = document.getElementById('imgLayer');
-    imgLayer.innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
+    document.getElementById('imgLayer').innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
 
     // Build tile grid
     const tg = document.getElementById('tileGrid');
@@ -458,14 +472,12 @@ function startGame(cat) {
         tg.appendChild(t);
         tiles.push(t);
     }
-
     nextQuestion();
 }
 
 function nextQuestion() {
     if (revealed >= totalTiles) return winGame();
     if (qNum >= gameQuestions.length) {
-        // Ran out of unique questions, reshuffle
         const pool = [...Q[currentCat.id]];
         for (let i = pool.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -473,13 +485,11 @@ function nextQuestion() {
         }
         gameQuestions = gameQuestions.concat(pool);
     }
-
     currentQ = gameQuestions[qNum];
     qNum++;
-    document.getElementById('qLabel').textContent = `第 ${revealed + 1} / ${totalTiles} 格 · 已答 ${qNum - 1} 题`;
+    document.getElementById('qLabel').textContent = `${revealed + 1} / ${totalTiles} 格`;
     document.getElementById('qText').textContent = currentQ.q;
 
-    // Render options
     const optsDiv = document.getElementById('qOpts');
     optsDiv.innerHTML = '';
     currentQ.o.forEach((text, idx) => {
@@ -500,72 +510,55 @@ function checkAnswer(idx, btn) {
         score += 10 + streak * 5;
         streak++;
         document.getElementById('scoreNum').textContent = score;
-        document.getElementById('streakText').textContent = streak > 1 ? `🔥${streak}连对` : '';
-
-        revealTile();
-        revealed++;
+        document.getElementById('streakText').textContent = streak > 1 ? `${streak}连对` : '';
+        revealTile(); revealed++;
         document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
-
-        setTimeout(nextQuestion, 500);
+        setTimeout(nextQuestion, 450);
     } else {
         btn.classList.add('wrong');
         streak = 0;
         document.getElementById('streakText').textContent = '';
-
-        // Show correct
         allBtns.forEach((b, i) => { if (i === currentQ.a) b.classList.add('correct'); });
-
-        // Cover tile back (40% chance)
         if (revealed > 0 && Math.random() < 0.4) {
-            coverTile();
-            revealed--;
+            coverTile(); revealed--;
             document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
         }
-
-        // Shake random tile
         const unrevealed = tiles.filter(t => !t.classList.contains('revealed'));
         if (unrevealed.length) {
             const rt = unrevealed[Math.floor(Math.random() * unrevealed.length)];
             rt.classList.add('wrong');
             setTimeout(() => rt.classList.remove('wrong'), 500);
         }
-        setTimeout(nextQuestion, 1200);
+        setTimeout(nextQuestion, 1100);
     }
 }
 
 function revealTile() {
-    const unrevealed = [];
-    tiles.forEach((t, i) => { if (!t.classList.contains('revealed')) unrevealed.push(i); });
-    if (unrevealed.length === 0) return;
-    const idx = unrevealed[Math.floor(Math.random() * unrevealed.length)];
-    tiles[idx].classList.add('revealed');
+    const u = [];
+    tiles.forEach((t, i) => { if (!t.classList.contains('revealed')) u.push(i); });
+    if (!u.length) return;
+    tiles[u[Math.floor(Math.random() * u.length)]].classList.add('revealed');
 }
 
 function coverTile() {
-    const revTiles = [];
-    tiles.forEach((t, i) => { if (t.classList.contains('revealed')) revTiles.push(i); });
-    if (revTiles.length === 0) return;
-    const idx = revTiles[Math.floor(Math.random() * revTiles.length)];
-    tiles[idx].classList.remove('revealed');
+    const r = [];
+    tiles.forEach((t, i) => { if (t.classList.contains('revealed')) r.push(i); });
+    if (!r.length) return;
+    tiles[r[Math.floor(Math.random() * r.length)]].classList.remove('revealed');
 }
 
 function winGame() {
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     const mins = Math.floor(elapsed / 60);
     const secs = elapsed % 60;
-
     showScreen('winScreen');
-
-    // Show full image
-    const winImgDiv = document.getElementById('winImg');
-    winImgDiv.innerHTML = `<div class="img-layer"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
-
-    const catNames = {drive:'驾照',civil:'考公',ielts:'雅思'};
-    document.getElementById('winTitle').textContent = `${catNames[currentCat.id]}答题 · 全部解锁`;
+    document.getElementById('winImg').innerHTML =
+        `<div class="img-layer"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
+    const names = {drive:'驾照',civil:'考公',ielts:'雅思'};
+    document.getElementById('winTitle').textContent = `${names[currentCat.id]} · 上岸成功`;
     document.getElementById('winStats').innerHTML =
-        `得分 <strong style="color:var(--gold)">${score}</strong> · ` +
-        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 · ` +
-        `共 ${qNum} 题`;
+        `得分 <strong style="color:var(--accent)">${score}</strong> · ` +
+        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 · 共 ${qNum} 题`;
 }
 </script>
 </body>
