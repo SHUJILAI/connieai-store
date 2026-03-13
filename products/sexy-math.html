@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>性感数学 — 做对题才能看</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#1a1a2e;--bg-card:#16213e;--ink:#e0e0e0;--ink-soft:#a0a0b0;
+            --ink-faint:#606070;--accent:#e94560;--accent-soft:rgba(233,69,96,.2);
+            --accent-deep:#c81e45;--gold:#f5a623;--r:12px;--rl:18px;
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{-webkit-font-smoothing:antialiased}
+        body{
+            font-family:'Outfit',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+            background:var(--bg);color:var(--ink);
+            min-height:100vh;min-height:100dvh;
+            display:flex;flex-direction:column;align-items:center;
+            padding:16px;overflow-x:hidden;
+        }
+        .page{width:100%;max-width:480px;margin:0 auto}
+        header{text-align:center;padding:24px 0 8px}
+        h1{font-family:'Instrument Serif',Georgia,serif;font-size:2rem;font-weight:400;
+            line-height:1.15;margin-bottom:4px;color:var(--accent)}
+        .sub{font-size:.85rem;color:var(--ink-soft);font-weight:400}
+        .badge{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:1.5px;
+            text-transform:uppercase;padding:3px 10px;border:1px solid var(--accent);
+            border-radius:20px;color:var(--accent);margin-top:8px}
+
+        /* Age Gate */
+        #ageGate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);
+            z-index:9999;display:flex;align-items:center;justify-content:center}
+        .age-box{background:var(--bg-card);border-radius:var(--rl);padding:40px;
+            text-align:center;max-width:360px;border:1px solid #333}
+        .age-box h2{font-family:'Instrument Serif',serif;font-size:1.5rem;margin-bottom:20px;color:var(--ink)}
+        .age-btns{display:flex;gap:12px;justify-content:center}
+        .age-btns button{padding:10px 32px;border-radius:var(--r);border:none;
+            font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:.2s}
+        .btn-yes{background:var(--accent);color:#fff}
+        .btn-yes:hover{background:var(--accent-deep)}
+        .btn-no{background:#333;color:var(--ink-soft)}
+        .btn-no:hover{background:#444}
+
+        /* Level Select */
+        #levelSelect{display:none}
+        .level-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+        .level-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
+            padding:16px;text-align:center;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+        .level-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+        .level-card .lvl-num{font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1}
+        .level-card .lvl-label{font-size:.8rem;color:var(--ink-soft);margin-top:4px}
+        .level-card .lvl-desc{font-size:.7rem;color:var(--ink-faint);margin-top:8px}
+        .level-card .lvl-hot{position:absolute;top:8px;right:8px;background:var(--accent);
+            color:#fff;font-size:.6rem;padding:2px 6px;border-radius:8px;font-weight:600}
+
+        /* Game */
+        #gameArea{display:none}
+        .stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+        .stats .score{font-size:.85rem;color:var(--ink-soft)}
+        .stats .score span{color:var(--gold);font-weight:600}
+        .stats .streak{font-size:.75rem;color:var(--accent)}
+        .progress-bar{height:4px;background:#333;border-radius:2px;margin-bottom:16px;overflow:hidden}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));
+            transition:width .4s ease;width:0%}
+
+        /* Image Grid */
+        .img-container{position:relative;width:100%;aspect-ratio:1;border-radius:var(--rl);
+            overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
+        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%}
+        .tile-grid{display:grid;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
+        .tile{background:var(--bg);border:1px solid #222;transition:all .6s cubic-bezier(.4,0,.2,1);
+            display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#444}
+        .tile.revealed{opacity:0;pointer-events:none;transform:scale(.8) rotateY(90deg)}
+        .tile.wrong{animation:shake .4s;background:#3a1020}
+        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+        /* Sexy CSS Art underneath */
+        .art-layer{width:100%;height:100%;position:relative;overflow:hidden}
+        .art-bg{width:100%;height:100%;position:absolute;top:0;left:0}
+
+        /* Question */
+        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:20px;text-align:center}
+        .q-label{font-size:.75rem;color:var(--ink-faint);margin-bottom:8px}
+        .q-text{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;
+            color:var(--gold);margin-bottom:16px}
+        .q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .q-opt{padding:12px;border-radius:var(--r);border:2px solid #333;background:transparent;
+            color:var(--ink);font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:500;
+            cursor:pointer;transition:.2s}
+        .q-opt:hover{border-color:var(--accent);background:var(--accent-soft)}
+        .q-opt.correct{border-color:#2ecc71;background:rgba(46,204,113,.15);color:#2ecc71}
+        .q-opt.wrong{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+        .q-opt:disabled{cursor:default;opacity:.7}
+
+        /* Win */
+        #winScreen{display:none}
+        .win-box{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
+            padding:28px;text-align:center;margin-top:16px}
+        .win-box h2{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--gold);margin-bottom:8px}
+        .win-stats{font-size:.85rem;color:var(--ink-soft);margin-bottom:16px}
+        .win-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+        .win-btns button{padding:10px 24px;border-radius:var(--r);border:none;
+            font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;transition:.2s}
+        .btn-next{background:var(--accent);color:#fff}
+        .btn-next:hover{background:var(--accent-deep)}
+        .btn-back{background:#333;color:var(--ink-soft)}
+
+        /* Footer */
+        footer{text-align:center;padding:24px 0 12px;font-size:.75rem}
+        footer a{color:var(--accent);text-decoration:none}
+        footer .src{color:var(--ink-faint)}
+    </style>
+</head>
+<body>
+<div class="page">
+
+<!-- Age Gate -->
+<div id="ageGate">
+    <div class="age-box">
+        <h2>本游戏仅限 18 岁以上玩家<br>你满 18 了吗？</h2>
+        <div class="age-btns">
+            <button class="btn-yes" onclick="enterGame()">满了</button>
+            <button class="btn-no" onclick="location.href='../'">没有</button>
+        </div>
+    </div>
+</div>
+
+<!-- Level Select -->
+<div id="levelSelect">
+    <header>
+        <h1>性感数学</h1>
+        <div class="sub">做对题才能看 - 做错了穿回去</div>
+        <div class="badge">18+</div>
+    </header>
+    <div class="level-grid" id="lvlGrid"></div>
+    <footer>
+        <a href="../">AI-Connie 出品</a><br>
+        <span class="src">shujilai.github.io/connieai-store</span>
+    </footer>
+</div>
+
+<!-- Game Area -->
+<div id="gameArea">
+    <header style="padding:12px 0 4px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+            <button onclick="backToLevels()" style="background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer">&larr; 返回</button>
+            <h1 style="font-size:1.3rem;margin:0" id="gameTitle"></h1>
+            <div></div>
+        </div>
+    </header>
+    <div class="stats">
+        <div class="score">得分 <span id="scoreNum">0</span></div>
+        <div class="streak" id="streakText"></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    <div class="img-container">
+        <div class="img-layer">
+            <canvas id="artCanvas" class="art-bg"></canvas>
+        </div>
+        <div class="tile-grid" id="tileGrid"></div>
+    </div>
+    <div class="q-card">
+        <div class="q-label" id="qLabel">第 1 题 / 共 16 题</div>
+        <div class="q-text" id="qText">? x ? = ?</div>
+        <div class="q-options" id="qOpts"></div>
+    </div>
+</div>
+
+<!-- Win Screen -->
+<div id="winScreen">
+    <header>
+        <h1>性感数学</h1>
+    </header>
+    <div class="img-container" id="winImg">
+        <canvas id="winCanvas" class="art-bg" style="width:100%;height:100%"></canvas>
+    </div>
+    <div class="win-box">
+        <h2>全部解锁</h2>
+        <div class="win-stats" id="winStats"></div>
+        <div class="win-btns">
+            <button class="btn-next" onclick="backToLevels()">下一关</button>
+            <button class="btn-back" onclick="location.href='../'">回商店</button>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+// ===== LEVELS =====
+const LEVELS = [
+    { id:1, label:'入门', desc:'个位数乘法', grid:4, range:[2,9], hot:false },
+    { id:2, label:'进阶', desc:'两位数乘法', grid:5, range:[10,30], hot:true },
+    { id:3, label:'疯狂', desc:'三位数混合', grid:6, range:[20,99], hot:false },
+    { id:4, label:'地狱', desc:'你算得出来吗', grid:7, range:[50,200], hot:false },
+];
+
+// ===== CSS ART GENERATOR =====
+function generateArt(canvas, levelId) {
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width = canvas.offsetWidth * 2;
+    const h = canvas.height = canvas.offsetHeight * 2;
+    ctx.scale(2, 2);
+    const W = w/2, H = h/2;
+
+    // Each level has a unique artistic style
+    const palettes = [
+        ['#e94560','#f5a623','#ff6b6b','#c44569','#e17055'], // warm reds
+        ['#a29bfe','#6c5ce7','#fd79a8','#e84393','#ff6b81'], // purple pink
+        ['#00b894','#00cec9','#0984e3','#6c5ce7','#e17055'], // cool mixed
+        ['#ff6348','#ff4757','#ffa502','#ff6b81','#c44569'], // hot
+    ];
+    const pal = palettes[(levelId - 1) % palettes.length];
+
+    // Background gradient
+    const bg = ctx.createLinearGradient(0, 0, W, H);
+    bg.addColorStop(0, '#1a1a2e');
+    bg.addColorStop(1, '#16213e');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // Abstract body-like curves
+    const seed = levelId * 137;
+    function seededRand(i) { return ((Math.sin(seed + i * 9301 + 49297) * 49297) % 1 + 1) % 1; }
+
+    // Large flowing curves
+    for (let i = 0; i < 5 + levelId; i++) {
+        ctx.beginPath();
+        const sx = seededRand(i * 3) * W;
+        const sy = seededRand(i * 3 + 1) * H;
+        ctx.moveTo(sx, sy);
+        for (let j = 0; j < 3; j++) {
+            const cx1 = seededRand(i * 10 + j * 5) * W;
+            const cy1 = seededRand(i * 10 + j * 5 + 1) * H;
+            const cx2 = seededRand(i * 10 + j * 5 + 2) * W;
+            const cy2 = seededRand(i * 10 + j * 5 + 3) * H;
+            const ex = seededRand(i * 10 + j * 5 + 4) * W;
+            const ey = seededRand(i * 10 + j * 5 + 5) * H;
+            ctx.bezierCurveTo(cx1, cy1, cx2, cy2, ex, ey);
+        }
+        ctx.closePath();
+        const g = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.6);
+        g.addColorStop(0, pal[i % pal.length] + 'cc');
+        g.addColorStop(1, pal[(i + 2) % pal.length] + '33');
+        ctx.fillStyle = g;
+        ctx.fill();
+    }
+
+    // Silhouette shapes
+    ctx.globalCompositeOperation = 'screen';
+    for (let i = 0; i < 8; i++) {
+        const cx = seededRand(i * 7 + 50) * W;
+        const cy = seededRand(i * 7 + 51) * H;
+        const rx = (seededRand(i * 7 + 52) * 0.3 + 0.1) * W;
+        const ry = (seededRand(i * 7 + 53) * 0.4 + 0.15) * H;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, rx, ry, seededRand(i * 7 + 54) * Math.PI, 0, Math.PI * 2);
+        const eg = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(rx, ry));
+        eg.addColorStop(0, pal[i % pal.length] + '88');
+        eg.addColorStop(1, 'transparent');
+        ctx.fillStyle = eg;
+        ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+
+    // Decorative dots
+    for (let i = 0; i < 30; i++) {
+        const x = seededRand(i + 100) * W;
+        const y = seededRand(i + 200) * H;
+        const r = seededRand(i + 300) * 4 + 1;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = pal[i % pal.length] + '66';
+        ctx.fill();
+    }
+
+    // "SEXY" watermark
+    ctx.globalAlpha = 0.05;
+    ctx.font = `bold ${W * 0.3}px 'Outfit', sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fff';
+    ctx.fillText('18+', W/2, H/2 + W * 0.1);
+    ctx.globalAlpha = 1;
+}
+
+// ===== GAME STATE =====
+let currentLevel = null;
+let tiles = [];
+let totalTiles = 0;
+let revealed = 0;
+let score = 0;
+let streak = 0;
+let qNum = 0;
+let correctAnswer = 0;
+let startTime = 0;
+
+// ===== UI =====
+function enterGame() {
+    document.getElementById('ageGate').style.display = 'none';
+    document.getElementById('levelSelect').style.display = 'block';
+    buildLevelGrid();
+}
+
+function buildLevelGrid() {
+    const grid = document.getElementById('lvlGrid');
+    grid.innerHTML = '';
+    LEVELS.forEach(lv => {
+        const card = document.createElement('div');
+        card.className = 'level-card';
+        card.onclick = () => startLevel(lv);
+        card.innerHTML = `
+            <div class="lvl-num">${lv.id}</div>
+            <div class="lvl-label">${lv.label}</div>
+            <div class="lvl-desc">${lv.desc}<br>${lv.grid}x${lv.grid} = ${lv.grid*lv.grid}题</div>
+            ${lv.hot ? '<div class="lvl-hot">HOT</div>' : ''}
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function startLevel(lv) {
+    currentLevel = lv;
+    totalTiles = lv.grid * lv.grid;
+    revealed = 0;
+    score = 0;
+    streak = 0;
+    qNum = 0;
+    startTime = Date.now();
+
+    document.getElementById('levelSelect').style.display = 'none';
+    document.getElementById('winScreen').style.display = 'none';
+    document.getElementById('gameArea').style.display = 'block';
+    document.getElementById('gameTitle').textContent = `第${lv.id}关 · ${lv.label}`;
+    document.getElementById('scoreNum').textContent = '0';
+    document.getElementById('streakText').textContent = '';
+    document.getElementById('progFill').style.width = '0%';
+
+    // Build tile grid
+    const tg = document.getElementById('tileGrid');
+    tg.style.gridTemplateColumns = `repeat(${lv.grid}, 1fr)`;
+    tg.innerHTML = '';
+    tiles = [];
+    for (let i = 0; i < totalTiles; i++) {
+        const t = document.createElement('div');
+        t.className = 'tile';
+        t.textContent = '?';
+        tg.appendChild(t);
+        tiles.push(t);
+    }
+
+    // Draw art
+    setTimeout(() => {
+        const canvas = document.getElementById('artCanvas');
+        generateArt(canvas, lv.id);
+    }, 50);
+
+    nextQuestion();
+}
+
+function nextQuestion() {
+    if (revealed >= totalTiles) return winGame();
+    qNum++;
+    const lv = currentLevel;
+    document.getElementById('qLabel').textContent = `第 ${qNum} 题 / 共 ${totalTiles} 题`;
+
+    // Generate question
+    const [lo, hi] = lv.range;
+    const a = Math.floor(Math.random() * (hi - lo + 1)) + lo;
+    const b = Math.floor(Math.random() * (hi - lo + 1)) + lo;
+    correctAnswer = a * b;
+    document.getElementById('qText').textContent = `${a} × ${b} = ?`;
+
+    // Generate options
+    const opts = [correctAnswer];
+    while (opts.length < 4) {
+        const offset = Math.floor(Math.random() * (a + b) * 3) - (a + b);
+        const fake = correctAnswer + offset;
+        if (fake > 0 && fake !== correctAnswer && !opts.includes(fake)) opts.push(fake);
+    }
+    // Shuffle
+    for (let i = opts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+
+    const optsDiv = document.getElementById('qOpts');
+    optsDiv.innerHTML = '';
+    opts.forEach(v => {
+        const btn = document.createElement('button');
+        btn.className = 'q-opt';
+        btn.textContent = v;
+        btn.onclick = () => checkAnswer(v, btn);
+        optsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(val, btn) {
+    const allBtns = document.querySelectorAll('.q-opt');
+    allBtns.forEach(b => b.disabled = true);
+
+    if (val === correctAnswer) {
+        btn.classList.add('correct');
+        score += 10 + streak * 5;
+        streak++;
+        document.getElementById('scoreNum').textContent = score;
+        document.getElementById('streakText').textContent = streak > 1 ? `${streak}连对` : '';
+
+        // Reveal a tile
+        revealTile();
+        revealed++;
+        document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
+
+        setTimeout(nextQuestion, 500);
+    } else {
+        btn.classList.add('wrong');
+        streak = 0;
+        document.getElementById('streakText').textContent = '';
+        // Show correct answer
+        allBtns.forEach(b => { if (parseInt(b.textContent) === correctAnswer) b.classList.add('correct'); });
+        // Cover a tile back if any revealed
+        if (revealed > 0 && Math.random() < 0.4) {
+            coverTile();
+            revealed--;
+            document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
+        }
+        // Shake a random unrevealed tile
+        const unrevealed = tiles.filter(t => !t.classList.contains('revealed'));
+        if (unrevealed.length) {
+            const rt = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+            rt.classList.add('wrong');
+            setTimeout(() => rt.classList.remove('wrong'), 500);
+        }
+        setTimeout(nextQuestion, 1000);
+    }
+}
+
+function revealTile() {
+    const unrevealed = [];
+    tiles.forEach((t, i) => { if (!t.classList.contains('revealed')) unrevealed.push(i); });
+    if (unrevealed.length === 0) return;
+    const idx = unrevealed[Math.floor(Math.random() * unrevealed.length)];
+    tiles[idx].classList.add('revealed');
+}
+
+function coverTile() {
+    const revealedTiles = [];
+    tiles.forEach((t, i) => { if (t.classList.contains('revealed')) revealedTiles.push(i); });
+    if (revealedTiles.length === 0) return;
+    const idx = revealedTiles[Math.floor(Math.random() * revealedTiles.length)];
+    tiles[idx].classList.remove('revealed');
+}
+
+function winGame() {
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+
+    document.getElementById('gameArea').style.display = 'none';
+    document.getElementById('winScreen').style.display = 'block';
+    document.getElementById('winStats').innerHTML =
+        `得分 <strong style="color:var(--gold)">${score}</strong> · ` +
+        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 · ` +
+        `共 ${qNum} 题`;
+
+    // Draw full art on win canvas
+    setTimeout(() => {
+        const canvas = document.getElementById('winCanvas');
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        generateArt(canvas, currentLevel.id);
+    }, 50);
+}
+
+function backToLevels() {
+    document.getElementById('gameArea').style.display = 'none';
+    document.getElementById('winScreen').style.display = 'none';
+    document.getElementById('levelSelect').style.display = 'block';
+}
+</script>
+</body>
+</html>
