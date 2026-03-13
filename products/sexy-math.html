@@ -9,136 +9,282 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root{
-            --bg:#000;--bg-card:#1b1b1b;--bg-hover:#272727;
+            --bg:#0d0d0d;--bg-card:#1b1b1b;--bg-hover:#272727;--bg-bar:#1a1a1a;
             --ink:#fff;--ink-soft:#999;--ink-faint:#666;
             --accent:#ff9000;--accent-deep:#e68200;--accent-soft:rgba(255,144,0,.15);
             --green:#2ecc71;--red:#e74c3c;
             --r:4px;--rl:8px;
         }
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        html{-webkit-font-smoothing:antialiased}
+        html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
         body{
             font-family:'Outfit',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
             background:var(--bg);color:var(--ink);
             min-height:100vh;min-height:100dvh;
-            display:flex;flex-direction:column;align-items:center;
-            padding:12px;overflow-x:hidden;
+            overflow-x:hidden;
         }
-        .page{width:100%;max-width:480px;margin:0 auto}
 
-        /* PH-style Logo */
+        /* ========== PH-STYLE TOP BAR ========== */
+        .ph-bar{
+            position:sticky;top:0;z-index:100;
+            background:var(--bg-bar);border-bottom:1px solid #222;
+            display:flex;align-items:center;padding:0 16px;height:48px;
+            gap:12px;
+        }
+        .ph-logo{display:inline-flex;align-items:center;gap:0;font-size:1.15rem;font-weight:900;letter-spacing:-.5px;flex-shrink:0;cursor:pointer}
+        .ph-logo .lw{color:#fff}
+        .ph-logo .lo{background:var(--accent);color:#000;padding:1px 6px;border-radius:3px;margin-left:2px}
+        .ph-search{flex:1;max-width:360px;position:relative}
+        .ph-search input{width:100%;padding:7px 12px 7px 32px;border-radius:var(--r);border:1px solid #333;
+            background:#111;color:var(--ink);font-size:.8rem;font-family:inherit;outline:none;transition:.2s}
+        .ph-search input:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+        .ph-search::before{content:'';position:absolute;left:10px;top:50%;transform:translateY(-50%);
+            width:14px;height:14px;border:2px solid #666;border-radius:50%;pointer-events:none}
+        .ph-nav{display:flex;gap:6px;margin-left:auto;flex-shrink:0}
+        .ph-nav button{padding:5px 12px;border-radius:var(--r);border:none;font-family:inherit;
+            font-size:.72rem;font-weight:700;cursor:pointer;transition:.15s}
+        .btn-up{background:var(--accent);color:#000}
+        .btn-up:hover{background:var(--accent-deep);transform:translateY(-1px)}
+        .btn-login{background:#333;color:var(--ink-soft)}
+        .btn-login:hover{background:#444}
+
+        /* ========== CATEGORY TABS BAR ========== */
+        .ph-tabs{
+            background:var(--bg-bar);border-bottom:1px solid #1a1a1a;
+            display:flex;gap:0;overflow-x:auto;scrollbar-width:none;
+            padding:0 16px;
+        }
+        .ph-tabs::-webkit-scrollbar{display:none}
+        .ph-tab{padding:10px 16px;font-size:.75rem;color:var(--ink-faint);font-weight:600;
+            white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;transition:.15s;flex-shrink:0}
+        .ph-tab:hover{color:var(--ink-soft)}
+        .ph-tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+
+        /* ========== PAGE CONTAINER ========== */
+        .page{width:100%;max-width:520px;margin:0 auto;padding:0 12px}
+
+        /* ========== LOGO (big) ========== */
         .logo{display:inline-flex;align-items:center;gap:0;font-size:2rem;font-weight:900;letter-spacing:-1px}
         .logo-w{color:#fff}
         .logo-o{background:var(--accent);color:#000;padding:2px 8px;border-radius:var(--r);margin-left:2px}
-
         header{text-align:center;padding:20px 0 8px}
         .sub{font-size:.85rem;color:var(--ink-soft);font-weight:400;margin-top:4px}
         .badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:1.5px;
             padding:3px 10px;border:1px solid var(--accent);border-radius:var(--r);color:var(--accent);margin-top:8px}
 
-        /* Age Gate */
+        /* ========== AGE GATE ========== */
         #ageGate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);
             z-index:9999;display:flex;align-items:center;justify-content:center}
-        .age-box{background:var(--bg-card);border-radius:var(--rl);padding:40px;
-            text-align:center;max-width:360px;border:1px solid #333}
-        .age-box h2{font-size:1.4rem;font-weight:700;margin-bottom:8px;color:var(--ink)}
+        .age-box{background:var(--bg-card);border-radius:12px;padding:40px;
+            text-align:center;max-width:380px;border:1px solid #333;
+            animation:fadeUp .5s ease;box-shadow:0 20px 60px rgba(0,0,0,.5)}
         .age-box p{font-size:.85rem;color:var(--ink-soft);margin-bottom:20px}
         .age-btns{display:flex;gap:12px;justify-content:center}
         .age-btns button{padding:12px 36px;border-radius:var(--r);border:none;
-            font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:.15s}
+            font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
         .btn-yes{background:var(--accent);color:#000}
-        .btn-yes:hover{background:var(--accent-deep)}
+        .btn-yes:hover{background:var(--accent-deep);transform:scale(1.04)}
+        .btn-yes:active{transform:scale(.96)}
         .btn-no{background:#333;color:var(--ink-soft)}
         .btn-no:hover{background:#444}
 
-        /* Gender Select */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        @keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+        @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+        @keyframes glow{0%,100%{box-shadow:0 0 5px var(--accent-soft)}50%{box-shadow:0 0 20px var(--accent-soft)}}
+        @keyframes bounceIn{0%{transform:scale(0)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+        @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+        @keyframes confettiDrop{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+        /* ========== GENDER SELECT ========== */
         #genderSelect{display:none}
         .gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
         .gender-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
-            padding:24px 16px;text-align:center;cursor:pointer;transition:.15s}
-        .gender-card:hover{border-color:var(--accent);background:var(--bg-hover)}
-        .gender-card .g-icon{font-size:2.5rem;margin-bottom:6px}
-        .gender-card .g-label{font-size:1rem;font-weight:700;color:var(--ink)}
-        .gender-card .g-desc{font-size:.7rem;color:var(--ink-faint);margin-top:4px}
+            padding:28px 16px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+        .gender-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,144,0,.06),transparent);transition:.5s}
+        .gender-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateY(-3px);
+            box-shadow:0 8px 25px rgba(255,144,0,.1)}
+        .gender-card:hover::before{left:100%}
+        .gender-card:active{transform:translateY(0);transition:.1s}
+        .gender-card .g-icon{font-size:3rem;margin-bottom:8px}
+        .gender-card .g-label{font-size:1.1rem;font-weight:700;color:var(--ink)}
+        .gender-card .g-desc{font-size:.72rem;color:var(--ink-faint);margin-top:4px}
 
-        /* Category Select */
+        /* ========== CATEGORY SELECT ========== */
         #catSelect{display:none}
         .cat-grid{display:grid;gap:10px;margin-top:16px}
         .cat-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
-            padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.15s;position:relative}
-        .cat-card:hover{border-color:var(--accent);background:var(--bg-hover)}
-        .cat-card .c-icon{font-size:1.8rem;width:44px;text-align:center;flex-shrink:0}
-        .cat-card .c-info{flex:1}
-        .cat-card .c-name{font-size:1rem;font-weight:700;color:var(--ink)}
+            padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;
+            transition:.25s;position:relative;overflow:hidden}
+        .cat-card::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;
+            background:linear-gradient(135deg,rgba(255,144,0,.08),transparent 60%)}
+        .cat-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateX(4px)}
+        .cat-card:hover::after{opacity:1}
+        .cat-card:active{transform:translateX(0);transition:.1s}
+        .cat-card .c-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0;
+            background:var(--bg);border-radius:var(--rl);padding:10px;transition:.2s}
+        .cat-card:hover .c-icon{background:var(--accent-soft)}
+        .cat-card .c-info{flex:1;z-index:1}
+        .cat-card .c-name{font-size:1.05rem;font-weight:700;color:var(--ink)}
         .cat-card .c-desc{font-size:.72rem;color:var(--ink-faint);margin-top:2px}
-        .cat-card .c-meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
-        .cat-card .c-tag{font-size:.6rem;font-weight:600;padding:2px 8px;border-radius:var(--r);
-            background:var(--accent-soft);color:var(--accent)}
-        .cat-card .c-tag.spicy{background:rgba(231,76,60,.15);color:var(--red)}
+        .cat-card .c-count{font-size:.65rem;color:var(--accent);margin-top:4px;font-weight:600}
         .cat-card .c-hot{position:absolute;top:-1px;right:-1px;background:var(--accent);
-            color:#000;font-size:.6rem;padding:3px 8px;border-radius:0 var(--rl) 0 var(--rl);font-weight:700}
+            color:#000;font-size:.6rem;padding:3px 8px;border-radius:0 var(--rl) 0 var(--rl);font-weight:700;
+            animation:pulse 2s infinite}
 
-        /* Game */
+        /* ========== DIFFICULTY SELECT ========== */
+        #diffSelect{display:none}
+        .diff-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}
+        .diff-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
+            padding:20px 10px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+        .diff-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateY(-3px);
+            box-shadow:0 8px 20px rgba(0,0,0,.3)}
+        .diff-card:active{transform:translateY(0);transition:.1s}
+        .diff-card .d-label{font-size:1.1rem;font-weight:700;margin-bottom:4px}
+        .diff-card .d-grid{font-size:.72rem;color:var(--ink-soft);margin-bottom:8px}
+        .diff-card .d-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px}
+        .diff-card .d-tag.t1{background:var(--accent-soft);color:var(--accent)}
+        .diff-card .d-tag.t2{background:rgba(255,144,0,.25);color:var(--accent)}
+        .diff-card .d-tag.t3{background:rgba(231,76,60,.18);color:var(--red);animation:pulse 2s infinite}
+        .diff-card .d-preview{font-size:1.4rem;margin-bottom:4px}
+
+        /* ========== GAME ========== */
         #gameArea{display:none}
-        .top-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+        .top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
         .top-bar .back-btn{background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer;
             padding:4px 8px;border-radius:var(--r);transition:.15s}
         .top-bar .back-btn:hover{background:var(--bg-card);color:var(--ink)}
         .top-bar .g-title{font-size:1rem;font-weight:700}
         .stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
         .stats .score{font-size:.85rem;color:var(--ink-soft)}
-        .stats .score span{color:var(--accent);font-weight:700}
-        .stats .streak{font-size:.75rem;color:var(--accent);font-weight:600}
-        .progress-bar{height:3px;background:#333;border-radius:2px;margin-bottom:12px;overflow:hidden}
-        .progress-fill{height:100%;background:var(--accent);transition:width .4s ease;width:0%}
+        .stats .score span{color:var(--accent);font-weight:700;font-family:'JetBrains Mono',monospace}
+        .stats .streak{font-size:.78rem;color:var(--accent);font-weight:600;transition:.2s}
+        .stats .streak.big{animation:bounceIn .3s ease}
+
+        /* Progress bar */
+        .progress-bar{height:4px;background:#222;border-radius:2px;margin-bottom:12px;overflow:hidden;position:relative}
+        .progress-fill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;
+            background:linear-gradient(90deg,var(--accent),#ffb347);position:relative}
+        .progress-fill::after{content:'';position:absolute;top:0;right:0;width:20px;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.3));animation:shimmer 2s infinite}
 
         /* Image Grid */
         .img-container{position:relative;width:100%;aspect-ratio:1;border-radius:var(--rl);
-            overflow:hidden;margin-bottom:12px;background:var(--bg-card)}
-        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%}
+            overflow:hidden;margin-bottom:12px;background:var(--bg-card);
+            box-shadow:0 4px 20px rgba(0,0,0,.4)}
+        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%;transition:filter .8s ease}
         .img-layer img{width:100%;height:100%;object-fit:cover}
         .tile-grid{display:grid;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
-        .tile{background:var(--bg);border:1px solid #1a1a1a;transition:all .5s cubic-bezier(.4,0,.2,1);
-            display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#333}
-        .tile.revealed{opacity:0;pointer-events:none;transform:scale(.85) rotateY(90deg)}
-        .tile.wrong{animation:shake .4s;background:#2a0a0a}
-        @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+        .tile{
+            background:rgba(13,13,13,.92);
+            border:1px solid #1a1a1a;
+            transition:all .6s cubic-bezier(.4,0,.2,1);
+            display:flex;align-items:center;justify-content:center;flex-direction:column;
+            font-size:.55rem;color:#444;font-weight:600;
+            cursor:default;position:relative;overflow:hidden;
+            backdrop-filter:blur(2px);
+        }
+        .tile .tile-text{font-size:.52rem;color:#383838;font-weight:500;text-align:center;
+            line-height:1.3;padding:2px;transition:.2s;user-select:none}
+        .tile .tile-emoji{font-size:.8rem;margin-bottom:1px}
+        .tile:hover .tile-text{color:#555}
+        .tile.revealed{
+            opacity:0;pointer-events:none;
+            transform:scale(.7) rotateY(180deg);
+            background:transparent;border-color:transparent;
+        }
+        .tile.wrong{animation:tileShake .5s ease;background:rgba(231,76,60,.15);border-color:rgba(231,76,60,.3)}
+        .tile.correct-flash{animation:tileFlash .5s ease;background:rgba(46,204,113,.1);border-color:rgba(46,204,113,.3)}
+        @keyframes tileShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+        @keyframes tileFlash{0%{background:rgba(46,204,113,.25)}100%{background:rgba(13,13,13,.92)}}
 
         /* Question */
-        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:16px}
-        .q-label{font-size:.7rem;color:var(--ink-faint);margin-bottom:6px;text-align:center}
+        .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:16px;
+            transition:.2s;position:relative}
+        .q-label{font-size:.7rem;color:var(--ink-faint);margin-bottom:6px;text-align:center;
+            font-family:'JetBrains Mono',monospace}
         .q-text{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:14px;
-            text-align:center;line-height:1.5;min-height:2.5em}
+            text-align:center;line-height:1.5;min-height:2.5em;animation:fadeIn .3s ease}
         .q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px}
         .q-opt{padding:10px 6px;border-radius:var(--r);border:2px solid #333;background:transparent;
             color:var(--ink);font-family:inherit;font-size:.82rem;font-weight:500;
-            cursor:pointer;transition:.15s;text-align:center;line-height:1.3}
-        .q-opt:hover{border-color:var(--accent);background:var(--accent-soft)}
-        .q-opt.correct{border-color:var(--green);background:rgba(46,204,113,.12);color:var(--green)}
-        .q-opt.wrong{border-color:var(--red);background:rgba(231,76,60,.12);color:var(--red)}
+            cursor:pointer;transition:.2s;text-align:center;line-height:1.3;position:relative;overflow:hidden}
+        .q-opt::before{content:'';position:absolute;inset:0;background:var(--accent);opacity:0;transition:.3s}
+        .q-opt:hover{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.02)}
+        .q-opt:active{transform:scale(.97);transition:.1s}
+        .q-opt.correct{border-color:var(--green);background:rgba(46,204,113,.15);color:var(--green);
+            animation:scaleIn .2s ease}
+        .q-opt.wrong{border-color:var(--red);background:rgba(231,76,60,.15);color:var(--red)}
         .q-opt:disabled{cursor:default;opacity:.7}
+        .q-opt:disabled:hover{transform:none}
 
-        /* Win */
+        /* Motivation bar */
+        .moti-bar{text-align:center;margin-top:8px;min-height:22px}
+        .moti-text{font-size:.72rem;color:var(--accent);font-weight:600;animation:fadeIn .3s ease;
+            display:inline-block}
+
+        /* ========== WIN ========== */
         #winScreen{display:none}
         .win-box{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
-            padding:24px;text-align:center;margin-top:12px}
-        .win-box h2{font-size:1.4rem;font-weight:800;color:var(--accent);margin-bottom:6px}
+            padding:24px;text-align:center;margin-top:12px;animation:slideUp .5s ease}
+        .win-box h2{font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:6px}
         .win-stats{font-size:.85rem;color:var(--ink-soft);margin-bottom:16px}
         .win-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
         .win-btns button{padding:10px 24px;border-radius:var(--r);border:none;
-            font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.15s}
+            font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s}
         .btn-next{background:var(--accent);color:#000}
-        .btn-next:hover{background:var(--accent-deep)}
+        .btn-next:hover{background:var(--accent-deep);transform:scale(1.04)}
+        .btn-next:active{transform:scale(.96)}
         .btn-back{background:#333;color:var(--ink-soft)}
         .btn-back:hover{background:#444}
 
-        /* Footer */
-        footer{text-align:center;padding:20px 0 8px;font-size:.7rem}
-        footer a{color:var(--accent);text-decoration:none}
-        footer .src{color:var(--ink-faint)}
+        /* ========== CONFETTI ========== */
+        .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;overflow:hidden}
+        .confetti{position:absolute;width:8px;height:8px;top:-10px;animation:confettiDrop 2.5s linear forwards}
+
+        /* ========== FOOTER ========== */
+        .ph-footer{text-align:center;padding:30px 16px;font-size:.7rem;border-top:1px solid #1a1a1a;margin-top:24px}
+        .ph-footer a{color:var(--accent);text-decoration:none}
+        .ph-footer .src{color:var(--ink-faint)}
+
+        /* ========== SCREEN TRANSITIONS ========== */
+        .screen-enter{animation:slideUp .4s ease}
+
+        /* ========== RESPONSIVE ========== */
+        @media(max-width:400px){
+            .ph-search{display:none}
+            .diff-grid{gap:6px}
+            .diff-card{padding:14px 6px}
+        }
     </style>
 </head>
 <body>
+
+<!-- PH-Style Top Bar -->
+<div class="ph-bar" id="phBar" style="display:none">
+    <div class="ph-logo" onclick="location.reload()"><span class="lw">性感</span><span class="lo">上岸</span></div>
+    <div class="ph-search"><input type="text" placeholder="搜索题库..." disabled></div>
+    <div class="ph-nav">
+        <button class="btn-up">上传</button>
+        <button class="btn-login">登录</button>
+    </div>
+</div>
+
+<!-- Category Tabs -->
+<div class="ph-tabs" id="phTabs" style="display:none">
+    <div class="ph-tab active">推荐</div>
+    <div class="ph-tab">最新</div>
+    <div class="ph-tab">驾照科目一</div>
+    <div class="ph-tab">考公行测</div>
+    <div class="ph-tab">雅思英语</div>
+    <div class="ph-tab">四六级</div>
+    <div class="ph-tab">考研</div>
+    <div class="ph-tab">高考</div>
+</div>
+
 <div class="page">
 
 <!-- Age Gate -->
@@ -157,7 +303,7 @@
 <div id="genderSelect">
     <header>
         <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
-        <div class="sub">答对题才能看 · 做错了穿回去</div>
+        <div class="sub">答对题才能看 -- 做错了穿回去</div>
         <div class="badge">18+</div>
     </header>
     <div class="gender-grid">
@@ -172,32 +318,44 @@
             <div class="g-desc">肌肉猛男等你解锁</div>
         </div>
     </div>
-    <footer>
+    <div class="ph-footer">
         <a href="../">AI-Connie 出品</a><br>
         <span class="src">shujilai.github.io/connieai-store</span>
-    </footer>
+    </div>
 </div>
 
 <!-- Category Select -->
 <div id="catSelect">
     <header>
         <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">题库</span></div>
-        <div class="sub">难度越高 · 尺度越大</div>
+        <div class="sub">难度越高 -- 尺度越大</div>
     </header>
     <div class="cat-grid" id="catGrid"></div>
     <div style="text-align:center;margin-top:14px">
         <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择</button>
     </div>
-    <footer>
+    <div class="ph-footer">
         <a href="../">AI-Connie 出品</a><br>
         <span class="src">shujilai.github.io/connieai-store</span>
-    </footer>
+    </div>
+</div>
+
+<!-- Difficulty Select -->
+<div id="diffSelect">
+    <header>
+        <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">难度</span></div>
+        <div class="sub" id="diffSub">难度越高 -- 尺度越大</div>
+    </header>
+    <div class="diff-grid" id="diffGrid"></div>
+    <div style="text-align:center;margin-top:14px">
+        <button onclick="backToCats()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 换题库</button>
+    </div>
 </div>
 
 <!-- Game Area -->
 <div id="gameArea">
     <div class="top-bar">
-        <button class="back-btn" onclick="backToCats()">&larr; 返回</button>
+        <button class="back-btn" onclick="backToDiff()">&larr; 返回</button>
         <div class="g-title" id="gameTitle"></div>
         <div style="width:48px"></div>
     </div>
@@ -215,6 +373,7 @@
         <div class="q-text" id="qText"></div>
         <div class="q-options" id="qOpts"></div>
     </div>
+    <div class="moti-bar" id="motiBar"></div>
 </div>
 
 <!-- Win Screen -->
@@ -222,22 +381,80 @@
     <header>
         <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
     </header>
-    <div class="img-container" id="winImg"></div>
+    <div class="img-container" id="winImg" style="animation:scaleIn .6s ease"></div>
     <div class="win-box">
-        <h2 id="winTitle">全部解锁</h2>
+        <h2 id="winTitle">上岸成功</h2>
         <div class="win-stats" id="winStats"></div>
         <div class="win-btns">
-            <button class="btn-next" onclick="backToCats()">再来一局</button>
+            <button class="btn-next" onclick="backToDiff()">再来一局</button>
             <button class="btn-back" onclick="location.href='../'">回商店</button>
         </div>
     </div>
 </div>
 
-</div>
+</div><!-- .page -->
+
+<!-- Confetti container -->
+<div class="confetti-container" id="confettiBox"></div>
 
 <script>
-// ===== IMAGE TIERS (by difficulty) =====
-// Easy: casual/cute | Medium: suggestive | Hard: spicy
+// ===== TILE ENCOURAGEMENT TEXTS =====
+const TILE_TEXTS = [
+    { emoji:'🔥', text:'快答题!' },
+    { emoji:'👀', text:'想看吗?' },
+    { emoji:'😏', text:'就差一点...' },
+    { emoji:'💋', text:'马上了~' },
+    { emoji:'🫣', text:'坚持住!' },
+    { emoji:'❤️‍🔥', text:'好东西在里面' },
+    { emoji:'😘', text:'别急~' },
+    { emoji:'💪', text:'加油!' },
+    { emoji:'🤤', text:'答对才行' },
+    { emoji:'🙈', text:'嘿嘿~' },
+    { emoji:'✨', text:'近了近了' },
+    { emoji:'🎯', text:'用力答!' },
+    { emoji:'👅', text:'想看就答' },
+    { emoji:'🌶️', text:'够辣的' },
+    { emoji:'💦', text:'快了快了' },
+    { emoji:'🔒', text:'答对解锁' },
+    { emoji:'🎁', text:'惊喜在里面' },
+    { emoji:'👻', text:'猜猜是啥' },
+    { emoji:'💯', text:'冲冲冲!' },
+    { emoji:'🍑', text:'别放弃' },
+    { emoji:'😈', text:'继续~' },
+    { emoji:'🫠', text:'还差一题' },
+    { emoji:'🔞', text:'18+内容' },
+    { emoji:'💫', text:'就差你了' },
+    { emoji:'🥵', text:'有点热...' },
+];
+
+// ===== MOTIVATION PHRASES (shown after correct/wrong) =====
+const MOTI_CORRECT = [
+    '太强了! 衣服又少了一件~',
+    '答对了! 继续脱...不是, 继续答!',
+    '就是这样! 马上就能看到了!',
+    '厉害! 这波稳了!',
+    '不错不错, 再答一题就能看了~',
+    '这也太简单了吧? 继续!',
+    '可以的! 好东西在后面~',
+    '学霸! 奖励你看一格!',
+    '答对了! 离上岸又近一步!',
+    '就这? 继续冲!',
+    '看到了吗? 还有更好的!',
+    '赢麻了! 继续!',
+];
+const MOTI_WRONG = [
+    '错了! 穿回去!',
+    '答错了...给你遮回去!',
+    '不行啊你, 这都不会?',
+    '再想想? 答错扣格子!',
+    '别急, 再来!',
+    '哎呀, 手滑了吧?',
+    '这都能错? 回去复习!',
+    '遮回去! 不给你看!',
+    '差点意思, 加油!',
+];
+
+// ===== IMAGE TIERS =====
 const IMAGES = {
     f: {
         easy:  ['sexy-img/f1.jpg','sexy-img/f5.jpg'],
@@ -253,12 +470,16 @@ const IMAGES = {
 
 // ===== CATEGORIES =====
 const CATEGORIES = [
-    { id:'drive', icon:'🚗', name:'驾照科目一', desc:'科目一都答不对还想开车？',
-      grid:3, tier:'easy', spicy:'微微露', hot:false },
-    { id:'civil', icon:'📝', name:'考公行测', desc:'考不上公就去送外卖吧',
-      grid:4, tier:'medium', spicy:'若隐若现', hot:true },
-    { id:'ielts', icon:'🌍', name:'雅思英语', desc:'背不下单词别想出国',
-      grid:5, tier:'hard', spicy:'大尺度', hot:false },
+    { id:'drive', icon:'🚗', name:'驾照科目一', desc:'科目一都答不对还想开车?', hot:true },
+    { id:'civil', icon:'📝', name:'考公行测', desc:'考不上公就去送外卖吧', hot:false },
+    { id:'ielts', icon:'🌍', name:'雅思英语', desc:'背不下单词别想出国', hot:false },
+];
+
+// ===== DIFFICULTIES =====
+const DIFFICULTIES = [
+    { id:'easy', label:'简单', grid:3, tier:'easy', spicy:'微微露', tagClass:'t1', preview:'😳' },
+    { id:'medium', label:'中等', grid:4, tier:'medium', spicy:'若隐若现', tagClass:'t2', preview:'🥵' },
+    { id:'hard', label:'困难', grid:5, tier:'hard', spicy:'大尺度', tagClass:'t3', preview:'🔞' },
 ];
 
 // ===== QUESTION BANKS =====
@@ -372,6 +593,7 @@ ielts: [
 // ===== GAME STATE =====
 let gender = '';
 let currentCat = null;
+let currentDiff = null;
 let currentImg = '';
 let tiles = [];
 let totalTiles = 0;
@@ -385,10 +607,19 @@ let startTime = 0;
 let imgCounters = { easy:0, medium:0, hard:0 };
 
 // ===== SCREENS =====
-const screens = ['ageGate','genderSelect','catSelect','gameArea','winScreen'];
+const screens = ['ageGate','genderSelect','catSelect','diffSelect','gameArea','winScreen'];
 function showScreen(id) {
     screens.forEach(s => document.getElementById(s).style.display = 'none');
-    document.getElementById(id).style.display = id === 'ageGate' ? 'flex' : 'block';
+    const el = document.getElementById(id);
+    el.style.display = id === 'ageGate' ? 'flex' : 'block';
+    el.classList.remove('screen-enter');
+    void el.offsetWidth;
+    el.classList.add('screen-enter');
+
+    // Show/hide PH bar
+    const showBar = (id !== 'ageGate' && id !== 'genderSelect');
+    document.getElementById('phBar').style.display = showBar ? 'flex' : 'none';
+    document.getElementById('phTabs').style.display = showBar ? 'flex' : 'none';
 }
 
 function passAge() { showScreen('genderSelect'); }
@@ -405,22 +636,44 @@ function backToGender() { showScreen('genderSelect'); }
 function buildCatGrid() {
     const grid = document.getElementById('catGrid');
     grid.innerHTML = '';
-    const spicyColors = { easy:'', medium:'', hard:'spicy' };
-    CATEGORIES.forEach(cat => {
+    CATEGORIES.forEach((cat, i) => {
         const card = document.createElement('div');
         card.className = 'cat-card';
-        card.onclick = () => startGame(cat);
+        card.style.animationDelay = (i * 0.08) + 's';
+        card.onclick = () => pickCat(cat);
         card.innerHTML = `
             <div class="c-icon">${cat.icon}</div>
             <div class="c-info">
                 <div class="c-name">${cat.name}</div>
                 <div class="c-desc">${cat.desc}</div>
-                <div class="c-meta">
-                    <span class="c-tag">${cat.grid}x${cat.grid} = ${cat.grid*cat.grid}题</span>
-                    <span class="c-tag ${cat.tier === 'hard' ? 'spicy' : ''}">${cat.spicy}</span>
-                </div>
+                <div class="c-count">3种难度 -- 难度越高尺度越大</div>
             </div>
             ${cat.hot ? '<div class="c-hot">HOT</div>' : ''}
+        `;
+        grid.appendChild(card);
+    });
+}
+
+function pickCat(cat) {
+    currentCat = cat;
+    showScreen('diffSelect');
+    document.getElementById('diffSub').textContent = cat.name + ' -- 选择难度';
+    buildDiffGrid();
+}
+
+function buildDiffGrid() {
+    const grid = document.getElementById('diffGrid');
+    grid.innerHTML = '';
+    DIFFICULTIES.forEach((diff, i) => {
+        const card = document.createElement('div');
+        card.className = 'diff-card';
+        card.style.animationDelay = (i * 0.1) + 's';
+        card.onclick = () => startGame(diff);
+        card.innerHTML = `
+            <div class="d-preview">${diff.preview}</div>
+            <div class="d-label">${diff.label}</div>
+            <div class="d-grid">${diff.grid}x${diff.grid} = ${diff.grid*diff.grid}题</div>
+            <span class="d-tag ${diff.tagClass}">${diff.spicy}</span>
         `;
         grid.appendChild(card);
     });
@@ -431,20 +684,24 @@ function backToCats() {
     buildCatGrid();
 }
 
+function backToDiff() {
+    showScreen('diffSelect');
+    buildDiffGrid();
+}
+
 // ===== GAME =====
-function startGame(cat) {
-    currentCat = cat;
-    totalTiles = cat.grid * cat.grid;
+function startGame(diff) {
+    currentDiff = diff;
+    totalTiles = diff.grid * diff.grid;
     revealed = 0; score = 0; streak = 0; qNum = 0;
     startTime = Date.now();
 
-    // Pick image from correct tier
-    const tierImgs = IMAGES[gender][cat.tier];
-    currentImg = tierImgs[imgCounters[cat.tier] % tierImgs.length];
-    imgCounters[cat.tier]++;
+    const tierImgs = IMAGES[gender][diff.tier];
+    currentImg = tierImgs[imgCounters[diff.tier] % tierImgs.length];
+    imgCounters[diff.tier]++;
 
     // Shuffle questions
-    const pool = [...Q[cat.id]];
+    const pool = [...Q[currentCat.id]];
     for (let i = pool.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -452,27 +709,45 @@ function startGame(cat) {
     gameQuestions = pool.slice(0, totalTiles + 15);
 
     showScreen('gameArea');
-    document.getElementById('gameTitle').textContent = cat.name;
+    document.getElementById('gameTitle').textContent = currentCat.name + ' -- ' + diff.label;
     document.getElementById('scoreNum').textContent = '0';
     document.getElementById('streakText').textContent = '';
     document.getElementById('progFill').style.width = '0%';
+    document.getElementById('motiBar').innerHTML = '';
 
-    // Set image
-    document.getElementById('imgLayer').innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
+    // Set image (start blurred)
+    const imgLayer = document.getElementById('imgLayer');
+    imgLayer.innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
+    updateImageBlur();
 
-    // Build tile grid
+    // Build tile grid with encouragement texts
     const tg = document.getElementById('tileGrid');
-    tg.style.gridTemplateColumns = `repeat(${cat.grid}, 1fr)`;
+    tg.style.gridTemplateColumns = `repeat(${diff.grid}, 1fr)`;
     tg.innerHTML = '';
     tiles = [];
+    const shuffledTexts = [...TILE_TEXTS].sort(() => Math.random() - 0.5);
     for (let i = 0; i < totalTiles; i++) {
         const t = document.createElement('div');
         t.className = 'tile';
-        t.textContent = '?';
+        const tt = shuffledTexts[i % shuffledTexts.length];
+        t.innerHTML = `<div class="tile-emoji">${tt.emoji}</div><div class="tile-text">${tt.text}</div>`;
         tg.appendChild(t);
         tiles.push(t);
     }
     nextQuestion();
+}
+
+function updateImageBlur() {
+    const pct = totalTiles > 0 ? revealed / totalTiles : 0;
+    const blur = Math.max(0, 12 * (1 - pct * 1.5));
+    document.getElementById('imgLayer').style.filter = `blur(${blur}px)`;
+}
+
+function showMotivation(isCorrect) {
+    const arr = isCorrect ? MOTI_CORRECT : MOTI_WRONG;
+    const text = arr[Math.floor(Math.random() * arr.length)];
+    const bar = document.getElementById('motiBar');
+    bar.innerHTML = `<span class="moti-text" style="color:${isCorrect ? 'var(--green)' : 'var(--red)'}">${text}</span>`;
 }
 
 function nextQuestion() {
@@ -487,7 +762,7 @@ function nextQuestion() {
     }
     currentQ = gameQuestions[qNum];
     qNum++;
-    document.getElementById('qLabel').textContent = `${revealed + 1} / ${totalTiles} 格`;
+    document.getElementById('qLabel').textContent = `${revealed} / ${totalTiles} 已解锁`;
     document.getElementById('qText').textContent = currentQ.q;
 
     const optsDiv = document.getElementById('qOpts');
@@ -510,26 +785,40 @@ function checkAnswer(idx, btn) {
         score += 10 + streak * 5;
         streak++;
         document.getElementById('scoreNum').textContent = score;
-        document.getElementById('streakText').textContent = streak > 1 ? `${streak}连对` : '';
+        const streakEl = document.getElementById('streakText');
+        streakEl.textContent = streak > 1 ? `${streak}连对 🔥` : '';
+        if (streak > 1) { streakEl.classList.remove('big'); void streakEl.offsetWidth; streakEl.classList.add('big'); }
+
         revealTile(); revealed++;
         document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
-        setTimeout(nextQuestion, 450);
+        updateImageBlur();
+        showMotivation(true);
+
+        // Mini confetti on correct
+        if (streak >= 3) spawnMiniConfetti();
+
+        setTimeout(nextQuestion, 500);
     } else {
         btn.classList.add('wrong');
         streak = 0;
         document.getElementById('streakText').textContent = '';
         allBtns.forEach((b, i) => { if (i === currentQ.a) b.classList.add('correct'); });
+
         if (revealed > 0 && Math.random() < 0.4) {
             coverTile(); revealed--;
             document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
+            updateImageBlur();
         }
+
         const unrevealed = tiles.filter(t => !t.classList.contains('revealed'));
         if (unrevealed.length) {
             const rt = unrevealed[Math.floor(Math.random() * unrevealed.length)];
             rt.classList.add('wrong');
-            setTimeout(() => rt.classList.remove('wrong'), 500);
+            setTimeout(() => rt.classList.remove('wrong'), 600);
         }
-        setTimeout(nextQuestion, 1100);
+
+        showMotivation(false);
+        setTimeout(nextQuestion, 1200);
     }
 }
 
@@ -537,14 +826,54 @@ function revealTile() {
     const u = [];
     tiles.forEach((t, i) => { if (!t.classList.contains('revealed')) u.push(i); });
     if (!u.length) return;
-    tiles[u[Math.floor(Math.random() * u.length)]].classList.add('revealed');
+    const idx = u[Math.floor(Math.random() * u.length)];
+    tiles[idx].classList.add('correct-flash');
+    setTimeout(() => tiles[idx].classList.add('revealed'), 200);
 }
 
 function coverTile() {
     const r = [];
     tiles.forEach((t, i) => { if (t.classList.contains('revealed')) r.push(i); });
     if (!r.length) return;
-    tiles[r[Math.floor(Math.random() * r.length)]].classList.remove('revealed');
+    const idx = r[Math.floor(Math.random() * r.length)];
+    tiles[idx].classList.remove('revealed');
+    tiles[idx].classList.remove('correct-flash');
+}
+
+function spawnMiniConfetti() {
+    const box = document.getElementById('confettiBox');
+    const colors = ['#ff9000','#ff6600','#ffb347','#e74c3c','#2ecc71','#fff'];
+    for (let i = 0; i < 20; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + '%';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+        c.style.animationDelay = (Math.random() * 0.5) + 's';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        c.style.width = (4 + Math.random() * 6) + 'px';
+        c.style.height = (4 + Math.random() * 6) + 'px';
+        box.appendChild(c);
+        setTimeout(() => c.remove(), 3000);
+    }
+}
+
+function spawnWinConfetti() {
+    const box = document.getElementById('confettiBox');
+    const colors = ['#ff9000','#ff6600','#ffb347','#e74c3c','#2ecc71','#fff','#ff69b4','#ffd700'];
+    for (let i = 0; i < 60; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + '%';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDuration = (2 + Math.random() * 2) + 's';
+        c.style.animationDelay = (Math.random() * 1) + 's';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        c.style.width = (5 + Math.random() * 8) + 'px';
+        c.style.height = (5 + Math.random() * 8) + 'px';
+        box.appendChild(c);
+        setTimeout(() => c.remove(), 5000);
+    }
 }
 
 function winGame() {
@@ -553,12 +882,12 @@ function winGame() {
     const secs = elapsed % 60;
     showScreen('winScreen');
     document.getElementById('winImg').innerHTML =
-        `<div class="img-layer"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
-    const names = {drive:'驾照',civil:'考公',ielts:'雅思'};
-    document.getElementById('winTitle').textContent = `${names[currentCat.id]} · 上岸成功`;
+        `<div class="img-layer" style="filter:none"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
+    document.getElementById('winTitle').textContent = `${currentCat.name} -- 上岸成功!`;
     document.getElementById('winStats').innerHTML =
-        `得分 <strong style="color:var(--accent)">${score}</strong> · ` +
-        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 · 共 ${qNum} 题`;
+        `得分 <strong style="color:var(--accent)">${score}</strong> ` +
+        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 -- 共 ${qNum} 题`;
+    spawnWinConfetti();
 }
 </script>
 </body>
