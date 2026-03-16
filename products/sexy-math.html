@@ -483,7 +483,7 @@
         <div style="font-size:.65rem;color:var(--ink-faint)">性感上岸 -- 段位认证</div>
         <div class="sc-rank" id="scRank"></div>
         <div class="sc-stats" id="scStats"></div>
-        <div class="sc-slogan">来挑战我的段位?</div>
+        <div class="sc-slogan" id="scSlogan">不服来战 看谁先上岸</div>
         <div class="sc-qr">shujilai.github.io/connieai-store/products/sexy-math.html</div>
     </div>
     <div class="share-btns">
@@ -1198,14 +1198,14 @@ function winGame() {
 // ===== RANK SYSTEM =====
 const RANK_KEY = 'sexy_rank_stats';
 const RANKS = [
-    { id:'bronze',   name:'青铜学渣', icon:'🥉', color:'#cd7f32', wins:0,  desc:'刚入坑的小白' },
-    { id:'silver',   name:'白银萌新', icon:'🥈', color:'#c0c0c0', wins:3,  desc:'初窥门径' },
-    { id:'gold',     name:'黄金学弟', icon:'🥇', color:'#ffd700', wins:10, desc:'小有所成' },
-    { id:'platinum', name:'铂金学姐', icon:'💎', color:'#00bfff', wins:25, desc:'实力不俗' },
-    { id:'diamond',  name:'钻石学霸', icon:'💠', color:'#b9f2ff', wins:50, desc:'学海明灯' },
-    { id:'master',   name:'大师学神', icon:'👑', color:'#ff6b6b', wins:100,desc:'万中无一' },
-    { id:'gm',       name:'宗师圣体', icon:'🔱', color:'#ff4500', wins:200,desc:'举世无双' },
-    { id:'emperor',  name:'最强学皇', icon:'👁', color:'#ff9000', wins:999,desc:'全部通关 登峰造极' },
+    { id:'maggot',   name:'学蛆',       icon:'🪱', color:'#8B7355', wins:0,  desc:'看题跟看甲骨文一样' },
+    { id:'foot',     name:'菜到抠脚',    icon:'🦶', color:'#a0a0a0', wins:3,  desc:'答案全靠掷骰子' },
+    { id:'cattle',   name:'做题牲口',    icon:'🐮', color:'#c0a000', wins:8,  desc:'埋头苦干 感动自己' },
+    { id:'peeper',   name:'擦边学徒',    icon:'👀', color:'#00bfff', wins:20, desc:'初窥擦边的奥义' },
+    { id:'flex',     name:'解题显眼包',  icon:'🔥', color:'#ff6b6b', wins:40, desc:'有两把刷子了属于是' },
+    { id:'pro6',     name:'考场老6',     icon:'🎯', color:'#c084fc', wins:80, desc:'题目见你都绕道走' },
+    { id:'boss',     name:'上岸霸总',    icon:'💰', color:'#fbbf24', wins:150,desc:'知识和身材我全都要' },
+    { id:'emperor',  name:'至尊学皇',    icon:'👑', color:'#ff9000', wins:999,desc:'全服第一 跪下叫爸爸' },
 ];
 
 function getRankStats() {
@@ -1297,14 +1297,15 @@ function showRankUpOverlay(oldRank, newRank) {
     const ov = document.createElement('div');
     ov.className = 'rankup-overlay';
     ov.onclick = () => ov.remove();
+    const ruBtns = { maggot:'就这？', foot:'呵呵', cattle:'继续卷', peeper:'有感觉了', flex:'就是这么强', pro6:'都是弟弟', boss:'爷来了', emperor:'全服第一' };
     ov.innerHTML = `<div class="rankup-box">
         <div class="ru-icon">${newRank.icon}</div>
-        <div class="ru-title">段位提升!</div>
-        <div class="ru-from">${oldRank.icon} ${oldRank.name}</div>
-        <div style="color:var(--ink-faint);margin:4px 0">→</div>
+        <div class="ru-title">进化了!</div>
+        <div class="ru-from" style="text-decoration:line-through">${oldRank.icon} ${oldRank.name}</div>
+        <div style="color:var(--accent);margin:4px 0;font-size:1.2rem">↓</div>
         <div class="ru-to" style="color:${newRank.color}">${newRank.icon} ${newRank.name}</div>
-        <div style="font-size:.75rem;color:var(--ink-faint)">${newRank.desc}</div>
-        <button class="ru-dismiss" onclick="this.parentElement.parentElement.remove()">太强了!</button>
+        <div style="font-size:.8rem;color:var(--ink-faint);margin-top:2px">${newRank.desc}</div>
+        <button class="ru-dismiss" onclick="this.parentElement.parentElement.remove()">${ruBtns[newRank.id] || '冲!'}</button>
     </div>`;
     document.body.appendChild(ov);
     spawnWinConfetti();
@@ -1375,10 +1376,21 @@ function showRankScreen() {
     comboHtml += '</div>';
     document.getElementById('rkCombos').innerHTML = comboHtml;
 
-    // Share card
+    // Share card with dynamic slogan
     document.getElementById('scRank').innerHTML = `<span style="color:${rank.color}">${rank.icon} ${rank.name}</span>`;
     document.getElementById('scStats').innerHTML =
         `通关 <strong>${stats.wins}</strong> 次 | 正确率 <strong>${acc}%</strong> | 完美 <strong>${stats.perfects}</strong> 次`;
+    const slogans = {
+        maggot: '救救我 我是学蛆',
+        foot:   '我菜我先跑了',
+        cattle: '做题做到脑子冒烟',
+        peeper: '擦边擦到真的会了',
+        flex:   '你打不过我的 别试了',
+        pro6:   '题目看到我直接投降',
+        boss:   '知识和身材我全都要',
+        emperor:'全服第一 不接受反驳'
+    };
+    document.getElementById('scSlogan').textContent = slogans[rank.id] || '不服来战';
 }
 
 function backFromRank() {
@@ -1446,10 +1458,15 @@ function saveShareCard() {
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(100, 250); ctx.lineTo(500, 250); ctx.stroke();
 
-    // Slogan
+    // Slogan (dynamic per rank)
+    const slogans = {
+        maggot:'救救我 我是学蛆', foot:'我菜我先跑了', cattle:'做题做到脑子冒烟',
+        peeper:'擦边擦到真的会了', flex:'你打不过我的 别试了',
+        pro6:'题目看到我直接投降', boss:'知识和身材我全都要', emperor:'全服第一 不接受反驳'
+    };
     ctx.fillStyle = '#ff9000';
     ctx.font = 'bold 20px sans-serif';
-    ctx.fillText('来挑战我的段位?', 300, 290);
+    ctx.fillText(slogans[rank.id] || '不服来战', 300, 290);
 
     // URL
     ctx.fillStyle = '#555';
@@ -1471,7 +1488,17 @@ function saveShareCard() {
 function copyShareLink() {
     const stats = getRankStats();
     const rank = getRank(stats);
-    const text = `我在「性感上岸」达到了 ${rank.icon}${rank.name} 段位！通关${stats.wins}次，来挑战我？\nhttps://shujilai.github.io/connieai-store/products/sexy-math.html`;
+    const copyLines = {
+        maggot: `我在「性感上岸」被鉴定为 ${rank.icon}学蛆...做题做到怀疑人生，你能比我菜吗？`,
+        foot:   `做了半天题 系统给我评了个「${rank.icon}菜到抠脚」 我真的会谢`,
+        cattle: `「性感上岸」评我是${rank.icon}做题牲口 埋头苦干感动自己那种 你来试试？`,
+        peeper: `终于从学蛆爬到「${rank.icon}擦边学徒」了！初窥擦边的奥义 不服来战`,
+        flex:   `我在「性感上岸」已经是${rank.icon}解题显眼包了 有两把刷子了属于是`,
+        pro6:   `${rank.icon}考场老6 题目见我都绕道走 「性感上岸」段位这么高的还有谁？`,
+        boss:   `${rank.icon}上岸霸总来了 知识和身材我全都要 你呢？`,
+        emperor:`${rank.icon}至尊学皇 全服第一 全部通关 跪下叫爸爸`
+    };
+    const text = (copyLines[rank.id] || `我在「性感上岸」是${rank.icon}${rank.name}`) + `\nhttps://shujilai.github.io/connieai-store/products/sexy-math.html`;
     navigator.clipboard.writeText(text).then(() => {
         const btn = event.target;
         btn.textContent = '已复制!';
