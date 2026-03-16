@@ -354,10 +354,12 @@ textarea{resize:vertical;min-height:80px}
 <script>
 /* ===== CONFIG ===== */
 const CFG_KEY = 'sexy_admin_config';
+const DEFAULT_CFG = { url:'https://ngvfumzebbestpandszx.supabase.co', key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ndmZ1bXplYmJlc3RwYW5kc3p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MzcwMTEsImV4cCI6MjA4OTIxMzAxMX0.vstaPpmbwI6qyVXk44evcOmyyQjfdnibcDFkJrnHMaU' };
 let sb = null; // supabase client
 
 function getConfig() {
-  try { return JSON.parse(localStorage.getItem(CFG_KEY)); } catch { return null; }
+  try { const c = JSON.parse(localStorage.getItem(CFG_KEY)); if (c && c.url) return c; } catch {}
+  return DEFAULT_CFG;
 }
 
 function saveConfig() {
@@ -375,7 +377,6 @@ function resetConfig() {
 
 function initSupabase() {
   const cfg = getConfig();
-  if (!cfg) return showScreen('setupScreen');
   try {
     sb = supabase.createClient(cfg.url, cfg.key);
     showScreen('loginScreen');

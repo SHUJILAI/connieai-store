@@ -604,14 +604,16 @@
 <script>
 // ===== SUPABASE DATA LAYER =====
 const SB_CFG_KEY = 'sexy_admin_config';
+const SB_DEFAULT = { url:'https://ngvfumzebbestpandszx.supabase.co', key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ndmZ1bXplYmJlc3RwYW5kc3p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MzcwMTEsImV4cCI6MjA4OTIxMzAxMX0.vstaPpmbwI6qyVXk44evcOmyyQjfdnibcDFkJrnHMaU' };
 let sbClient = null;
 let remoteQ = null;   // { drive:[], civil:[], ielts:[] } from Supabase
 let remoteIMG = null;  // { f:{ jp:{ easy:[], ... }, ... }, m:{ ... } } from Supabase
 
 (function initRemoteData() {
   try {
-    const cfg = JSON.parse(localStorage.getItem(SB_CFG_KEY));
-    if (!cfg || !cfg.url || !cfg.key) return;
+    let cfg;
+    try { cfg = JSON.parse(localStorage.getItem(SB_CFG_KEY)); } catch {}
+    if (!cfg || !cfg.url || !cfg.key) cfg = SB_DEFAULT;
     sbClient = supabase.createClient(cfg.url, cfg.key);
 
     // Load questions
