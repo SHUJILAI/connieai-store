@@ -492,8 +492,66 @@
 <!-- Confetti container -->
 <div class="confetti-container" id="confettiBox"></div>
 
-<!-- External question bank (80+ per category) -->
+<!-- External question bank (80+ per category, fallback) -->
 <script src="sexy-questions.js"></script>
+<!-- Supabase SDK for remote data -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+// ===== SUPABASE DATA LAYER =====
+const SB_CFG_KEY = 'sexy_admin_config';
+let sbClient = null;
+let remoteQ = null;   // { drive:[], civil:[], ielts:[] } from Supabase
+let remoteIMG = null;  // { f:{ jp:{ easy:[], ... }, ... }, m:{ ... } } from Supabase
+
+(function initRemoteData() {
+  try {
+    const cfg = JSON.parse(localStorage.getItem(SB_CFG_KEY));
+    if (!cfg || !cfg.url || !cfg.key) return;
+    sbClient = supabase.createClient(cfg.url, cfg.key);
+
+    // Load questions
+    sbClient.from('questions').select('*').then(({ data }) => {
+      if (data && data.length > 0) {
+        remoteQ = { drive:[], civil:[], ielts:[] };
+        data.forEach(r => {
+          if (remoteQ[r.category]) {
+            remoteQ[r.category].push({ q: r.question, o: r.options, a: r.answer_index });
+          }
+        });
+      }
+    });
+
+    // Load images
+    sbClient.from('reward_images').select('*').then(({ data }) => {
+      if (data && data.length > 0) {
+        remoteIMG = { f:{}, m:{} };
+        data.forEach(r => {
+          if (r.is_preview) return;
+          if (!remoteIMG[r.gender]) return;
+          if (!remoteIMG[r.gender][r.style]) remoteIMG[r.gender][r.style] = { easy:[], medium:[], hard:[] };
+          const url = `${cfg.url}/storage/v1/object/public/reward-images/${r.storage_path}`;
+          if (remoteIMG[r.gender][r.style][r.tier]) {
+            remoteIMG[r.gender][r.style][r.tier].push(url);
+          }
+        });
+      }
+    });
+  } catch(e) { /* silent fallback to local data */ }
+})();
+
+function getQuestions(catId) {
+  if (remoteQ && remoteQ[catId] && remoteQ[catId].length > 0) return remoteQ[catId];
+  return Q[catId]; // fallback to local
+}
+
+function getImagePool(g, typeId, tier) {
+  if (remoteIMG && remoteIMG[g] && remoteIMG[g][typeId] && remoteIMG[g][typeId][tier] && remoteIMG[g][typeId][tier].length > 0) {
+    return remoteIMG[g][typeId][tier];
+  }
+  return IMAGES[g][typeId][tier]; // fallback to local
+}
+</script>
 
 <script>
 // ===== MOTIVATION PHRASES =====
@@ -841,12 +899,12 @@ function startGame(diff) {
     revealed = 0; score = 0; streak = 0; qNum = 0;
     startTime = Date.now();
 
-    // Randomly pick from the variant pool so each game gets a different image
-    const imgPool = IMAGES[gender][currentType.id][diff.tier];
+    // Randomly pick from the variant pool (remote or local fallback)
+    const imgPool = getImagePool(gender, currentType.id, diff.tier);
     currentImg = imgPool[Math.floor(Math.random() * imgPool.length)];
 
-    // Shuffle questions from the 80+ pool
-    const pool = [...Q[currentCat.id]];
+    // Shuffle questions from the pool (remote or local fallback)
+    const pool = [...getQuestions(currentCat.id)];
     for (let i = pool.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -889,7 +947,7 @@ function showMotivation(isCorrect) {
 function nextQuestion() {
     if (revealed >= totalTiles) return winGame();
     if (qNum >= gameQuestions.length) {
-        const pool = [...Q[currentCat.id]];
+        const pool = [...getQuestions(currentCat.id)];
         for (let i = pool.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [pool[i], pool[j]] = [pool[j], pool[i]];

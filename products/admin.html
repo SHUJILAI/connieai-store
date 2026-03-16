@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>性感上岸 — 管理后台</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#111;--surface:#1a1a1a;--surface2:#222;--border:#333;--text:#eee;--text2:#999;--accent:#ff9000;--accent2:#cc7300;--danger:#e53e3e;--success:#38a169;--radius:8px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* Layout */
+.app{display:flex;min-height:100vh}
+.sidebar{width:220px;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column}
+.main{flex:1;margin-left:220px;padding:32px}
+.logo{padding:0 20px 24px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.logo h1{font-size:18px;color:var(--accent)}
+.logo p{font-size:12px;color:var(--text2);margin-top:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;color:var(--text2);transition:all .15s;font-size:14px}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{color:var(--accent);background:var(--surface2);border-right:3px solid var(--accent)}
+.nav-item .icon{width:20px;text-align:center}
+.sidebar-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border)}
+.user-info{font-size:12px;color:var(--text2)}
+.user-info strong{color:var(--text);display:block;margin-bottom:2px}
+.btn-logout{margin-top:8px;background:none;border:1px solid var(--border);color:var(--text2);padding:4px 12px;border-radius:4px;cursor:pointer;font-size:12px}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger)}
+/* Cards & Forms */
+.page-title{font-size:22px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.card h3{font-size:16px;margin-bottom:16px;color:var(--accent)}
+.form-row{display:flex;gap:12px;margin-bottom:12px;align-items:flex-end}
+.form-group{display:flex;flex-direction:column;gap:4px;flex:1}
+.form-group label{font-size:12px;color:var(--text2);font-weight:600}
+input,select,textarea{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:4px;font-size:14px;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:80px}
+.btn{padding:8px 20px;border-radius:4px;cursor:pointer;font-size:14px;font-weight:600;border:none;transition:all .15s}
+.btn-primary{background:var(--accent);color:#000}
+.btn-primary:hover{background:var(--accent2)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent)}
+.btn-danger{background:transparent;color:var(--danger);border:1px solid var(--danger)}
+.btn-danger:hover{background:var(--danger);color:#fff}
+.btn-sm{padding:4px 10px;font-size:12px}
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;padding:8px 12px;border-bottom:2px solid var(--border);color:var(--text2);font-size:12px;font-weight:600}
+.tbl td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tr:hover td{background:var(--surface2)}
+/* Filters */
+.filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.chip{padding:5px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text2);transition:all .15s}
+.chip.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+/* Stats */
+.stats{display:flex;gap:16px;margin-bottom:24px}
+.stat-card{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
+.stat-card .num{font-size:28px;font-weight:700;color:var(--accent)}
+.stat-card .label{font-size:12px;color:var(--text2);margin-top:4px}
+/* Image grid */
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.img-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative}
+.img-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.img-card .img-info{padding:8px;font-size:11px;color:var(--text2)}
+.img-card .img-actions{position:absolute;top:6px;right:6px;display:flex;gap:4px}
+.img-card .img-actions button{width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center}
+.img-del{background:rgba(229,62,62,.9);color:#fff}
+/* Dropzone */
+.dropzone{border:2px dashed var(--border);border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer;color:var(--text2);transition:all .15s}
+.dropzone:hover,.dropzone.over{border-color:var(--accent);color:var(--accent)}
+.dropzone input{display:none}
+/* Screens */
+.screen{display:none}.screen.active{display:block}
+/* Setup & login (centered) */
+.center-box{max-width:400px;margin:15vh auto;text-align:center}
+.center-box h1{font-size:28px;margin-bottom:8px}
+.center-box h1 span{background:var(--accent);color:#000;padding:0 8px;font-weight:800}
+.center-box p{color:var(--text2);margin-bottom:24px;font-size:14px}
+.center-box .form-group{text-align:left;margin-bottom:12px}
+.center-box input{width:100%}
+.center-box .btn{width:100%;margin-top:8px}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:var(--radius);font-size:14px;z-index:9999;animation:slideIn .3s}
+.toast-success{background:var(--success);color:#fff}
+.toast-error{background:var(--danger);color:#fff}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-drive{background:#ff900020;color:var(--accent)}
+.badge-civil{background:#38a16920;color:var(--success)}
+.badge-ielts{background:#4299e120;color:#4299e1}
+.empty{text-align:center;padding:40px;color:var(--text2)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:none;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:500px;width:90%}
+.modal h3{margin-bottom:16px}
+.modal .form-group{margin-bottom:12px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+</style>
+</head>
+<body>
+
+<!-- ===== SETUP SCREEN ===== -->
+<div id="setupScreen" class="screen active">
+<div class="center-box">
+  <h1>性感<span>上岸</span></h1>
+  <p>管理后台 — 连接 Supabase</p>
+  <div class="card" style="text-align:left">
+    <div class="form-group">
+      <label>Supabase Project URL</label>
+      <input id="cfgUrl" placeholder="https://xxxxx.supabase.co">
+    </div>
+    <div class="form-group">
+      <label>Anon Key (public)</label>
+      <input id="cfgKey" placeholder="eyJhbGciOi...">
+    </div>
+    <button class="btn btn-primary" onclick="saveConfig()" style="width:100%;margin-top:12px">连接</button>
+  </div>
+  <p style="font-size:12px;color:var(--text2)">
+    首次使用？先在 <a href="https://supabase.com" target="_blank" style="color:var(--accent)">supabase.com</a> 创建项目，<br>
+    然后在 SQL Editor 中运行 <a href="setup.sql" target="_blank" style="color:var(--accent)">setup.sql</a>
+  </p>
+</div>
+</div>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen" class="screen">
+<div class="center-box">
+  <h1>性感<span>上岸</span></h1>
+  <p>管理员登录</p>
+  <div class="card" style="text-align:left">
+    <div class="form-group">
+      <label>邮箱</label>
+      <input id="loginEmail" type="email" placeholder="admin@example.com">
+    </div>
+    <div class="form-group">
+      <label>密码</label>
+      <input id="loginPwd" type="password" placeholder="密码">
+    </div>
+    <button class="btn btn-primary" onclick="doLogin()" style="width:100%;margin-top:12px">登录</button>
+    <button class="btn btn-secondary" onclick="resetConfig()" style="width:100%;margin-top:8px">重新配置</button>
+  </div>
+</div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashScreen" class="screen">
+<div class="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <h1>性感<span style="background:var(--accent);color:#000;padding:0 4px">上岸</span></h1>
+      <p>管理后台</p>
+    </div>
+    <div class="nav-item active" data-tab="questions" onclick="switchTab('questions')">
+      <span class="icon">Q</span> 题库管理
+    </div>
+    <div class="nav-item" data-tab="images" onclick="switchTab('images')">
+      <span class="icon">I</span> 图片管理
+    </div>
+    <div class="nav-item" data-tab="migrate" onclick="switchTab('migrate')">
+      <span class="icon">M</span> 数据迁移
+    </div>
+    <div class="sidebar-bottom">
+      <div class="user-info">
+        <strong id="userEmail">admin</strong>
+        已登录
+      </div>
+      <button class="btn-logout" onclick="doLogout()">退出登录</button>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main">
+
+    <!-- TAB: Questions -->
+    <div id="tab-questions" class="screen active">
+      <div class="page-title">题库管理</div>
+
+      <div id="qStats" class="stats"></div>
+
+      <div class="filters" id="qFilters">
+        <div class="chip active" data-cat="all" onclick="filterQ('all')">全部</div>
+        <div class="chip" data-cat="drive" onclick="filterQ('drive')">驾照</div>
+        <div class="chip" data-cat="civil" onclick="filterQ('civil')">考公</div>
+        <div class="chip" data-cat="ielts" onclick="filterQ('ielts')">雅思</div>
+      </div>
+
+      <!-- Add question -->
+      <div class="card">
+        <h3>添加题目</h3>
+        <div class="form-group">
+          <label>分类</label>
+          <select id="addQCat"><option value="drive">驾照</option><option value="civil">考公</option><option value="ielts">雅思</option></select>
+        </div>
+        <div class="form-group">
+          <label>题目</label>
+          <input id="addQText" placeholder="题目内容">
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>选项 A</label><input id="addQO0"></div>
+          <div class="form-group"><label>选项 B</label><input id="addQO1"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>选项 C</label><input id="addQO2"></div>
+          <div class="form-group"><label>选项 D</label><input id="addQO3"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>正确答案</label>
+            <select id="addQAns"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+          </div>
+          <button class="btn btn-primary" onclick="addQuestion()">添加</button>
+        </div>
+      </div>
+
+      <!-- Bulk import -->
+      <div class="card">
+        <h3>批量导入</h3>
+        <div class="form-group">
+          <label>分类</label>
+          <select id="bulkCat"><option value="drive">驾照</option><option value="civil">考公</option><option value="ielts">雅思</option></select>
+        </div>
+        <div class="form-group">
+          <label>粘贴 JSON 数组 — 格式: [{"q":"题目","o":["A","B","C","D"],"a":0}, ...]</label>
+          <textarea id="bulkJson" rows="5" placeholder='[{"q":"题目","o":["选项A","选项B","选项C","选项D"],"a":0}]'></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="bulkImport()">批量导入</button>
+      </div>
+
+      <!-- Question list -->
+      <div class="card">
+        <h3>题目列表 <span id="qCount" style="color:var(--text2);font-weight:400"></span></h3>
+        <div id="qTableWrap">
+          <table class="tbl">
+            <thead><tr><th style="width:50px">#</th><th>题目</th><th style="width:80px">分类</th><th style="width:70px">答案</th><th style="width:80px">操作</th></tr></thead>
+            <tbody id="qBody"></tbody>
+          </table>
+        </div>
+        <div id="qEmpty" class="empty" style="display:none">暂无题目</div>
+      </div>
+    </div>
+
+    <!-- TAB: Images -->
+    <div id="tab-images" class="screen">
+      <div class="page-title">图片管理</div>
+
+      <div id="imgStats" class="stats"></div>
+
+      <div class="filters" id="imgFilters">
+        <div class="chip active" data-g="all" onclick="filterImg(this,'g')">全部</div>
+        <div class="chip" data-g="f" onclick="filterImg(this,'g')">美女</div>
+        <div class="chip" data-g="m" onclick="filterImg(this,'g')">帅哥</div>
+        <span style="width:1px;background:var(--border);margin:0 4px"></span>
+        <div class="chip active" data-s="all" onclick="filterImg(this,'s')">全部风格</div>
+        <div class="chip" data-s="jp" onclick="filterImg(this,'s')">日系</div>
+        <div class="chip" data-s="kr" onclick="filterImg(this,'s')">韩系</div>
+        <div class="chip" data-s="us" onclick="filterImg(this,'s')">欧美</div>
+        <div class="chip" data-s="body" onclick="filterImg(this,'s')">身材</div>
+        <span style="width:1px;background:var(--border);margin:0 4px"></span>
+        <div class="chip active" data-t="all" onclick="filterImg(this,'t')">全部尺度</div>
+        <div class="chip" data-t="easy" onclick="filterImg(this,'t')">微微露</div>
+        <div class="chip" data-t="medium" onclick="filterImg(this,'t')">若隐若现</div>
+        <div class="chip" data-t="hard" onclick="filterImg(this,'t')">大尺度</div>
+        <div class="chip" data-t="preview" onclick="filterImg(this,'t')">预览图</div>
+      </div>
+
+      <!-- Upload -->
+      <div class="card">
+        <h3>上传图片</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>性别</label>
+            <select id="upGender"><option value="f">美女</option><option value="m">帅哥</option></select>
+          </div>
+          <div class="form-group">
+            <label>风格</label>
+            <select id="upStyle"><option value="jp">日系</option><option value="kr">韩系</option><option value="us">欧美</option><option value="body">身材</option></select>
+          </div>
+          <div class="form-group">
+            <label>尺度</label>
+            <select id="upTier"><option value="easy">微微露</option><option value="medium">若隐若现</option><option value="hard">大尺度</option><option value="preview">预览图</option></select>
+          </div>
+        </div>
+        <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(this.files)">
+          <p>点击或拖拽图片到这里上传</p>
+          <p style="font-size:12px;margin-top:4px">支持 JPG/PNG，可多选</p>
+        </div>
+        <div id="uploadProgress" style="margin-top:8px;font-size:12px;color:var(--text2)"></div>
+      </div>
+
+      <!-- Image grid -->
+      <div class="card">
+        <h3>已上传图片 <span id="imgCount" style="color:var(--text2);font-weight:400"></span></h3>
+        <div id="imgGrid" class="img-grid"></div>
+        <div id="imgEmpty" class="empty" style="display:none">暂无图片</div>
+      </div>
+    </div>
+
+    <!-- TAB: Migrate -->
+    <div id="tab-migrate" class="screen">
+      <div class="page-title">数据迁移</div>
+      <div class="card">
+        <h3>迁移本地题库到 Supabase</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:16px">将现有 sexy-questions.js 中的题目批量导入到 Supabase 数据库</p>
+        <button class="btn btn-primary" onclick="migrateQuestions()">开始迁移题目</button>
+        <div id="migrateQResult" style="margin-top:8px;font-size:13px;color:var(--text2)"></div>
+      </div>
+      <div class="card">
+        <h3>迁移本地图片到 Supabase</h3>
+        <p style="color:var(--text2);font-size:14px;margin-bottom:16px">将现有 sexy-img/ 目录中的图片上传到 Supabase Storage</p>
+        <button class="btn btn-primary" onclick="migrateImages()">开始迁移图片</button>
+        <div id="migrateIResult" style="margin-top:8px;font-size:13px;color:var(--text2)"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- Edit modal -->
+<div id="editModal" class="modal-overlay">
+<div class="modal">
+  <h3>编辑题目</h3>
+  <input type="hidden" id="editId">
+  <div class="form-group">
+    <label>分类</label>
+    <select id="editCat"><option value="drive">驾照</option><option value="civil">考公</option><option value="ielts">雅思</option></select>
+  </div>
+  <div class="form-group"><label>题目</label><input id="editQ"></div>
+  <div class="form-row">
+    <div class="form-group"><label>A</label><input id="editO0"></div>
+    <div class="form-group"><label>B</label><input id="editO1"></div>
+  </div>
+  <div class="form-row">
+    <div class="form-group"><label>C</label><input id="editO2"></div>
+    <div class="form-group"><label>D</label><input id="editO3"></div>
+  </div>
+  <div class="form-group">
+    <label>正确答案</label>
+    <select id="editAns"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+  </div>
+  <div class="modal-actions">
+    <button class="btn btn-secondary" onclick="closeEdit()">取消</button>
+    <button class="btn btn-primary" onclick="saveEdit()">保存</button>
+  </div>
+</div>
+</div>
+
+<script>
+/* ===== CONFIG ===== */
+const CFG_KEY = 'sexy_admin_config';
+let sb = null; // supabase client
+
+function getConfig() {
+  try { return JSON.parse(localStorage.getItem(CFG_KEY)); } catch { return null; }
+}
+
+function saveConfig() {
+  const url = document.getElementById('cfgUrl').value.trim();
+  const key = document.getElementById('cfgKey').value.trim();
+  if (!url || !key) return toast('请填写完整', 'error');
+  localStorage.setItem(CFG_KEY, JSON.stringify({ url, key }));
+  initSupabase();
+}
+
+function resetConfig() {
+  localStorage.removeItem(CFG_KEY);
+  showScreen('setupScreen');
+}
+
+function initSupabase() {
+  const cfg = getConfig();
+  if (!cfg) return showScreen('setupScreen');
+  try {
+    sb = supabase.createClient(cfg.url, cfg.key);
+    showScreen('loginScreen');
+    // Check if already logged in
+    sb.auth.getSession().then(({ data }) => {
+      if (data.session) enterDashboard(data.session.user);
+    });
+  } catch (e) {
+    toast('Supabase 连接失败: ' + e.message, 'error');
+  }
+}
+
+/* ===== AUTH ===== */
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pwd = document.getElementById('loginPwd').value;
+  if (!email || !pwd) return toast('请填写邮箱和密码', 'error');
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pwd });
+  if (error) return toast('登录失败: ' + error.message, 'error');
+  enterDashboard(data.user);
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  showScreen('loginScreen');
+}
+
+function enterDashboard(user) {
+  document.getElementById('userEmail').textContent = user.email;
+  showScreen('dashScreen');
+  loadQuestions();
+  loadImages();
+}
+
+/* ===== SCREEN NAV ===== */
+function showScreen(id) {
+  document.querySelectorAll(':scope > .screen').forEach(s => s.classList.remove('active'));
+  // direct children screens
+  ['setupScreen','loginScreen','dashScreen'].forEach(s => {
+    document.getElementById(s).classList.toggle('active', s === id);
+  });
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.tab === tab));
+  document.querySelectorAll('.main > .screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'questions') loadQuestions();
+  if (tab === 'images') loadImages();
+}
+
+/* ===== QUESTIONS ===== */
+let allQuestions = [];
+let qFilter = 'all';
+
+async function loadQuestions() {
+  const { data, error } = await sb.from('questions').select('*').order('created_at', { ascending: false });
+  if (error) return toast('加载题库失败: ' + error.message, 'error');
+  allQuestions = data || [];
+  renderQStats();
+  renderQTable();
+}
+
+function renderQStats() {
+  const counts = { drive: 0, civil: 0, ielts: 0 };
+  allQuestions.forEach(q => { if (counts[q.category] !== undefined) counts[q.category]++; });
+  document.getElementById('qStats').innerHTML = `
+    <div class="stat-card"><div class="num">${allQuestions.length}</div><div class="label">总题数</div></div>
+    <div class="stat-card"><div class="num">${counts.drive}</div><div class="label">驾照</div></div>
+    <div class="stat-card"><div class="num">${counts.civil}</div><div class="label">考公</div></div>
+    <div class="stat-card"><div class="num">${counts.ielts}</div><div class="label">雅思</div></div>
+  `;
+}
+
+function filterQ(cat) {
+  qFilter = cat;
+  document.querySelectorAll('#qFilters .chip').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+  renderQTable();
+}
+
+function renderQTable() {
+  const filtered = qFilter === 'all' ? allQuestions : allQuestions.filter(q => q.category === qFilter);
+  document.getElementById('qCount').textContent = `(${filtered.length})`;
+  const tbody = document.getElementById('qBody');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    document.getElementById('qEmpty').style.display = '';
+    document.getElementById('qTableWrap').style.display = 'none';
+    return;
+  }
+  document.getElementById('qEmpty').style.display = 'none';
+  document.getElementById('qTableWrap').style.display = '';
+
+  const catLabel = { drive: '驾照', civil: '考公', ielts: '雅思' };
+  tbody.innerHTML = filtered.map((q, i) => {
+    const opts = q.options;
+    const ans = ['A','B','C','D'][q.answer_index];
+    return `<tr>
+      <td>${i + 1}</td>
+      <td>${esc(q.question)}<br><span style="font-size:11px;color:var(--text2)">${opts.map((o,j) => `${'ABCD'[j]}. ${esc(o)}`).join(' | ')}</span></td>
+      <td><span class="badge badge-${q.category}">${catLabel[q.category]||q.category}</span></td>
+      <td style="color:var(--success);font-weight:600">${ans}</td>
+      <td>
+        <button class="btn btn-secondary btn-sm" onclick="openEdit('${q.id}')">编辑</button>
+        <button class="btn btn-danger btn-sm" onclick="delQuestion('${q.id}')">删</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function addQuestion() {
+  const cat = document.getElementById('addQCat').value;
+  const question = document.getElementById('addQText').value.trim();
+  const options = [0,1,2,3].map(i => document.getElementById('addQO'+i).value.trim());
+  const answer_index = parseInt(document.getElementById('addQAns').value);
+  if (!question || options.some(o => !o)) return toast('请填写完整', 'error');
+
+  const { error } = await sb.from('questions').insert({ category: cat, question, options, answer_index });
+  if (error) return toast('添加失败: ' + error.message, 'error');
+  toast('添加成功', 'success');
+  // Clear form
+  document.getElementById('addQText').value = '';
+  [0,1,2,3].forEach(i => document.getElementById('addQO'+i).value = '');
+  loadQuestions();
+}
+
+async function bulkImport() {
+  const cat = document.getElementById('bulkCat').value;
+  let raw = document.getElementById('bulkJson').value.trim();
+  if (!raw) return toast('请粘贴 JSON', 'error');
+
+  let arr;
+  try { arr = JSON.parse(raw); } catch { return toast('JSON 格式错误', 'error'); }
+  if (!Array.isArray(arr)) return toast('需要 JSON 数组', 'error');
+
+  const rows = arr.map(item => ({
+    category: cat,
+    question: item.q || item.question,
+    options: item.o || item.options,
+    answer_index: item.a !== undefined ? item.a : item.answer_index
+  }));
+
+  const { error } = await sb.from('questions').insert(rows);
+  if (error) return toast('导入失败: ' + error.message, 'error');
+  toast(`成功导入 ${rows.length} 道题`, 'success');
+  document.getElementById('bulkJson').value = '';
+  loadQuestions();
+}
+
+async function delQuestion(id) {
+  if (!confirm('确定删除这道题？')) return;
+  const { error } = await sb.from('questions').delete().eq('id', id);
+  if (error) return toast('删除失败', 'error');
+  toast('已删除', 'success');
+  loadQuestions();
+}
+
+function openEdit(id) {
+  const q = allQuestions.find(x => x.id === id);
+  if (!q) return;
+  document.getElementById('editId').value = id;
+  document.getElementById('editCat').value = q.category;
+  document.getElementById('editQ').value = q.question;
+  q.options.forEach((o, i) => document.getElementById('editO'+i).value = o);
+  document.getElementById('editAns').value = q.answer_index;
+  document.getElementById('editModal').classList.add('show');
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('show');
+}
+
+async function saveEdit() {
+  const id = document.getElementById('editId').value;
+  const category = document.getElementById('editCat').value;
+  const question = document.getElementById('editQ').value.trim();
+  const options = [0,1,2,3].map(i => document.getElementById('editO'+i).value.trim());
+  const answer_index = parseInt(document.getElementById('editAns').value);
+  if (!question || options.some(o => !o)) return toast('请填写完整', 'error');
+
+  const { error } = await sb.from('questions').update({ category, question, options, answer_index }).eq('id', id);
+  if (error) return toast('更新失败: ' + error.message, 'error');
+  toast('已更新', 'success');
+  closeEdit();
+  loadQuestions();
+}
+
+/* ===== IMAGES ===== */
+let allImages = [];
+let imgFilterG = 'all', imgFilterS = 'all', imgFilterT = 'all';
+
+async function loadImages() {
+  const { data, error } = await sb.from('reward_images').select('*').order('created_at', { ascending: false });
+  if (error) return toast('加载图片失败: ' + error.message, 'error');
+  allImages = data || [];
+  renderImgStats();
+  renderImgGrid();
+}
+
+function renderImgStats() {
+  const fCount = allImages.filter(i => i.gender === 'f' && !i.is_preview).length;
+  const mCount = allImages.filter(i => i.gender === 'm' && !i.is_preview).length;
+  const pCount = allImages.filter(i => i.is_preview).length;
+  document.getElementById('imgStats').innerHTML = `
+    <div class="stat-card"><div class="num">${allImages.length}</div><div class="label">总图片</div></div>
+    <div class="stat-card"><div class="num">${fCount}</div><div class="label">美女</div></div>
+    <div class="stat-card"><div class="num">${mCount}</div><div class="label">帅哥</div></div>
+    <div class="stat-card"><div class="num">${pCount}</div><div class="label">预览图</div></div>
+  `;
+}
+
+function filterImg(el, type) {
+  // Deactivate siblings of same type
+  const attr = type === 'g' ? 'g' : type === 's' ? 's' : 't';
+  el.parentNode.querySelectorAll(`.chip[data-${attr}]`).forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  if (type === 'g') imgFilterG = el.dataset.g;
+  if (type === 's') imgFilterS = el.dataset.s;
+  if (type === 't') imgFilterT = el.dataset.t;
+  renderImgGrid();
+}
+
+function renderImgGrid() {
+  let filtered = allImages;
+  if (imgFilterG !== 'all') filtered = filtered.filter(i => i.gender === imgFilterG);
+  if (imgFilterS !== 'all') filtered = filtered.filter(i => i.style === imgFilterS);
+  if (imgFilterT === 'preview') filtered = filtered.filter(i => i.is_preview);
+  else if (imgFilterT !== 'all') filtered = filtered.filter(i => i.tier === imgFilterT && !i.is_preview);
+
+  document.getElementById('imgCount').textContent = `(${filtered.length})`;
+
+  if (filtered.length === 0) {
+    document.getElementById('imgGrid').innerHTML = '';
+    document.getElementById('imgEmpty').style.display = '';
+    return;
+  }
+  document.getElementById('imgEmpty').style.display = 'none';
+
+  const cfg = getConfig();
+  const styleLabel = { jp:'日系', kr:'韩系', us:'欧美', body:'身材' };
+  const tierLabel = { easy:'微微露', medium:'若隐若现', hard:'大尺度' };
+
+  document.getElementById('imgGrid').innerHTML = filtered.map(img => {
+    const url = `${cfg.url}/storage/v1/object/public/reward-images/${img.storage_path}`;
+    return `<div class="img-card">
+      <img src="${url}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22><rect fill=%22%23333%22 width=%221%22 height=%221%22/></svg>'">
+      <div class="img-info">
+        ${img.gender === 'f' ? '美女' : '帅哥'} · ${styleLabel[img.style]||img.style} · ${img.is_preview ? '预览图' : tierLabel[img.tier]||img.tier}
+      </div>
+      <div class="img-actions">
+        <button class="img-del" onclick="delImage('${img.id}','${img.storage_path}')" title="删除">x</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* Drag and drop */
+const dz = document.getElementById('dropzone');
+if (dz) {
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+  dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('over'); handleFiles(e.dataTransfer.files); });
+}
+
+async function handleFiles(files) {
+  if (!files.length) return;
+  const gender = document.getElementById('upGender').value;
+  const style = document.getElementById('upStyle').value;
+  const tierVal = document.getElementById('upTier').value;
+  const isPreview = tierVal === 'preview';
+  const tier = isPreview ? 'easy' : tierVal;
+  const prog = document.getElementById('uploadProgress');
+
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    prog.textContent = `上传中 ${i+1}/${files.length}: ${f.name}`;
+    const ts = Date.now();
+    const path = isPreview
+      ? `${gender}/${style}/preview_${ts}.jpg`
+      : `${gender}/${style}/${tier}/${ts}.jpg`;
+
+    const { error: upErr } = await sb.storage.from('reward-images').upload(path, f, { contentType: f.type });
+    if (upErr) { toast(`上传失败: ${f.name}`, 'error'); continue; }
+
+    const { error: dbErr } = await sb.from('reward_images').insert({
+      gender, style, tier, storage_path: path, is_preview: isPreview
+    });
+    if (dbErr) toast(`记录保存失败: ${f.name}`, 'error');
+  }
+  prog.textContent = `上传完成 (${files.length} 张)`;
+  toast(`${files.length} 张图片上传成功`, 'success');
+  loadImages();
+}
+
+async function delImage(id, path) {
+  if (!confirm('确定删除这张图片？')) return;
+  await sb.storage.from('reward-images').remove([path]);
+  const { error } = await sb.from('reward_images').delete().eq('id', id);
+  if (error) return toast('删除失败', 'error');
+  toast('已删除', 'success');
+  loadImages();
+}
+
+/* ===== MIGRATION ===== */
+async function migrateQuestions() {
+  const result = document.getElementById('migrateQResult');
+  result.textContent = '加载本地题库...';
+
+  try {
+    const resp = await fetch('sexy-questions.js');
+    const text = await resp.text();
+    // Parse: const Q = { ... };
+    const match = text.match(/const\s+Q\s*=\s*(\{[\s\S]*\});?/);
+    if (!match) { result.textContent = '无法解析 sexy-questions.js'; return; }
+    const Q = new Function('return ' + match[1])();
+
+    let total = 0;
+    for (const cat of ['drive', 'civil', 'ielts']) {
+      if (!Q[cat]) continue;
+      const rows = Q[cat].map(item => ({
+        category: cat,
+        question: item.q,
+        options: item.o,
+        answer_index: item.a
+      }));
+      const { error } = await sb.from('questions').insert(rows);
+      if (error) { result.textContent = `迁移 ${cat} 失败: ${error.message}`; return; }
+      total += rows.length;
+      result.textContent = `已迁移 ${total} 道题...`;
+    }
+    result.textContent = `迁移完成！共 ${total} 道题已导入 Supabase`;
+    toast('题库迁移完成', 'success');
+    loadQuestions();
+  } catch (e) {
+    result.textContent = '迁移出错: ' + e.message;
+  }
+}
+
+async function migrateImages() {
+  const result = document.getElementById('migrateIResult');
+  result.textContent = '扫描本地图片...';
+
+  const genders = ['f', 'm'];
+  const styles = ['jp', 'kr', 'us', 'body'];
+  const tiers = ['easy', 'med', 'hard'];
+  const tierMap = { easy: 'easy', med: 'medium', hard: 'hard' };
+  let total = 0, failed = 0;
+
+  for (const g of genders) {
+    for (const s of styles) {
+      // Preview
+      try {
+        const previewUrl = `sexy-img/${g}-${s}-preview.jpg`;
+        const resp = await fetch(previewUrl);
+        if (resp.ok) {
+          const blob = await resp.blob();
+          const path = `${g}/${s}/preview_migrated.jpg`;
+          await sb.storage.from('reward-images').upload(path, blob, { contentType: 'image/jpeg' });
+          await sb.from('reward_images').insert({ gender: g, style: s, tier: 'easy', storage_path: path, is_preview: true });
+          total++;
+        }
+      } catch {}
+
+      // Game images
+      for (const t of tiers) {
+        const variants = ['', '-2', '-3'];
+        for (const v of variants) {
+          try {
+            const localUrl = `sexy-img/${g}-${s}-${t}${v}.jpg`;
+            const resp = await fetch(localUrl);
+            if (!resp.ok) continue;
+            const blob = await resp.blob();
+            const path = `${g}/${s}/${tierMap[t]}/${Date.now()}_${v.replace('-','')}.jpg`;
+            const { error: upErr } = await sb.storage.from('reward-images').upload(path, blob, { contentType: 'image/jpeg' });
+            if (upErr) { failed++; continue; }
+            await sb.from('reward_images').insert({ gender: g, style: s, tier: tierMap[t], storage_path: path, is_preview: false });
+            total++;
+            result.textContent = `已迁移 ${total} 张图片 (${failed} 失败)...`;
+          } catch { failed++; }
+        }
+      }
+    }
+  }
+  result.textContent = `迁移完成！${total} 张图片成功，${failed} 张失败`;
+  toast('图片迁移完成', 'success');
+  loadImages();
+}
+
+/* ===== UTILS ===== */
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function toast(msg, type) {
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+/* ===== INIT ===== */
+initSupabase();
+</script>
+</body>
+</html>
