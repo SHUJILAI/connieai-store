@@ -302,6 +302,65 @@
             min-width:16px;height:16px;line-height:16px;border-radius:8px;text-align:center;
             font-weight:700;margin-left:4px}
 
+        /* ========== RANK SYSTEM ========== */
+        #rankScreen{display:none}
+        .rank-header{text-align:center;padding:20px 0 10px}
+        .rank-badge{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;
+            justify-content:center;font-size:48px;position:relative;animation:scaleIn .5s ease}
+        .rank-badge::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid;
+            border-color:inherit;opacity:.3;animation:pulse 2s infinite}
+        .rank-title{font-size:1.6rem;font-weight:800;margin-bottom:2px}
+        .rank-sub{font-size:.8rem;color:var(--ink-soft)}
+        .rank-progress{margin:16px 0;background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:16px}
+        .rank-bar-wrap{background:#222;border-radius:10px;height:10px;overflow:hidden;margin:8px 0 4px}
+        .rank-bar-fill{height:100%;border-radius:10px;transition:width .8s ease;background:linear-gradient(90deg,var(--accent),#ffb74d)}
+        .rank-next{font-size:.72rem;color:var(--ink-faint);display:flex;justify-content:space-between}
+        .rank-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
+        .rank-stat{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:14px;text-align:center}
+        .rank-stat .rs-num{font-size:1.4rem;font-weight:800;color:var(--accent)}
+        .rank-stat .rs-label{font-size:.7rem;color:var(--ink-faint);margin-top:2px}
+        .rank-combos{margin:16px 0}
+        .rank-combos h3{font-size:.85rem;font-weight:700;margin-bottom:8px;color:var(--ink-soft)}
+        .combo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+        .combo-cell{padding:6px 4px;border-radius:var(--r);font-size:.6rem;text-align:center;font-weight:600;
+            border:1px solid #333;color:var(--ink-faint);background:var(--bg)}
+        .combo-cell.done{background:var(--accent-soft);color:var(--accent);border-color:rgba(255,144,0,.3)}
+        /* Share card */
+        .share-card{background:#1a1a1a;border:2px solid var(--accent);border-radius:12px;padding:24px;
+            text-align:center;margin:16px 0;position:relative;overflow:hidden}
+        .share-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+            background:radial-gradient(circle at center,rgba(255,144,0,.06) 0%,transparent 60%);pointer-events:none}
+        .share-card .sc-rank{font-size:2rem;font-weight:900;margin:8px 0}
+        .share-card .sc-stats{font-size:.78rem;color:var(--ink-soft);margin:8px 0}
+        .share-card .sc-stats strong{color:var(--accent)}
+        .share-card .sc-qr{margin-top:12px;font-size:.65rem;color:var(--ink-faint);padding:6px 12px;
+            background:#111;border-radius:var(--r);display:inline-block;word-break:break-all}
+        .share-card .sc-slogan{font-size:.88rem;font-weight:700;color:var(--accent);margin-top:10px}
+        .share-btns{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+        .share-btns button{padding:8px 16px;border-radius:var(--r);border:none;font-family:inherit;
+            font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s}
+        .btn-share-img{background:var(--accent);color:#000}
+        .btn-share-img:hover{background:var(--accent-deep)}
+        .btn-share-link{background:#333;color:var(--ink)}
+        .btn-share-link:hover{background:#444}
+        /* Rank-up overlay */
+        .rankup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;
+            align-items:center;justify-content:center;animation:fadeIn .3s}
+        .rankup-box{text-align:center;animation:scaleIn .5s ease}
+        .rankup-box .ru-icon{font-size:64px;margin-bottom:12px;animation:pulse 1s infinite}
+        .rankup-box .ru-title{font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:4px}
+        .rankup-box .ru-from{font-size:.85rem;color:var(--ink-faint)}
+        .rankup-box .ru-to{font-size:1.2rem;font-weight:700;margin:8px 0}
+        .rankup-box .ru-dismiss{background:var(--accent);color:#000;border:none;padding:10px 28px;
+            border-radius:var(--r);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:16px}
+        /* Rank button in gender screen */
+        .rank-entry{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;
+            border:1px solid #333;background:var(--bg-card);color:var(--ink-soft);font-size:.78rem;font-weight:600;
+            cursor:pointer;transition:.2s;margin-top:12px}
+        .rank-entry:hover{border-color:var(--accent);color:var(--accent)}
+        .rank-entry .re-icon{font-size:1rem}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.05)}}
+
         /* ========== CONFETTI ========== */
         .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;overflow:hidden}
         .confetti{position:absolute;width:8px;height:8px;top:-10px;animation:confettiDrop 2.5s linear forwards}
@@ -387,9 +446,52 @@
             </div>
         </div>
     </div>
+    <div style="text-align:center">
+        <button class="rank-entry" onclick="showRankScreen()">
+            <span class="re-icon" id="reIcon"></span>
+            <span id="reTitle">我的段位</span>
+        </button>
+    </div>
     <div class="ph-footer">
         <a href="../">AI-Connie 出品</a><br>
         <span class="src">shujilai.github.io/connieai-store</span>
+    </div>
+</div>
+
+<!-- Rank Profile Screen -->
+<div id="rankScreen">
+    <header>
+        <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
+    </header>
+    <div class="rank-header">
+        <div class="rank-badge" id="rkBadge"></div>
+        <div class="rank-title" id="rkTitle"></div>
+        <div class="rank-sub" id="rkSub"></div>
+    </div>
+    <div class="rank-progress">
+        <div style="font-size:.78rem;font-weight:600">段位进度</div>
+        <div class="rank-bar-wrap"><div class="rank-bar-fill" id="rkBarFill"></div></div>
+        <div class="rank-next"><span id="rkCur"></span><span id="rkNxt"></span></div>
+    </div>
+    <div class="rank-stats" id="rkStats"></div>
+    <div class="rank-combos">
+        <h3>通关进度 (分类 x 难度)</h3>
+        <div class="combo-grid" id="rkCombos"></div>
+    </div>
+    <!-- Share card -->
+    <div class="share-card" id="shareCard">
+        <div style="font-size:.65rem;color:var(--ink-faint)">性感上岸 -- 段位认证</div>
+        <div class="sc-rank" id="scRank"></div>
+        <div class="sc-stats" id="scStats"></div>
+        <div class="sc-slogan">来挑战我的段位?</div>
+        <div class="sc-qr">shujilai.github.io/connieai-store/products/sexy-math.html</div>
+    </div>
+    <div class="share-btns">
+        <button class="btn-share-img" onclick="saveShareCard()">保存分享卡片</button>
+        <button class="btn-share-link" onclick="copyShareLink()">复制链接</button>
+    </div>
+    <div style="text-align:center;margin-top:16px">
+        <button onclick="backFromRank()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 返回</button>
     </div>
 </div>
 
@@ -466,8 +568,10 @@
     <div class="win-box">
         <h2 id="winTitle">上岸成功</h2>
         <div class="win-stats" id="winStats"></div>
+        <div id="winRankUp" style="margin:12px 0"></div>
         <div class="win-btns">
             <button class="btn-next" onclick="backToDiff()">再来一局</button>
+            <button class="btn-share-img" onclick="showRankScreen()" style="padding:10px 24px;border-radius:var(--r);font-family:inherit;font-size:.9rem">炫耀段位</button>
             <button class="btn-back" onclick="location.href='../'">回商店</button>
         </div>
     </div>
@@ -693,7 +797,7 @@ let startTime = 0;
 let previousScreen = 'genderSelect';
 
 // ===== SCREENS =====
-const screens = ['ageGate','genderSelect','typeSelect','catSelect','diffSelect','gameArea','winScreen','wrongReview'];
+const screens = ['ageGate','genderSelect','typeSelect','catSelect','diffSelect','gameArea','winScreen','wrongReview','rankScreen'];
 function showScreen(id) {
     screens.forEach(s => document.getElementById(s).style.display = 'none');
     const el = document.getElementById(id);
@@ -1072,18 +1176,315 @@ function winGame() {
     const elapsed = Math.round((Date.now() - startTime) / 1000);
     const mins = Math.floor(elapsed / 60);
     const secs = elapsed % 60;
+    const isPerfect = (qNum === totalTiles); // no wrong answers at all
+
     showScreen('winScreen');
     document.getElementById('winImg').innerHTML =
         `<div class="img-layer" style="filter:none"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
-    document.getElementById('winTitle').textContent = `${currentCat.name} -- 上岸成功!`;
+    document.getElementById('winTitle').textContent = isPerfect
+        ? `${currentCat.name} -- 完美上岸!`
+        : `${currentCat.name} -- 上岸成功!`;
     document.getElementById('winStats').innerHTML =
         `得分 <strong style="color:var(--accent)">${score}</strong> ` +
-        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 -- 共 ${qNum} 题`;
+        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 -- 共 ${qNum} 题` +
+        (isPerfect ? ` <strong style="color:var(--green)">PERFECT</strong>` : '');
+
+    // Record win & update rank
+    recordWin(isPerfect);
+
     spawnWinConfetti();
+}
+
+// ===== RANK SYSTEM =====
+const RANK_KEY = 'sexy_rank_stats';
+const RANKS = [
+    { id:'bronze',   name:'青铜学渣', icon:'🥉', color:'#cd7f32', wins:0,  desc:'刚入坑的小白' },
+    { id:'silver',   name:'白银萌新', icon:'🥈', color:'#c0c0c0', wins:3,  desc:'初窥门径' },
+    { id:'gold',     name:'黄金学弟', icon:'🥇', color:'#ffd700', wins:10, desc:'小有所成' },
+    { id:'platinum', name:'铂金学姐', icon:'💎', color:'#00bfff', wins:25, desc:'实力不俗' },
+    { id:'diamond',  name:'钻石学霸', icon:'💠', color:'#b9f2ff', wins:50, desc:'学海明灯' },
+    { id:'master',   name:'大师学神', icon:'👑', color:'#ff6b6b', wins:100,desc:'万中无一' },
+    { id:'gm',       name:'宗师圣体', icon:'🔱', color:'#ff4500', wins:200,desc:'举世无双' },
+    { id:'emperor',  name:'最强学皇', icon:'👁', color:'#ff9000', wins:999,desc:'全部通关 登峰造极' },
+];
+
+function getRankStats() {
+    try { return JSON.parse(localStorage.getItem(RANK_KEY)) || defaultStats(); } catch { return defaultStats(); }
+}
+function defaultStats() {
+    return { wins:0, perfects:0, totalQ:0, totalCorrect:0, bestStreak:0, combos:{} };
+}
+function saveRankStats(s) { localStorage.setItem(RANK_KEY, JSON.stringify(s)); }
+
+function getRank(stats) {
+    // Check if all combos done for emperor
+    const allCombos = [];
+    ['drive','civil','ielts'].forEach(c => ['easy','medium','hard'].forEach(d => allCombos.push(c+'-'+d)));
+    const hasAll = allCombos.every(k => stats.combos[k]);
+    if (hasAll && stats.wins >= 50) return RANKS[7]; // emperor
+
+    for (let i = RANKS.length - 2; i >= 0; i--) {
+        if (stats.wins >= RANKS[i].wins) return RANKS[i];
+    }
+    return RANKS[0];
+}
+
+function getNextRank(stats) {
+    const cur = getRank(stats);
+    const idx = RANKS.indexOf(cur);
+    if (idx >= RANKS.length - 1) return null;
+    return RANKS[idx + 1];
+}
+
+function recordWin(isPerfect) {
+    const stats = getRankStats();
+    const oldRank = getRank(stats);
+
+    stats.wins++;
+    if (isPerfect) stats.perfects++;
+    stats.totalQ += qNum;
+    stats.totalCorrect += revealed; // tiles = correct answers
+    if (streak > stats.bestStreak) stats.bestStreak = streak;
+
+    // Record combo
+    if (currentCat && currentDiff) {
+        stats.combos[currentCat.id + '-' + currentDiff.tier] = true;
+    }
+
+    saveRankStats(stats);
+    const newRank = getRank(stats);
+
+    // Update entry button
+    updateRankEntry();
+
+    // Show rank-up on win screen
+    const winRu = document.getElementById('winRankUp');
+    if (newRank.id !== oldRank.id) {
+        winRu.innerHTML = `<div style="padding:12px;background:var(--accent-soft);border:1px solid rgba(255,144,0,.3);border-radius:var(--rl);text-align:center">
+            <div style="font-size:.75rem;color:var(--ink-soft)">段位提升!</div>
+            <div style="font-size:1.8rem;margin:4px 0">${newRank.icon}</div>
+            <div style="font-size:1.1rem;font-weight:800;color:${newRank.color}">${newRank.name}</div>
+            <div style="font-size:.7rem;color:var(--ink-faint);margin-top:2px">${newRank.desc}</div>
+        </div>`;
+        // Also show overlay
+        showRankUpOverlay(oldRank, newRank);
+    } else {
+        const next = getNextRank(stats);
+        if (next) {
+            const progress = next.id === 'emperor'
+                ? getEmperorProgress(stats)
+                : Math.min(100, Math.round((stats.wins / next.wins) * 100));
+            winRu.innerHTML = `<div style="font-size:.75rem;color:var(--ink-faint);margin-bottom:4px">${newRank.icon} ${newRank.name} — 距下一段位 ${progress}%</div>
+                <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${progress}%"></div></div>`;
+        } else {
+            winRu.innerHTML = `<div style="font-size:.85rem;color:var(--accent);font-weight:700">${newRank.icon} ${newRank.name} — 最高段位!</div>`;
+        }
+    }
+
+    return { oldRank, newRank, stats };
+}
+
+function getEmperorProgress(stats) {
+    const allCombos = [];
+    ['drive','civil','ielts'].forEach(c => ['easy','medium','hard'].forEach(d => allCombos.push(c+'-'+d)));
+    const done = allCombos.filter(k => stats.combos[k]).length;
+    const comboProgress = (done / allCombos.length) * 50;
+    const winProgress = Math.min(50, (stats.wins / 50) * 50);
+    return Math.round(comboProgress + winProgress);
+}
+
+function showRankUpOverlay(oldRank, newRank) {
+    const ov = document.createElement('div');
+    ov.className = 'rankup-overlay';
+    ov.onclick = () => ov.remove();
+    ov.innerHTML = `<div class="rankup-box">
+        <div class="ru-icon">${newRank.icon}</div>
+        <div class="ru-title">段位提升!</div>
+        <div class="ru-from">${oldRank.icon} ${oldRank.name}</div>
+        <div style="color:var(--ink-faint);margin:4px 0">→</div>
+        <div class="ru-to" style="color:${newRank.color}">${newRank.icon} ${newRank.name}</div>
+        <div style="font-size:.75rem;color:var(--ink-faint)">${newRank.desc}</div>
+        <button class="ru-dismiss" onclick="this.parentElement.parentElement.remove()">太强了!</button>
+    </div>`;
+    document.body.appendChild(ov);
+    spawnWinConfetti();
+}
+
+function showRankScreen() {
+    const stats = getRankStats();
+    const rank = getRank(stats);
+    const next = getNextRank(stats);
+
+    showScreen('rankScreen');
+    document.getElementById('phBar').style.display = 'none';
+    document.getElementById('phTabs').style.display = 'none';
+
+    // Badge
+    const badge = document.getElementById('rkBadge');
+    badge.textContent = rank.icon;
+    badge.style.borderColor = rank.color;
+    badge.style.background = rank.color + '15';
+
+    document.getElementById('rkTitle').textContent = rank.name;
+    document.getElementById('rkTitle').style.color = rank.color;
+    document.getElementById('rkSub').textContent = rank.desc;
+
+    // Progress bar
+    if (next) {
+        let progress;
+        if (next.id === 'emperor') {
+            progress = getEmperorProgress(stats);
+            document.getElementById('rkCur').textContent = `${rank.name} (${progress}%)`;
+            document.getElementById('rkNxt').textContent = `${next.icon} ${next.name} (全部通关)`;
+        } else {
+            progress = Math.min(100, Math.round((stats.wins / next.wins) * 100));
+            document.getElementById('rkCur').textContent = `${rank.name} (${stats.wins}胜)`;
+            document.getElementById('rkNxt').textContent = `${next.icon} ${next.name} (${next.wins}胜)`;
+        }
+        document.getElementById('rkBarFill').style.width = progress + '%';
+    } else {
+        document.getElementById('rkCur').textContent = rank.name;
+        document.getElementById('rkNxt').textContent = '已达最高段位';
+        document.getElementById('rkBarFill').style.width = '100%';
+    }
+
+    // Stats grid
+    const acc = stats.totalQ > 0 ? Math.round((stats.totalCorrect / stats.totalQ) * 100) : 0;
+    document.getElementById('rkStats').innerHTML = `
+        <div class="rank-stat"><div class="rs-num">${stats.wins}</div><div class="rs-label">通关次数</div></div>
+        <div class="rank-stat"><div class="rs-num">${stats.perfects}</div><div class="rs-label">完美通关</div></div>
+        <div class="rank-stat"><div class="rs-num">${acc}%</div><div class="rs-label">正确率</div></div>
+        <div class="rank-stat"><div class="rs-num">${stats.bestStreak}</div><div class="rs-label">最高连对</div></div>
+    `;
+
+    // Combo grid
+    const cats = ['drive','civil','ielts'];
+    const catNames = { drive:'驾照', civil:'考公', ielts:'雅思' };
+    const diffs = ['easy','medium','hard'];
+    const diffNames = { easy:'简单', medium:'中等', hard:'困难' };
+    let comboHtml = '<div class="combo-grid" style="grid-template-columns:60px repeat(3,1fr)">';
+    comboHtml += '<div></div>';
+    diffs.forEach(d => comboHtml += `<div class="combo-cell" style="font-weight:700;color:var(--ink-soft)">${diffNames[d]}</div>`);
+    cats.forEach(c => {
+        comboHtml += `<div class="combo-cell" style="font-weight:700;color:var(--ink-soft)">${catNames[c]}</div>`;
+        diffs.forEach(d => {
+            const done = stats.combos[c+'-'+d];
+            comboHtml += `<div class="combo-cell${done ? ' done' : ''}">${done ? '✓' : '—'}</div>`;
+        });
+    });
+    comboHtml += '</div>';
+    document.getElementById('rkCombos').innerHTML = comboHtml;
+
+    // Share card
+    document.getElementById('scRank').innerHTML = `<span style="color:${rank.color}">${rank.icon} ${rank.name}</span>`;
+    document.getElementById('scStats').innerHTML =
+        `通关 <strong>${stats.wins}</strong> 次 | 正确率 <strong>${acc}%</strong> | 完美 <strong>${stats.perfects}</strong> 次`;
+}
+
+function backFromRank() {
+    showScreen('genderSelect');
+}
+
+function updateRankEntry() {
+    const stats = getRankStats();
+    const rank = getRank(stats);
+    const el = document.getElementById('reIcon');
+    const title = document.getElementById('reTitle');
+    if (el) el.textContent = rank.icon;
+    if (title) title.textContent = rank.name;
+}
+
+// ===== SHARE =====
+function saveShareCard() {
+    const card = document.getElementById('shareCard');
+    // Use html2canvas-like approach via canvas
+    const stats = getRankStats();
+    const rank = getRank(stats);
+    const acc = stats.totalQ > 0 ? Math.round((stats.totalCorrect / stats.totalQ) * 100) : 0;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 600;
+    canvas.height = 400;
+    const ctx = canvas.getContext('2d');
+
+    // Background
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fillRect(0, 0, 600, 400);
+
+    // Border
+    ctx.strokeStyle = '#ff9000';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(8, 8, 584, 384);
+
+    // Header
+    ctx.fillStyle = '#666';
+    ctx.font = '14px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('性感上岸 — 段位认证', 300, 45);
+
+    // Rank icon (text fallback)
+    ctx.font = '48px sans-serif';
+    ctx.fillText(rank.icon, 300, 110);
+
+    // Rank name
+    ctx.fillStyle = rank.color;
+    ctx.font = 'bold 32px sans-serif';
+    ctx.fillText(rank.name, 300, 160);
+
+    // Desc
+    ctx.fillStyle = '#999';
+    ctx.font = '14px sans-serif';
+    ctx.fillText(rank.desc, 300, 185);
+
+    // Stats
+    ctx.fillStyle = '#ccc';
+    ctx.font = '16px sans-serif';
+    ctx.fillText(`通关 ${stats.wins} 次  |  正确率 ${acc}%  |  完美 ${stats.perfects} 次`, 300, 225);
+
+    // Divider
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(100, 250); ctx.lineTo(500, 250); ctx.stroke();
+
+    // Slogan
+    ctx.fillStyle = '#ff9000';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.fillText('来挑战我的段位?', 300, 290);
+
+    // URL
+    ctx.fillStyle = '#555';
+    ctx.font = '12px monospace';
+    ctx.fillText('shujilai.github.io/connieai-store/products/sexy-math.html', 300, 340);
+
+    // Watermark
+    ctx.fillStyle = '#333';
+    ctx.font = '11px sans-serif';
+    ctx.fillText('AI-Connie 出品', 300, 375);
+
+    // Download
+    const link = document.createElement('a');
+    link.download = `性感上岸_${rank.name}_段位卡.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+function copyShareLink() {
+    const stats = getRankStats();
+    const rank = getRank(stats);
+    const text = `我在「性感上岸」达到了 ${rank.icon}${rank.name} 段位！通关${stats.wins}次，来挑战我？\nhttps://shujilai.github.io/connieai-store/products/sexy-math.html`;
+    navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        btn.textContent = '已复制!';
+        setTimeout(() => btn.textContent = '复制链接', 1500);
+    }).catch(() => {
+        prompt('复制以下文字分享:', text);
+    });
 }
 
 // Init wrong count on load
 updateWrongCount();
+// Init rank entry button
+updateRankEntry();
 </script>
 </body>
 </html>
