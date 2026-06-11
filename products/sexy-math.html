@@ -180,17 +180,22 @@
             #rewardBg .img-layer{width:auto;height:100%;aspect-ratio:9/16;max-width:100%}
             body.split #practiceArea{left:0;top:calc(40vh + 86px)}
         }
-        .mosaic-cover{position:absolute;inset:0;z-index:1;
+        /* mosaic never traps clicks (pointer-events:none) — clicks land on the
+           player below; a clear hole in the center exposes its play button */
+        .mosaic-cover{position:absolute;inset:0;z-index:1;pointer-events:none;
             background:rgba(13,13,13,.45);
             backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);
             display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
-            transition:opacity .9s ease}
+            transition:opacity .9s ease;
+            -webkit-mask:radial-gradient(circle 58px at 50% 50%, transparent 0 55px, #000 58px);
+            mask:radial-gradient(circle 58px at 50% 50%, transparent 0 55px, #000 58px)}
         .mosaic-cover::after{content:'';position:absolute;inset:0;
             background:repeating-conic-gradient(rgba(0,0,0,.1) 0% 25%, transparent 0% 50%) 0 0/10px 10px;
             pointer-events:none}
-        .mosaic-cover.cleared{opacity:0;pointer-events:none}
+        .mosaic-cover.cleared{opacity:0}
         .mosaic-cover .mc-lock{font-size:2.2rem}
         .mosaic-cover .mc-text{font-size:.8rem;color:rgba(255,255,255,.85);font-weight:600;z-index:1}
+        .mosaic-cover .mc-hole-spacer{height:150px}
         .mosaic-dots{display:flex;gap:8px;z-index:1}
         .mosaic-dots .dot{width:12px;height:12px;border-radius:50%;background:#333;border:1px solid #555;transition:.3s}
         .mosaic-dots .dot.on{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px var(--accent-soft);animation:bounceIn .3s ease}
@@ -577,8 +582,10 @@
 <div id="rewardBg" style="display:none">
     <div class="img-layer" id="pVideoLayer"></div>
     <div class="mosaic-cover" id="pMosaic">
-        <div class="mc-lock"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:42px;height:42px"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
-        <div class="mc-text">答对 3 题自动解锁视频</div>
+        <div class="mc-text">↓ 点中间的播放键 先让视频响起来</div>
+        <div class="mc-hole-spacer"></div>
+        <div class="mc-lock"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:34px;height:34px"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+        <div class="mc-text">答对 3 题 自动解除打码</div>
         <div class="mosaic-dots" id="pDots">
             <div class="dot"></div><div class="dot"></div><div class="dot"></div>
         </div>
@@ -901,8 +908,6 @@ function bumpUnlock() {
         updateDots();
         document.getElementById('pMosaic').classList.add('cleared');
         document.getElementById('pSwapRow').style.display = '';
-        // reload player at unlock: user gesture is fresh, so autoplay starts immediately
-        if (currentVid) document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid);
         showMoti('pMotiBar', '视频解锁! 边看边刷~');
         spawnConfetti(40);
     }
