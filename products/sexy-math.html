@@ -128,8 +128,9 @@
         .menu-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateX(4px)}
         .menu-card:hover::after{opacity:1}
         .menu-card:active{transform:translateX(0);transition:.1s}
-        .menu-card .c-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0;
-            background:var(--bg);border-radius:var(--rl);padding:10px;transition:.2s}
+        .menu-card .c-icon{width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+            background:var(--bg);border-radius:var(--rl);color:var(--accent);transition:.2s}
+        .menu-card .c-icon svg{width:26px;height:26px}
         .menu-card:hover .c-icon{background:var(--accent-soft)}
         .menu-card .c-info{flex:1;z-index:1}
         .menu-card .c-name{font-size:1.05rem;font-weight:700;color:var(--ink)}
@@ -410,7 +411,7 @@
     <div class="menu-section">顺序练习</div>
     <div class="menu-grid">
         <div class="menu-card" onclick="startPractice('km1')">
-            <div class="c-icon">🚗</div>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 13l1.4-4.2A2 2 0 0 1 7.8 7.5h8.4a2 2 0 0 1 1.9 1.3L19.5 13"/><path d="M3.5 13h17a1 1 0 0 1 1 1v3.5h-2.3M4.8 17.5H2.5V14a1 1 0 0 1 1-1z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/><path d="M8.8 17.5h6.4"/></svg></div>
             <div class="c-info">
                 <div class="c-name">科目一 顺序练习</div>
                 <div class="c-desc">道路交通安全法律法规</div>
@@ -419,7 +420,7 @@
             <div class="c-hot">HOT</div>
         </div>
         <div class="menu-card" onclick="startPractice('km4')">
-            <div class="c-icon">🛣️</div>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20.5L9.5 3.5h1.2"/><path d="M18.5 20.5L14.5 3.5h-1.2"/><path d="M12 7.5v2.2M12 12.8v2.2M12 18.1v2.4"/></svg></div>
             <div class="c-info">
                 <div class="c-name">科目四 顺序练习</div>
                 <div class="c-desc">安全文明驾驶常识</div>
@@ -430,7 +431,7 @@
     <div class="menu-section">模拟考试</div>
     <div class="menu-grid">
         <div class="menu-card" onclick="startExam('km1')">
-            <div class="c-icon">📝</div>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div>
             <div class="c-info">
                 <div class="c-name">科目一 模拟考试</div>
                 <div class="c-desc">100 题 · 45 分钟 · 90 分及格</div>
@@ -438,7 +439,7 @@
             </div>
         </div>
         <div class="menu-card" onclick="startExam('km4')">
-            <div class="c-icon">🏁</div>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h13.5l-2.6 4 2.6 4H5"/><path d="M9 4.5v8M13 4.5v8M5 8.5h13"/></svg></div>
             <div class="c-info">
                 <div class="c-name">科目四 模拟考试</div>
                 <div class="c-desc">50 题 · 30 分钟 · 90 分及格</div>
@@ -449,7 +450,7 @@
     <div class="menu-section">复习</div>
     <div class="menu-grid">
         <div class="menu-card" onclick="openWrongReview()">
-            <div class="c-icon">📕</div>
+            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5V5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19v-4"/><path d="M9 7.5h6"/></svg></div>
             <div class="c-info">
                 <div class="c-name">错题本</div>
                 <div class="c-desc">做错的题都在这里 -- 带答案解析</div>
@@ -475,7 +476,7 @@
     </div>
     <div class="stats">
         <div class="score">本次 对 <b id="pRight">0</b> / 错 <i id="pWrong">0</i></div>
-        <div class="unlock-ind" id="pUnlockInd">🔒 0/3</div>
+        <div class="unlock-ind" id="pUnlockInd">0/3</div>
     </div>
     <div class="progress-bar"><div class="progress-fill" id="pProgFill"></div></div>
     <div class="video-swap" id="pSwapRow" style="display:none">
@@ -567,7 +568,7 @@
 <div id="rewardBg" style="display:none">
     <div class="img-layer" id="pVideoLayer"></div>
     <div class="mosaic-cover" id="pMosaic">
-        <div class="mc-lock">🔒</div>
+        <div class="mc-lock"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:42px;height:42px"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
         <div class="mc-text">答对 3 题自动解锁视频</div>
         <div class="mosaic-dots" id="pDots">
             <div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -876,6 +877,8 @@ function resetReward() {
 
 function updateDots() {
     document.querySelectorAll('#pDots .dot').forEach((d, i) => d.classList.toggle('on', i < unlockCount));
+    const ind = document.getElementById('pUnlockInd');
+    if (ind) ind.textContent = videoUnlocked ? '已解锁' : unlockCount + '/3';
 }
 
 function bumpUnlock() {
@@ -884,9 +887,10 @@ function bumpUnlock() {
     updateDots();
     if (unlockCount >= 3) {
         videoUnlocked = true;
+        updateDots();
         document.getElementById('pMosaic').classList.add('cleared');
         document.getElementById('pSwapRow').style.display = '';
-        showMoti('pMotiBar', '🎉 视频解锁! 边看边刷~');
+        showMoti('pMotiBar', '视频解锁! 边看边刷~');
         spawnConfetti(40);
     }
 }
@@ -953,8 +957,8 @@ function examAfterAnswer(correct, myAns) {
         saveWrongItem(eSub, q, myAns);
         document.getElementById('eExplain').innerHTML = explainHTML(q, false, true, 'examNext()');
         const warn = document.getElementById('eWarnBox');
-        if (eWrongN === meta.maxErr) warn.innerHTML = '<div class="exam-warn">⚠ 再错 1 题就不及格了, 稳住!</div>';
-        else if (eWrongN > meta.maxErr) warn.innerHTML = '<div class="exam-warn">✗ 错题已超额, 本次成绩不及格 -- 可继续练手或提前交卷</div>';
+        if (eWrongN === meta.maxErr) warn.innerHTML = '<div class="exam-warn">再错 1 题就不及格了, 稳住!</div>';
+        else if (eWrongN > meta.maxErr) warn.innerHTML = '<div class="exam-warn">错题已超额, 本次成绩不及格 -- 可继续练手或提前交卷</div>';
     }
 }
 
@@ -978,7 +982,7 @@ function finishExam(early) {
     const sEl = document.getElementById('rScore');
     sEl.textContent = score;
     sEl.className = 'rb-score ' + (pass ? 'pass' : 'fail');
-    document.getElementById('rVerdict').textContent = pass ? '🎉 及格! 上岸稳了!' : '未及格 -- 回去刷题再来';
+    document.getElementById('rVerdict').textContent = pass ? '及格! 上岸稳了!' : '未及格 -- 回去刷题再来';
     document.getElementById('rStats').innerHTML =
         `${meta.name} 模拟考试 · ${eQuestions.length} 题<br>` +
         `答对 <span style="color:var(--green);font-weight:700">${eRightN}</span> · ` +
