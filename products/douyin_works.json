@@ -3,14 +3,14 @@
   "source": "抖音网页端（已登录会话，经真实 Chrome 抓取）",
   "libraries": {
     "美女": {
-      "works": 922
+      "works": 921
     },
     "帅哥": {
       "works": 558
     }
   },
   "total_accounts": 34,
-  "total_works": 1480,
+  "total_works": 1479,
   "accounts": [
     {
       "douyin_account": "xsyfc112233",
@@ -18,16 +18,9 @@
       "douyin_id_on_page": "xsyfc112233",
       "matched": true,
       "profile_url": "https://www.douyin.com/user/MS4wLjABAAAAIgkg9JEfBvLWqCfGi8Jk_ERWzBFHAFUeaUWRed2kGz31edmb2-HgvCFQi-DGvjKs",
-      "works_count": 37,
+      "works_count": 36,
       "note": "",
       "works": [
-        {
-          "url": "https://www.douyin.com/video/7649714615748410609",
-          "aweme_id": "7649714615748410609",
-          "desc": "神，无需多言",
-          "publish_date": "2026-06-10",
-          "category": "美女"
-        },
         {
           "url": "https://www.douyin.com/video/7647833019881487025",
           "aweme_id": "7647833019881487025",

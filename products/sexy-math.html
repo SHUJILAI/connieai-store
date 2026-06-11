@@ -607,19 +607,44 @@ const bankReady = Promise.all(Object.keys(BANK_META).map(k =>
 ));
 
 // ===== REWARD VIDEO POOL =====
-const VIDEOS = { f: [], m: [] };
+const VIDEOS = { f: [], m: [] };          // flat pools
+const VGROUPS = { f: [], m: [] };         // grouped by account, for fair sampling
+const recentVids = [];
 fetch('douyin_works.json')
     .then(r => r.json())
     .then(d => {
         (d.accounts || []).forEach(acc => {
+            const g = { f: [], m: [] };
             (acc.works || []).forEach(w => {
                 if (!w.aweme_id) return;
-                if (w.category === '美女') VIDEOS.f.push(w.aweme_id);
-                else if (w.category === '帅哥') VIDEOS.m.push(w.aweme_id);
+                if (w.category === '美女') { VIDEOS.f.push(w.aweme_id); g.f.push(w.aweme_id); }
+                else if (w.category === '帅哥') { VIDEOS.m.push(w.aweme_id); g.m.push(w.aweme_id); }
             });
+            if (g.f.length) VGROUPS.f.push(g.f);
+            if (g.m.length) VGROUPS.m.push(g.m);
         });
     })
     .catch(() => {});
+
+// pick: random account first, then random video — avoids big accounts
+// dominating; skips the last 12 watched
+function pickVideo(g) {
+    const groups = VGROUPS[g];
+    if (!groups.length) {
+        const flat = VIDEOS[g];
+        return flat.length ? flat[Math.floor(Math.random() * flat.length)] : '';
+    }
+    for (let tries = 0; tries < 15; tries++) {
+        const grp = groups[Math.floor(Math.random() * groups.length)];
+        const vid = grp[Math.floor(Math.random() * grp.length)];
+        if (!recentVids.includes(vid)) {
+            recentVids.push(vid);
+            if (recentVids.length > 12) recentVids.shift();
+            return vid;
+        }
+    }
+    return VIDEOS[g][Math.floor(Math.random() * VIDEOS[g].length)];
+}
 
 function douyinEmbed(vid) {
     return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1&loop=1" allow="autoplay; fullscreen" allowfullscreen scrolling="no" referrerpolicy="no-referrer"></iframe>`;
@@ -885,11 +910,10 @@ function resetReward() {
     document.getElementById('pSwapRow').style.display = 'none';
     document.getElementById('pMosaic').classList.remove('cleared');
     updateDots();
-    const pool = VIDEOS[gender] || [];
     const bg = document.getElementById('rewardBg');
-    if (pool.length === 0) { bg.style.display = 'none'; return; }
+    currentVid = pickVideo(gender);
+    if (!currentVid) { bg.style.display = 'none'; return; }
     bg.style.display = 'flex';
-    currentVid = pool[Math.floor(Math.random() * pool.length)];
     document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid);
 }
 
