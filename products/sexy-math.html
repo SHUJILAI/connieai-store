@@ -181,14 +181,12 @@
             body.split #practiceArea{left:0;top:calc(40vh + 86px)}
         }
         .mosaic-cover{position:absolute;inset:0;z-index:1;
-            background-color:#1a1410;background-size:cover;background-position:center;
-            image-rendering:pixelated;
+            background:rgba(13,13,13,.3);
+            backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);
             display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
             transition:opacity .9s ease}
         .mosaic-cover::after{content:'';position:absolute;inset:0;
-            background:
-                linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
-                repeating-conic-gradient(rgba(0,0,0,.12) 0% 25%, transparent 0% 50%) 0 0/12px 12px;
+            background:repeating-conic-gradient(rgba(0,0,0,.1) 0% 25%, transparent 0% 50%) 0 0/12px 12px;
             pointer-events:none}
         .mosaic-cover>*{position:relative;z-index:1}
         .mosaic-cover.cleared{opacity:0;pointer-events:none}
@@ -642,8 +640,8 @@ function pickVideo(g) {
     return VIDEOS[g][Math.floor(Math.random() * VIDEOS[g].length)];
 }
 
-function douyinEmbed(vid) {
-    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1&loop=1" allow="autoplay; fullscreen" allowfullscreen scrolling="no" referrerpolicy="no-referrer"></iframe>`;
+function douyinEmbed(vid, autoplay = true) {
+    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=${autoplay ? 1 : 0}&loop=1" allow="autoplay; fullscreen" allowfullscreen scrolling="no" referrerpolicy="no-referrer"></iframe>`;
 }
 
 // ===== MOTIVATION (correct only) =====
@@ -697,7 +695,7 @@ function showScreen(id) {
         else el.style.display = 'none';
     });
     const bg = document.getElementById('rewardBg');
-    if (id !== 'practiceArea') { bg.style.display = 'none'; stopMosaicAnim(); }
+    if (id !== 'practiceArea') bg.style.display = 'none';
     document.body.classList.toggle('split', id === 'practiceArea');
     window.scrollTo(0, 0);
 }
@@ -917,9 +915,8 @@ function resetReward() {
     currentVid = pickVideo(gender);
     if (!currentVid) { bg.style.display = 'none'; return; }
     bg.style.display = 'flex';
-    // video is NOT loaded while locked — it loads and autoplays at unlock
-    document.getElementById('pVideoLayer').innerHTML = '';
-    startMosaicAnim();
+    // load the video (not playing) under the translucent mosaic
+    document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid, false);
 }
 
 function updateDots() {
@@ -938,8 +935,7 @@ function bumpUnlock() {
         document.getElementById('pMosaic').classList.add('cleared');
         document.getElementById('pSwapRow').style.display = '';
         // load the player inside the click's gesture stack so autoplay is allowed
-        if (currentVid) document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid);
-        stopMosaicAnim();
+        if (currentVid) document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid, true);
         showMoti('pMotiBar', '视频解锁! 边看边刷~');
         spawnConfetti(40);
     }
@@ -947,30 +943,6 @@ function bumpUnlock() {
 
 function nextRewardVideo() { resetReward(); }
 
-// ===== FAKE CENSOR MOSAIC (static, semi-transparent warm blocks) =====
-function paintCensorMosaic() {
-    const c = document.createElement('canvas');
-    c.width = 22; c.height = 38;
-    const x = c.getContext('2d');
-    let prev = null;
-    for (let j = 0; j < c.height; j++) {
-        for (let i = 0; i < c.width; i++) {
-            const warm = Math.random() < 0.78;
-            let h = warm ? 12 + Math.random() * 26 : Math.random() * 360;
-            let s = warm ? 28 + Math.random() * 38 : 8 + Math.random() * 20;
-            let l = 18 + Math.random() * 58;
-            if (prev && Math.random() < 0.55) { h = (h + prev.h) / 2; s = (s + prev.s) / 2; l = (l + prev.l) / 2; }
-            prev = { h, s, l };
-            x.fillStyle = `hsla(${h},${s}%,${l}%,0.5)`;
-            x.fillRect(i, j, 1, 1);
-        }
-    }
-    return c.toDataURL();
-}
-function startMosaicAnim() {
-    document.getElementById('pMosaic').style.backgroundImage = `url(${paintCensorMosaic()})`;
-}
-function stopMosaicAnim() {}
 
 // ===== EXAM (模拟考试) =====
 let eSub = 'km1', eQuestions = [], eIdx = 0, eRightN = 0, eWrongN = 0;
