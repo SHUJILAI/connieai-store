@@ -947,8 +947,7 @@ function bumpUnlock() {
 
 function nextRewardVideo() { resetReward(); }
 
-// ===== FAKE CENSOR MOSAIC (warm-toned shifting blocks while locked) =====
-let mosaicTimer = null;
+// ===== FAKE CENSOR MOSAIC (static, semi-transparent warm blocks) =====
 function paintCensorMosaic() {
     const c = document.createElement('canvas');
     c.width = 22; c.height = 38;
@@ -962,22 +961,16 @@ function paintCensorMosaic() {
             let l = 18 + Math.random() * 58;
             if (prev && Math.random() < 0.55) { h = (h + prev.h) / 2; s = (s + prev.s) / 2; l = (l + prev.l) / 2; }
             prev = { h, s, l };
-            x.fillStyle = `hsl(${h},${s}%,${l}%)`;
+            x.fillStyle = `hsla(${h},${s}%,${l}%,0.5)`;
             x.fillRect(i, j, 1, 1);
         }
     }
     return c.toDataURL();
 }
 function startMosaicAnim() {
-    stopMosaicAnim();
-    const cover = document.getElementById('pMosaic');
-    cover.style.backgroundImage = `url(${paintCensorMosaic()})`;
-    mosaicTimer = setInterval(() => {
-        if (cover.classList.contains('cleared')) { stopMosaicAnim(); return; }
-        cover.style.backgroundImage = `url(${paintCensorMosaic()})`;
-    }, 850);
+    document.getElementById('pMosaic').style.backgroundImage = `url(${paintCensorMosaic()})`;
 }
-function stopMosaicAnim() { if (mosaicTimer) { clearInterval(mosaicTimer); mosaicTimer = null; } }
+function stopMosaicAnim() {}
 
 // ===== EXAM (模拟考试) =====
 let eSub = 'km1', eQuestions = [], eIdx = 0, eRightN = 0, eWrongN = 0;
