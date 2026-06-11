@@ -181,13 +181,16 @@
             body.split #practiceArea{left:0;top:calc(40vh + 86px)}
         }
         .mosaic-cover{position:absolute;inset:0;z-index:1;
-            background:rgba(13,13,13,.6);
-            backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);
+            background-color:#1a1410;background-size:cover;background-position:center;
+            image-rendering:pixelated;
             display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
             transition:opacity .9s ease}
         .mosaic-cover::after{content:'';position:absolute;inset:0;
-            background:repeating-conic-gradient(rgba(0,0,0,.1) 0% 25%, transparent 0% 50%) 0 0/10px 10px;
+            background:
+                linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+                repeating-conic-gradient(rgba(0,0,0,.12) 0% 25%, transparent 0% 50%) 0 0/12px 12px;
             pointer-events:none}
+        .mosaic-cover>*{position:relative;z-index:1}
         .mosaic-cover.cleared{opacity:0;pointer-events:none}
         .mosaic-cover .mc-lock{font-size:2.2rem}
         .mosaic-cover .mc-text{font-size:.8rem;color:rgba(255,255,255,.85);font-weight:600;z-index:1}
@@ -694,7 +697,7 @@ function showScreen(id) {
         else el.style.display = 'none';
     });
     const bg = document.getElementById('rewardBg');
-    if (id !== 'practiceArea') bg.style.display = 'none';
+    if (id !== 'practiceArea') { bg.style.display = 'none'; stopMosaicAnim(); }
     document.body.classList.toggle('split', id === 'practiceArea');
     window.scrollTo(0, 0);
 }
@@ -916,6 +919,7 @@ function resetReward() {
     bg.style.display = 'flex';
     // video is NOT loaded while locked — it loads and autoplays at unlock
     document.getElementById('pVideoLayer').innerHTML = '';
+    startMosaicAnim();
 }
 
 function updateDots() {
@@ -935,12 +939,45 @@ function bumpUnlock() {
         document.getElementById('pSwapRow').style.display = '';
         // load the player inside the click's gesture stack so autoplay is allowed
         if (currentVid) document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid);
+        stopMosaicAnim();
         showMoti('pMotiBar', '视频解锁! 边看边刷~');
         spawnConfetti(40);
     }
 }
 
 function nextRewardVideo() { resetReward(); }
+
+// ===== FAKE CENSOR MOSAIC (warm-toned shifting blocks while locked) =====
+let mosaicTimer = null;
+function paintCensorMosaic() {
+    const c = document.createElement('canvas');
+    c.width = 22; c.height = 38;
+    const x = c.getContext('2d');
+    let prev = null;
+    for (let j = 0; j < c.height; j++) {
+        for (let i = 0; i < c.width; i++) {
+            const warm = Math.random() < 0.78;
+            let h = warm ? 12 + Math.random() * 26 : Math.random() * 360;
+            let s = warm ? 28 + Math.random() * 38 : 8 + Math.random() * 20;
+            let l = 18 + Math.random() * 58;
+            if (prev && Math.random() < 0.55) { h = (h + prev.h) / 2; s = (s + prev.s) / 2; l = (l + prev.l) / 2; }
+            prev = { h, s, l };
+            x.fillStyle = `hsl(${h},${s}%,${l}%)`;
+            x.fillRect(i, j, 1, 1);
+        }
+    }
+    return c.toDataURL();
+}
+function startMosaicAnim() {
+    stopMosaicAnim();
+    const cover = document.getElementById('pMosaic');
+    cover.style.backgroundImage = `url(${paintCensorMosaic()})`;
+    mosaicTimer = setInterval(() => {
+        if (cover.classList.contains('cleared')) { stopMosaicAnim(); return; }
+        cover.style.backgroundImage = `url(${paintCensorMosaic()})`;
+    }, 850);
+}
+function stopMosaicAnim() { if (mosaicTimer) { clearInterval(mosaicTimer); mosaicTimer = null; } }
 
 // ===== EXAM (模拟考试) =====
 let eSub = 'km1', eQuestions = [], eIdx = 0, eRightN = 0, eWrongN = 0;
