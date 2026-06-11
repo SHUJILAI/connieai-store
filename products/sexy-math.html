@@ -615,7 +615,7 @@ fetch('douyin_works.json')
     .catch(() => {});
 
 function douyinEmbed(vid) {
-    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1" allow="autoplay; fullscreen" allowfullscreen scrolling="no" referrerpolicy="no-referrer"></iframe>`;
+    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1&loop=1" allow="autoplay; fullscreen" allowfullscreen scrolling="no" referrerpolicy="no-referrer"></iframe>`;
 }
 
 // ===== MOTIVATION (correct only) =====
@@ -816,7 +816,7 @@ function explainHTML(q, correct, withNext, nextFn) {
 
 // ===== PRACTICE (顺序刷题) =====
 let pSub = 'km1', pIdx = 0, pRight = 0, pWrong = 0;
-let unlockCount = 0, videoUnlocked = false;
+let unlockCount = 0, videoUnlocked = false, currentVid = '';
 
 function startPractice(sub) {
     if (!gender) { showScreen('genderSelect'); return; }
@@ -882,7 +882,8 @@ function resetReward() {
     const bg = document.getElementById('rewardBg');
     if (pool.length === 0) { bg.style.display = 'none'; return; }
     bg.style.display = 'flex';
-    document.getElementById('pVideoLayer').innerHTML = douyinEmbed(pool[Math.floor(Math.random() * pool.length)]);
+    currentVid = pool[Math.floor(Math.random() * pool.length)];
+    document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid);
 }
 
 function updateDots() {
@@ -900,6 +901,8 @@ function bumpUnlock() {
         updateDots();
         document.getElementById('pMosaic').classList.add('cleared');
         document.getElementById('pSwapRow').style.display = '';
+        // reload player at unlock: user gesture is fresh, so autoplay starts immediately
+        if (currentVid) document.getElementById('pVideoLayer').innerHTML = douyinEmbed(currentVid);
         showMoti('pMotiBar', '视频解锁! 边看边刷~');
         spawnConfetti(40);
     }
