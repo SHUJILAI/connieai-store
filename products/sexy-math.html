@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>性感上岸 — 做对题才能看</title>
+    <title>性感上岸 — 驾考刷题 · 做对题才能看</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -95,7 +95,6 @@
         @keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
         @keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-        @keyframes glow{0%,100%{box-shadow:0 0 5px var(--accent-soft)}50%{box-shadow:0 0 20px var(--accent-soft)}}
         @keyframes bounceIn{0%{transform:scale(0)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
         @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
         @keyframes confettiDrop{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
@@ -117,164 +116,169 @@
         .gender-card .g-content{position:relative;z-index:2;padding:16px}
         .gender-card .g-label{font-size:1.15rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
         .gender-card .g-desc{font-size:.72rem;color:rgba(255,255,255,.7);margin-top:4px}
-        .gender-card .g-tag{display:inline-block;font-size:.6rem;font-weight:700;
-            padding:3px 10px;border-radius:20px;margin-top:6px;
-            background:rgba(255,144,0,.2);color:var(--accent);backdrop-filter:blur(4px)}
 
-        /* ========== TYPE SELECT ========== */
-        #typeSelect{display:none}
-        .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-        .type-card{border:2px solid #333;border-radius:var(--rl);
-            padding:0;cursor:pointer;transition:.25s;position:relative;overflow:hidden;
-            height:200px;display:flex;flex-direction:column;justify-content:flex-end}
-        .type-card .t-bg{position:absolute;inset:0;background-size:cover;background-position:center top;
-            transition:transform .4s ease,filter .4s ease;filter:brightness(.65)}
-        .type-card:hover .t-bg{transform:scale(1.08);filter:brightness(.85)}
-        .type-card .t-overlay{position:absolute;inset:0;
-            background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.2) 60%,transparent 100%)}
-        .type-card:hover{border-color:var(--accent);transform:translateY(-3px);
-            box-shadow:0 8px 25px rgba(255,144,0,.15)}
-        .type-card:active{transform:translateY(0);transition:.1s}
-        .type-card .t-content{position:relative;z-index:2;padding:12px}
-        .type-card .t-label{font-size:1rem;font-weight:800;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
-        .type-card .t-desc{font-size:.65rem;color:rgba(255,255,255,.6);margin-top:2px}
-        .type-card .t-tag{display:inline-block;font-size:.55rem;font-weight:700;
-            padding:2px 8px;border-radius:20px;margin-top:4px;
-            background:rgba(255,144,0,.2);color:var(--accent)}
-
-        /* ========== CATEGORY SELECT ========== */
-        #catSelect{display:none}
-        .cat-grid{display:grid;gap:10px;margin-top:16px}
-        .cat-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
+        /* ========== HOME MENU ========== */
+        #homeMenu{display:none}
+        .menu-grid{display:grid;gap:10px;margin-top:16px}
+        .menu-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
             padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;
             transition:.25s;position:relative;overflow:hidden}
-        .cat-card::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;
+        .menu-card::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;
             background:linear-gradient(135deg,rgba(255,144,0,.08),transparent 60%)}
-        .cat-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateX(4px)}
-        .cat-card:hover::after{opacity:1}
-        .cat-card:active{transform:translateX(0);transition:.1s}
-        .cat-card .c-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0;
+        .menu-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateX(4px)}
+        .menu-card:hover::after{opacity:1}
+        .menu-card:active{transform:translateX(0);transition:.1s}
+        .menu-card .c-icon{font-size:2rem;width:48px;text-align:center;flex-shrink:0;
             background:var(--bg);border-radius:var(--rl);padding:10px;transition:.2s}
-        .cat-card:hover .c-icon{background:var(--accent-soft)}
-        .cat-card .c-info{flex:1;z-index:1}
-        .cat-card .c-name{font-size:1.05rem;font-weight:700;color:var(--ink)}
-        .cat-card .c-desc{font-size:.72rem;color:var(--ink-faint);margin-top:2px}
-        .cat-card .c-count{font-size:.65rem;color:var(--accent);margin-top:4px;font-weight:600}
-        .cat-card .c-hot{position:absolute;top:-1px;right:-1px;background:var(--accent);
+        .menu-card:hover .c-icon{background:var(--accent-soft)}
+        .menu-card .c-info{flex:1;z-index:1}
+        .menu-card .c-name{font-size:1.05rem;font-weight:700;color:var(--ink)}
+        .menu-card .c-desc{font-size:.72rem;color:var(--ink-faint);margin-top:2px}
+        .menu-card .c-count{font-size:.65rem;color:var(--accent);margin-top:4px;font-weight:600}
+        .menu-card .c-hot{position:absolute;top:-1px;right:-1px;background:var(--accent);
             color:#000;font-size:.6rem;padding:3px 8px;border-radius:0 var(--rl) 0 var(--rl);font-weight:700;
             animation:pulse 2s infinite}
+        .menu-section{font-size:.72rem;color:var(--ink-faint);font-weight:700;letter-spacing:1px;margin:18px 0 0}
 
-        /* ========== DIFFICULTY SELECT ========== */
-        #diffSelect{display:none}
-        .diff-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px}
-        .diff-card{background:var(--bg-card);border:2px solid #333;border-radius:var(--rl);
-            padding:20px 10px;text-align:center;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
-        .diff-card:hover{border-color:var(--accent);background:var(--bg-hover);transform:translateY(-3px);
-            box-shadow:0 8px 20px rgba(0,0,0,.3)}
-        .diff-card:active{transform:translateY(0);transition:.1s}
-        .diff-card .d-label{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-        .diff-card .d-grid{font-size:.72rem;color:var(--ink-soft);margin-bottom:8px}
-        .diff-card .d-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:3px 10px;border-radius:20px}
-        .diff-card .d-tag.t1{background:var(--accent-soft);color:var(--accent)}
-        .diff-card .d-tag.t2{background:rgba(255,144,0,.25);color:var(--accent)}
-        .diff-card .d-tag.t3{background:rgba(231,76,60,.18);color:var(--red);animation:pulse 2s infinite}
-        .diff-card .d-preview{font-size:1.4rem;margin-bottom:4px}
-
-        /* ========== GAME ========== */
-        #gameArea{display:none}
+        /* ========== TOP BAR (in-screen) ========== */
         .top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
         .top-bar .back-btn{background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer;
             padding:4px 8px;border-radius:var(--r);transition:.15s}
         .top-bar .back-btn:hover{background:var(--bg-card);color:var(--ink)}
         .top-bar .g-title{font-size:1rem;font-weight:700}
-        .stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-        .stats .score{font-size:.85rem;color:var(--ink-soft)}
-        .stats .score span{color:var(--accent);font-weight:700;font-family:'JetBrains Mono',monospace}
-        .stats .streak{font-size:.78rem;color:var(--accent);font-weight:600;transition:.2s}
-        .stats .streak.big{animation:bounceIn .3s ease}
 
-        /* Progress bar */
+        /* ========== PRACTICE / EXAM SHARED ========== */
+        #practiceArea,#examArea,#examResult{display:none}
+        .stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+        .stats .score{font-size:.82rem;color:var(--ink-soft)}
+        .stats .score b{color:var(--green);font-weight:700;font-family:'JetBrains Mono',monospace}
+        .stats .score i{color:var(--red);font-weight:700;font-style:normal;font-family:'JetBrains Mono',monospace}
+        .stats .unlock-ind{font-size:.78rem;color:var(--accent);font-weight:600}
         .progress-bar{height:4px;background:#222;border-radius:2px;margin-bottom:12px;overflow:hidden;position:relative}
         .progress-fill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;
             background:linear-gradient(90deg,var(--accent),#ffb347);position:relative}
         .progress-fill::after{content:'';position:absolute;top:0;right:0;width:20px;height:100%;
             background:linear-gradient(90deg,transparent,rgba(255,255,255,.3));animation:shimmer 2s infinite}
 
-        /* Image Grid */
+        /* ========== REWARD VIDEO + SINGLE MOSAIC ========== */
         .img-container{position:relative;width:100%;aspect-ratio:1;border-radius:var(--rl);
             overflow:hidden;margin-bottom:12px;background:var(--bg-card);
             box-shadow:0 4px 20px rgba(0,0,0,.4)}
-        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%;transition:filter .8s ease}
-        .img-layer img{width:100%;height:100%;object-fit:cover}
+        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%}
         .img-layer iframe{width:100%;height:100%;border:0;display:block;background:#000}
-        .tile-grid{display:grid;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
-        .tile{
-            background:rgba(13,13,13,.35);
-            border:1px solid rgba(30,30,30,.6);
-            transition:all .6s cubic-bezier(.4,0,.2,1);
-            display:flex;align-items:center;justify-content:center;
-            cursor:default;position:relative;overflow:hidden;
-            backdrop-filter:blur(18px) saturate(1.3);
-            -webkit-backdrop-filter:blur(18px) saturate(1.3);
-        }
-        .tile::after{
-            content:'';position:absolute;inset:0;
-            background:repeating-conic-gradient(rgba(0,0,0,.08) 0% 25%, transparent 0% 50%) 0 0/8px 8px;
-            pointer-events:none;
-        }
-        .tile.revealed{
-            opacity:0;pointer-events:none;
-            transform:scale(.7) rotateY(180deg);
-            backdrop-filter:none;-webkit-backdrop-filter:none;
-            background:transparent;border-color:transparent;
-        }
-        .tile.revealed::after{display:none}
-        .tile.wrong{animation:tileShake .5s ease;background:rgba(231,76,60,.2);border-color:rgba(231,76,60,.4)}
-        .tile.correct-flash{animation:tileFlash .5s ease;background:rgba(46,204,113,.15);border-color:rgba(46,204,113,.4)}
-        @keyframes tileShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
-        @keyframes tileFlash{0%{background:rgba(46,204,113,.3)}100%{background:rgba(13,13,13,.35)}}
+        .mosaic-cover{position:absolute;inset:0;z-index:2;
+            background:rgba(13,13,13,.45);
+            backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);
+            display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+            transition:opacity .9s ease}
+        .mosaic-cover::after{content:'';position:absolute;inset:0;
+            background:repeating-conic-gradient(rgba(0,0,0,.1) 0% 25%, transparent 0% 50%) 0 0/10px 10px;
+            pointer-events:none}
+        .mosaic-cover.cleared{opacity:0;pointer-events:none}
+        .mosaic-cover .mc-lock{font-size:2.2rem}
+        .mosaic-cover .mc-text{font-size:.8rem;color:rgba(255,255,255,.85);font-weight:600;z-index:1}
+        .mosaic-dots{display:flex;gap:8px;z-index:1}
+        .mosaic-dots .dot{width:12px;height:12px;border-radius:50%;background:#333;border:1px solid #555;transition:.3s}
+        .mosaic-dots .dot.on{background:var(--accent);border-color:var(--accent);box-shadow:0 0 8px var(--accent-soft);animation:bounceIn .3s ease}
+        .video-swap{text-align:center;margin:-4px 0 12px}
+        .video-swap button{background:var(--bg-card);border:1px solid #333;color:var(--ink-soft);
+            font-family:inherit;font-size:.72rem;font-weight:600;padding:6px 16px;border-radius:20px;
+            cursor:pointer;transition:.2s}
+        .video-swap button:hover{border-color:var(--accent);color:var(--accent)}
 
-        /* Question */
+        /* ========== QUESTION CARD ========== */
         .q-card{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:16px;
             transition:.2s;position:relative}
-        .q-label{font-size:.7rem;color:var(--ink-faint);margin-bottom:6px;text-align:center;
-            font-family:'JetBrains Mono',monospace}
-        .q-text{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:14px;
-            text-align:center;line-height:1.5;min-height:2.5em;animation:fadeIn .3s ease}
-        .q-options{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-        .q-opt{padding:10px 6px;border-radius:var(--r);border:2px solid #333;background:transparent;
-            color:var(--ink);font-family:inherit;font-size:.82rem;font-weight:500;
-            cursor:pointer;transition:.2s;text-align:center;line-height:1.3;position:relative;overflow:hidden}
-        .q-opt::before{content:'';position:absolute;inset:0;background:var(--accent);opacity:0;transition:.3s}
-        .q-opt:hover{border-color:var(--accent);background:var(--accent-soft);transform:scale(1.02)}
-        .q-opt:active{transform:scale(.97);transition:.1s}
-        .q-opt.correct{border-color:var(--green);background:rgba(46,204,113,.15);color:var(--green);
-            animation:scaleIn .2s ease}
+        .q-label{font-size:.7rem;color:var(--ink-faint);margin-bottom:6px;display:flex;
+            justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace}
+        .q-type-tag{display:inline-block;font-size:.62rem;font-weight:700;padding:2px 8px;border-radius:20px;
+            background:var(--accent-soft);color:var(--accent)}
+        .q-type-tag.multi{background:rgba(231,76,60,.15);color:var(--red)}
+        .q-text{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:12px;
+            line-height:1.55;animation:fadeIn .3s ease}
+        .q-img{text-align:center;margin-bottom:12px}
+        .q-img img,.q-img video{max-width:100%;max-height:240px;border-radius:var(--r);background:#000}
+        .q-options{display:grid;grid-template-columns:1fr;gap:6px}
+        .q-options.judge{grid-template-columns:1fr 1fr}
+        .q-opt{padding:11px 12px;border-radius:var(--r);border:2px solid #333;background:transparent;
+            color:var(--ink);font-family:inherit;font-size:.84rem;font-weight:500;
+            cursor:pointer;transition:.2s;text-align:left;line-height:1.4;position:relative}
+        .q-options.judge .q-opt{text-align:center}
+        .q-opt .ol{color:var(--ink-faint);font-weight:700;margin-right:6px}
+        .q-opt:hover{border-color:var(--accent);background:var(--accent-soft)}
+        .q-opt:active{transform:scale(.98);transition:.1s}
+        .q-opt.selected{border-color:var(--accent);background:var(--accent-soft)}
+        .q-opt.correct{border-color:var(--green);background:rgba(46,204,113,.15);color:var(--green);animation:scaleIn .2s ease}
+        .q-opt.correct .ol{color:var(--green)}
         .q-opt.wrong{border-color:var(--red);background:rgba(231,76,60,.15);color:var(--red)}
-        .q-opt:disabled{cursor:default;opacity:.7}
+        .q-opt.wrong .ol{color:var(--red)}
+        .q-opt:disabled{cursor:default;opacity:.85}
         .q-opt:disabled:hover{transform:none}
+        .q-submit{margin-top:8px;width:100%;padding:11px;border-radius:var(--r);border:none;
+            background:var(--accent);color:#000;font-family:inherit;font-size:.88rem;font-weight:700;
+            cursor:pointer;transition:.2s}
+        .q-submit:hover{background:var(--accent-deep)}
+        .q-submit:disabled{background:#333;color:var(--ink-faint);cursor:default}
+
+        /* ========== EXPLAIN BOX ========== */
+        .explain-box{margin-top:12px;background:#141414;border:1px solid #2a2a2a;border-left:3px solid var(--accent);
+            border-radius:var(--r);padding:12px;animation:slideUp .3s ease}
+        .explain-box .eb-ans{font-size:.78rem;font-weight:700;margin-bottom:6px}
+        .explain-box .eb-ans.ok{color:var(--green)}
+        .explain-box .eb-ans.no{color:var(--red)}
+        .explain-box .eb-text{font-size:.78rem;color:var(--ink-soft);line-height:1.6;white-space:pre-line}
+        .next-btn{margin-top:10px;width:100%;padding:11px;border-radius:var(--r);border:none;
+            background:var(--accent);color:#000;font-family:inherit;font-size:.88rem;font-weight:700;
+            cursor:pointer;transition:.2s}
+        .next-btn:hover{background:var(--accent-deep)}
+
+        /* nav row under question */
+        .q-nav{display:flex;gap:8px;margin-top:10px}
+        .q-nav button{flex:1;padding:9px;border-radius:var(--r);border:1px solid #333;background:transparent;
+            color:var(--ink-soft);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s}
+        .q-nav button:hover{border-color:var(--accent);color:var(--accent)}
+        .q-nav button:disabled{opacity:.35;cursor:default}
+        .q-nav button:disabled:hover{border-color:#333;color:var(--ink-soft)}
 
         /* Motivation bar */
         .moti-bar{text-align:center;margin-top:8px;min-height:22px}
-        .moti-text{font-size:.72rem;color:var(--accent);font-weight:600;animation:fadeIn .3s ease;
-            display:inline-block}
+        .moti-text{font-size:.72rem;color:var(--accent);font-weight:600;animation:fadeIn .3s ease;display:inline-block}
 
-        /* ========== WIN ========== */
-        #winScreen{display:none}
-        .win-box{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
-            padding:24px;text-align:center;margin-top:12px;animation:slideUp .5s ease}
-        .win-box h2{font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:6px}
-        .win-stats{font-size:.85rem;color:var(--ink-soft);margin-bottom:16px}
+        /* ========== EXAM ========== */
+        .exam-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;
+            background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:10px 14px}
+        .exam-head .eh-item{text-align:center}
+        .exam-head .eh-num{font-size:1.05rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+        .exam-head .eh-label{font-size:.6rem;color:var(--ink-faint);margin-top:1px}
+        .exam-head .timer{color:var(--accent)}
+        .exam-head .timer.danger{color:var(--red);animation:pulse 1s infinite}
+        .exam-head .err-num{color:var(--red)}
+        .exam-head .ok-num{color:var(--green)}
+        .exam-warn{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:var(--red);
+            font-size:.75rem;font-weight:600;text-align:center;padding:8px;border-radius:var(--r);
+            margin-bottom:10px;animation:slideUp .3s ease}
+        .exam-submit-row{text-align:center;margin-top:12px}
+        .exam-submit-row button{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.3);
+            padding:8px 24px;border-radius:var(--r);font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s}
+        .exam-submit-row button:hover{background:rgba(231,76,60,.25)}
+
+        /* ========== EXAM RESULT ========== */
+        .result-box{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);
+            padding:28px 24px;text-align:center;margin-top:16px;animation:slideUp .5s ease}
+        .result-box .rb-score{font-size:3.2rem;font-weight:900;font-family:'JetBrains Mono',monospace;line-height:1}
+        .result-box .rb-score.pass{color:var(--green)}
+        .result-box .rb-score.fail{color:var(--red)}
+        .result-box .rb-verdict{font-size:1.2rem;font-weight:800;margin:10px 0 4px}
+        .result-box .rb-stats{font-size:.8rem;color:var(--ink-soft);margin-bottom:18px;line-height:1.8}
         .win-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
         .win-btns button{padding:10px 24px;border-radius:var(--r);border:none;
             font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s}
         .btn-next{background:var(--accent);color:#000}
         .btn-next:hover{background:var(--accent-deep);transform:scale(1.04)}
-        .btn-next:active{transform:scale(.96)}
         .btn-back{background:#333;color:var(--ink-soft)}
         .btn-back:hover{background:#444}
 
-        /* ========== WRONG ANSWER REVIEW ========== */
+        /* ========== WRONG ANSWER BOOK ========== */
         #wrongReview{display:none}
         .wr-header{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
         .wr-header .back-btn{background:none;border:none;color:var(--ink-soft);font-size:.85rem;cursor:pointer;
@@ -290,10 +294,14 @@
         .wr-item{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:14px;
             animation:slideUp .3s ease}
         .wr-q{font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.4}
-        .wr-opts{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+        .wr-img{text-align:center;margin-bottom:8px}
+        .wr-img img,.wr-img video{max-width:100%;max-height:180px;border-radius:var(--r);background:#000}
+        .wr-opts{display:grid;grid-template-columns:1fr;gap:4px}
         .wr-opt{font-size:.72rem;padding:5px 8px;border-radius:var(--r);background:#111;color:var(--ink-faint)}
         .wr-opt.wr-correct{background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.3)}
         .wr-opt.wr-wrong-pick{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.3);text-decoration:line-through}
+        .wr-explain{font-size:.72rem;color:var(--ink-soft);line-height:1.6;margin-top:8px;
+            background:#141414;border-left:2px solid var(--accent);padding:8px 10px;border-radius:var(--r);white-space:pre-line}
         .wr-meta{font-size:.62rem;color:var(--ink-faint);margin-top:6px;display:flex;justify-content:space-between}
         .wr-clear{background:rgba(231,76,60,.12);color:var(--red);border:1px solid rgba(231,76,60,.3);
             padding:8px 20px;border-radius:var(--r);font-family:inherit;font-size:.78rem;font-weight:600;
@@ -302,65 +310,6 @@
         .wr-count{display:inline-block;background:var(--red);color:#fff;font-size:.6rem;
             min-width:16px;height:16px;line-height:16px;border-radius:8px;text-align:center;
             font-weight:700;margin-left:4px}
-
-        /* ========== RANK SYSTEM ========== */
-        #rankScreen{display:none}
-        .rank-header{text-align:center;padding:20px 0 10px}
-        .rank-badge{width:100px;height:100px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;
-            justify-content:center;font-size:48px;position:relative;animation:scaleIn .5s ease}
-        .rank-badge::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid;
-            border-color:inherit;opacity:.3;animation:pulse 2s infinite}
-        .rank-title{font-size:1.6rem;font-weight:800;margin-bottom:2px}
-        .rank-sub{font-size:.8rem;color:var(--ink-soft)}
-        .rank-progress{margin:16px 0;background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:16px}
-        .rank-bar-wrap{background:#222;border-radius:10px;height:10px;overflow:hidden;margin:8px 0 4px}
-        .rank-bar-fill{height:100%;border-radius:10px;transition:width .8s ease;background:linear-gradient(90deg,var(--accent),#ffb74d)}
-        .rank-next{font-size:.72rem;color:var(--ink-faint);display:flex;justify-content:space-between}
-        .rank-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0}
-        .rank-stat{background:var(--bg-card);border:1px solid #333;border-radius:var(--rl);padding:14px;text-align:center}
-        .rank-stat .rs-num{font-size:1.4rem;font-weight:800;color:var(--accent)}
-        .rank-stat .rs-label{font-size:.7rem;color:var(--ink-faint);margin-top:2px}
-        .rank-combos{margin:16px 0}
-        .rank-combos h3{font-size:.85rem;font-weight:700;margin-bottom:8px;color:var(--ink-soft)}
-        .combo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-        .combo-cell{padding:6px 4px;border-radius:var(--r);font-size:.6rem;text-align:center;font-weight:600;
-            border:1px solid #333;color:var(--ink-faint);background:var(--bg)}
-        .combo-cell.done{background:var(--accent-soft);color:var(--accent);border-color:rgba(255,144,0,.3)}
-        /* Share card */
-        .share-card{background:#1a1a1a;border:2px solid var(--accent);border-radius:12px;padding:24px;
-            text-align:center;margin:16px 0;position:relative;overflow:hidden}
-        .share-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-            background:radial-gradient(circle at center,rgba(255,144,0,.06) 0%,transparent 60%);pointer-events:none}
-        .share-card .sc-rank{font-size:2rem;font-weight:900;margin:8px 0}
-        .share-card .sc-stats{font-size:.78rem;color:var(--ink-soft);margin:8px 0}
-        .share-card .sc-stats strong{color:var(--accent)}
-        .share-card .sc-qr{margin-top:12px;font-size:.65rem;color:var(--ink-faint);padding:6px 12px;
-            background:#111;border-radius:var(--r);display:inline-block;word-break:break-all}
-        .share-card .sc-slogan{font-size:.88rem;font-weight:700;color:var(--accent);margin-top:10px}
-        .share-btns{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
-        .share-btns button{padding:8px 16px;border-radius:var(--r);border:none;font-family:inherit;
-            font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s}
-        .btn-share-img{background:var(--accent);color:#000}
-        .btn-share-img:hover{background:var(--accent-deep)}
-        .btn-share-link{background:#333;color:var(--ink)}
-        .btn-share-link:hover{background:#444}
-        /* Rank-up overlay */
-        .rankup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;
-            align-items:center;justify-content:center;animation:fadeIn .3s}
-        .rankup-box{text-align:center;animation:scaleIn .5s ease}
-        .rankup-box .ru-icon{font-size:64px;margin-bottom:12px;animation:pulse 1s infinite}
-        .rankup-box .ru-title{font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:4px}
-        .rankup-box .ru-from{font-size:.85rem;color:var(--ink-faint)}
-        .rankup-box .ru-to{font-size:1.2rem;font-weight:700;margin:8px 0}
-        .rankup-box .ru-dismiss{background:var(--accent);color:#000;border:none;padding:10px 28px;
-            border-radius:var(--r);font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:16px}
-        /* Rank button in gender screen */
-        .rank-entry{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;
-            border:1px solid #333;background:var(--bg-card);color:var(--ink-soft);font-size:.78rem;font-weight:600;
-            cursor:pointer;transition:.2s;margin-top:12px}
-        .rank-entry:hover{border-color:var(--accent);color:var(--accent)}
-        .rank-entry .re-icon{font-size:1rem}
-        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.05)}}
 
         /* ========== CONFETTI ========== */
         .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;overflow:hidden}
@@ -371,15 +320,10 @@
         .ph-footer a{color:var(--accent);text-decoration:none}
         .ph-footer .src{color:var(--ink-faint)}
 
-        /* ========== SCREEN TRANSITIONS ========== */
         .screen-enter{animation:slideUp .4s ease}
 
-        /* ========== RESPONSIVE ========== */
         @media(max-width:400px){
             .ph-search{display:none}
-            .diff-grid{gap:6px}
-            .diff-card{padding:14px 6px}
-            .type-card{height:160px}
         }
     </style>
 </head>
@@ -387,8 +331,8 @@
 
 <!-- PH-Style Top Bar -->
 <div class="ph-bar" id="phBar" style="display:none">
-    <div class="ph-logo" onclick="location.reload()"><span class="lw">性感</span><span class="lo">上岸</span></div>
-    <div class="ph-search"><input type="text" placeholder="搜索题库..." disabled></div>
+    <div class="ph-logo" onclick="goHome()"><span class="lw">性感</span><span class="lo">上岸</span></div>
+    <div class="ph-search"><input type="text" placeholder="驾考题库 · 科一科四" disabled></div>
     <div class="ph-nav">
         <button class="btn-up btn-wrong-book" onclick="openWrongReview()" id="wrongBookBtn" style="display:none">错题本<span class="wr-count" id="wrongCount">0</span></button>
         <button class="btn-up">上传</button>
@@ -398,14 +342,11 @@
 
 <!-- Category Tabs -->
 <div class="ph-tabs" id="phTabs" style="display:none">
-    <div class="ph-tab active">推荐</div>
-    <div class="ph-tab">最新</div>
-    <div class="ph-tab">驾照科目一</div>
-    <div class="ph-tab">考公行测</div>
-    <div class="ph-tab">雅思英语</div>
-    <div class="ph-tab">四六级</div>
-    <div class="ph-tab">考研</div>
-    <div class="ph-tab">高考</div>
+    <div class="ph-tab active" onclick="goHome()">首页</div>
+    <div class="ph-tab" onclick="startPractice('km1')">科目一</div>
+    <div class="ph-tab" onclick="startPractice('km4')">科目四</div>
+    <div class="ph-tab" onclick="startExam('km1')">模拟考试</div>
+    <div class="ph-tab" onclick="openWrongReview()">错题本</div>
 </div>
 
 <div class="page">
@@ -426,7 +367,7 @@
 <div id="genderSelect">
     <header>
         <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
-        <div class="sub">答对题才能看 -- 做错了穿回去</div>
+        <div class="sub">驾考刷题 -- 答对 3 题解锁视频奖励</div>
         <div class="badge">18+</div>
     </header>
     <div class="gender-grid">
@@ -435,7 +376,7 @@
             <div class="g-overlay"></div>
             <div class="g-content">
                 <div class="g-label">我要看美女</div>
-                <div class="g-desc">日韩欧美 4种风格</div>
+                <div class="g-desc">真人视频奖励</div>
             </div>
         </div>
         <div class="gender-card" onclick="pickGender('m')">
@@ -443,15 +384,74 @@
             <div class="g-overlay"></div>
             <div class="g-content">
                 <div class="g-label">我要看帅哥</div>
-                <div class="g-desc">鲜肉偶像硬汉猛男</div>
+                <div class="g-desc">真人视频奖励</div>
             </div>
         </div>
     </div>
-    <div style="text-align:center">
-        <button class="rank-entry" onclick="showRankScreen()">
-            <span class="re-icon" id="reIcon"></span>
-            <span id="reTitle">我的段位</span>
-        </button>
+    <div class="ph-footer">
+        <a href="../">AI-Connie 出品</a><br>
+        <span class="src">shujilai.github.io/connieai-store</span>
+    </div>
+</div>
+
+<!-- Home Menu -->
+<div id="homeMenu">
+    <header>
+        <div class="logo" style="font-size:1.5rem"><span class="logo-w">驾考</span><span class="logo-o">上岸</span></div>
+        <div class="sub">C1 小车全量真题 -- 顺序刷题 · 答对 3 题解锁视频</div>
+    </header>
+    <div class="menu-section">顺序练习</div>
+    <div class="menu-grid">
+        <div class="menu-card" onclick="startPractice('km1')">
+            <div class="c-icon">🚗</div>
+            <div class="c-info">
+                <div class="c-name">科目一 顺序练习</div>
+                <div class="c-desc">道路交通安全法律法规</div>
+                <div class="c-count" id="km1Prog"></div>
+            </div>
+            <div class="c-hot">HOT</div>
+        </div>
+        <div class="menu-card" onclick="startPractice('km4')">
+            <div class="c-icon">🛣️</div>
+            <div class="c-info">
+                <div class="c-name">科目四 顺序练习</div>
+                <div class="c-desc">安全文明驾驶常识</div>
+                <div class="c-count" id="km4Prog"></div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-section">模拟考试</div>
+    <div class="menu-grid">
+        <div class="menu-card" onclick="startExam('km1')">
+            <div class="c-icon">📝</div>
+            <div class="c-info">
+                <div class="c-name">科目一 模拟考试</div>
+                <div class="c-desc">100 题 · 45 分钟 · 90 分及格</div>
+                <div class="c-count">全真模拟 随机抽题</div>
+            </div>
+        </div>
+        <div class="menu-card" onclick="startExam('km4')">
+            <div class="c-icon">🏁</div>
+            <div class="c-info">
+                <div class="c-name">科目四 模拟考试</div>
+                <div class="c-desc">50 题 · 30 分钟 · 90 分及格</div>
+                <div class="c-count">全真模拟 随机抽题</div>
+            </div>
+        </div>
+    </div>
+    <div class="menu-section">复习</div>
+    <div class="menu-grid">
+        <div class="menu-card" onclick="openWrongReview()">
+            <div class="c-icon">📕</div>
+            <div class="c-info">
+                <div class="c-name">错题本</div>
+                <div class="c-desc">做错的题都在这里 -- 带答案解析</div>
+                <div class="c-count" id="wrTotalHint"></div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+        <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择奖励类型</button>
     </div>
     <div class="ph-footer">
         <a href="../">AI-Connie 出品</a><br>
@@ -459,126 +459,98 @@
     </div>
 </div>
 
-<!-- Rank Profile Screen -->
-<div id="rankScreen">
-    <header>
-        <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
-    </header>
-    <div class="rank-header">
-        <div class="rank-badge" id="rkBadge"></div>
-        <div class="rank-title" id="rkTitle"></div>
-        <div class="rank-sub" id="rkSub"></div>
-    </div>
-    <div class="rank-progress">
-        <div style="font-size:.78rem;font-weight:600">段位进度</div>
-        <div class="rank-bar-wrap"><div class="rank-bar-fill" id="rkBarFill"></div></div>
-        <div class="rank-next"><span id="rkCur"></span><span id="rkNxt"></span></div>
-    </div>
-    <div class="rank-stats" id="rkStats"></div>
-    <div class="rank-combos">
-        <h3>通关进度 (分类 x 难度)</h3>
-        <div class="combo-grid" id="rkCombos"></div>
-    </div>
-    <!-- Share card -->
-    <div class="share-card" id="shareCard">
-        <div style="font-size:.65rem;color:var(--ink-faint)">性感上岸 -- 段位认证</div>
-        <div class="sc-rank" id="scRank"></div>
-        <div class="sc-stats" id="scStats"></div>
-        <div class="sc-slogan" id="scSlogan">不服来战 看谁先上岸</div>
-        <div class="sc-qr">shujilai.github.io/connieai-store/products/sexy-math.html</div>
-    </div>
-    <div class="share-btns">
-        <button class="btn-share-img" onclick="saveShareCard()">保存分享卡片</button>
-        <button class="btn-share-link" onclick="copyShareLink()">复制链接</button>
-    </div>
-    <div style="text-align:center;margin-top:16px">
-        <button onclick="backFromRank()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 返回</button>
-    </div>
-</div>
-
-<!-- Type Select -->
-<div id="typeSelect">
-    <header>
-        <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">类型</span></div>
-        <div class="sub">你喜欢什么风格?</div>
-    </header>
-    <div class="type-grid" id="typeGrid"></div>
-    <div style="text-align:center;margin-top:14px">
-        <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择</button>
-    </div>
-</div>
-
-<!-- Category Select -->
-<div id="catSelect">
-    <header>
-        <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">题库</span></div>
-        <div class="sub">难度越高 -- 尺度越大</div>
-    </header>
-    <div class="cat-grid" id="catGrid"></div>
-    <div style="text-align:center;margin-top:14px">
-        <button onclick="backToType()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 换风格</button>
-    </div>
-    <div class="ph-footer">
-        <a href="../">AI-Connie 出品</a><br>
-        <span class="src">shujilai.github.io/connieai-store</span>
-    </div>
-</div>
-
-<!-- Difficulty Select -->
-<div id="diffSelect">
-    <header>
-        <div class="logo" style="font-size:1.5rem"><span class="logo-w">选择</span><span class="logo-o">难度</span></div>
-        <div class="sub" id="diffSub">难度越高 -- 尺度越大</div>
-    </header>
-    <div class="diff-grid" id="diffGrid"></div>
-    <div style="text-align:center;margin-top:14px">
-        <button onclick="backToCats()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 换题库</button>
-    </div>
-</div>
-
-<!-- Game Area -->
-<div id="gameArea">
+<!-- Practice Area -->
+<div id="practiceArea">
     <div class="top-bar">
-        <button class="back-btn" onclick="backToDiff()">&larr; 返回</button>
-        <div class="g-title" id="gameTitle"></div>
+        <button class="back-btn" onclick="goHome()">&larr; 返回</button>
+        <div class="g-title" id="pTitle"></div>
         <div style="width:48px"></div>
     </div>
     <div class="stats">
-        <div class="score">得分 <span id="scoreNum">0</span></div>
-        <div class="streak" id="streakText"></div>
+        <div class="score">本次 对 <b id="pRight">0</b> / 错 <i id="pWrong">0</i></div>
+        <div class="unlock-ind" id="pUnlockInd">🔒 0/3</div>
     </div>
-    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    <div class="progress-bar"><div class="progress-fill" id="pProgFill"></div></div>
     <div class="img-container">
-        <div class="img-layer" id="imgLayer"></div>
-        <div class="tile-grid" id="tileGrid"></div>
+        <div class="img-layer" id="pVideoLayer"></div>
+        <div class="mosaic-cover" id="pMosaic">
+            <div class="mc-lock">🔒</div>
+            <div class="mc-text">答对 3 题自动解锁视频</div>
+            <div class="mosaic-dots" id="pDots">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+        </div>
+    </div>
+    <div class="video-swap" id="pSwapRow" style="display:none">
+        <button onclick="nextRewardVideo()">下一个视频 (重新打码 再答3题)</button>
     </div>
     <div class="q-card">
-        <div class="q-label" id="qLabel"></div>
-        <div class="q-text" id="qText"></div>
-        <div class="q-options" id="qOpts"></div>
+        <div class="q-label">
+            <span id="pQNum"></span>
+            <span class="q-type-tag" id="pQType"></span>
+        </div>
+        <div class="q-text" id="pQText"></div>
+        <div class="q-img" id="pQImg"></div>
+        <div class="q-options" id="pQOpts"></div>
+        <button class="q-submit" id="pSubmitBtn" style="display:none" onclick="submitMulti('p')">确认答案</button>
+        <div id="pExplain"></div>
+        <div class="q-nav">
+            <button onclick="prevQuestion()" id="pPrevBtn">&larr; 上一题</button>
+            <button onclick="skipQuestion()" id="pNextBtn">下一题 &rarr;</button>
+        </div>
     </div>
-    <div class="moti-bar" id="motiBar"></div>
+    <div class="moti-bar" id="pMotiBar"></div>
 </div>
 
-<!-- Win Screen -->
-<div id="winScreen">
+<!-- Exam Area -->
+<div id="examArea">
+    <div class="top-bar">
+        <button class="back-btn" onclick="quitExam()">&larr; 退出考试</button>
+        <div class="g-title" id="eTitle"></div>
+        <div style="width:64px"></div>
+    </div>
+    <div class="exam-head">
+        <div class="eh-item"><div class="eh-num timer" id="eTimer">45:00</div><div class="eh-label">剩余时间</div></div>
+        <div class="eh-item"><div class="eh-num" id="eQNum">1/100</div><div class="eh-label">题目进度</div></div>
+        <div class="eh-item"><div class="eh-num ok-num" id="eRight">0</div><div class="eh-label">答对</div></div>
+        <div class="eh-item"><div class="eh-num err-num" id="eWrong">0</div><div class="eh-label">答错</div></div>
+    </div>
+    <div id="eWarnBox"></div>
+    <div class="progress-bar"><div class="progress-fill" id="eProgFill"></div></div>
+    <div class="q-card">
+        <div class="q-label">
+            <span id="eQLabel"></span>
+            <span class="q-type-tag" id="eQType"></span>
+        </div>
+        <div class="q-text" id="eQText"></div>
+        <div class="q-img" id="eQImg"></div>
+        <div class="q-options" id="eQOpts"></div>
+        <button class="q-submit" id="eSubmitBtn" style="display:none" onclick="submitMulti('e')">确认答案</button>
+        <div id="eExplain"></div>
+    </div>
+    <div class="exam-submit-row">
+        <button onclick="finishExam(true)">提前交卷</button>
+    </div>
+</div>
+
+<!-- Exam Result -->
+<div id="examResult">
     <header>
         <div class="logo"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
     </header>
-    <div class="img-container" id="winImg" style="animation:scaleIn .6s ease"></div>
-    <div class="win-box">
-        <h2 id="winTitle">上岸成功</h2>
-        <div class="win-stats" id="winStats"></div>
-        <div id="winRankUp" style="margin:12px 0"></div>
+    <div class="result-box">
+        <div class="rb-score" id="rScore">0</div>
+        <div class="rb-verdict" id="rVerdict"></div>
+        <div class="rb-stats" id="rStats"></div>
         <div class="win-btns">
-            <button class="btn-next" onclick="backToDiff()">再来一局</button>
-            <button class="btn-share-img" onclick="showRankScreen()" style="padding:10px 24px;border-radius:var(--r);font-family:inherit;font-size:.9rem">炫耀段位</button>
-            <button class="btn-back" onclick="location.href='../'">回商店</button>
+            <button class="btn-next" onclick="retryExam()">再考一次</button>
+            <button class="btn-back" onclick="openWrongReview()">查看错题</button>
+            <button class="btn-back" onclick="goHome()">返回首页</button>
         </div>
     </div>
 </div>
 
-<!-- Wrong Answer Review -->
+<!-- Wrong Answer Book -->
 <div id="wrongReview">
     <div class="wr-header">
         <button class="back-btn" onclick="closeWrongReview()">&larr; 返回</button>
@@ -588,7 +560,7 @@
     <div class="wr-tabs" id="wrTabs"></div>
     <div class="wr-list" id="wrList"></div>
     <div style="text-align:center">
-        <button class="wr-clear" id="wrClearBtn" onclick="clearWrongAnswers()">清空当前分类错题</button>
+        <button class="wr-clear" id="wrClearBtn" onclick="clearWrongAnswers()">清空当前科目错题</button>
     </div>
 </div>
 
@@ -597,116 +569,18 @@
 <!-- Confetti container -->
 <div class="confetti-container" id="confettiBox"></div>
 
-<!-- External question bank (80+ per category, fallback) -->
-<script src="sexy-questions.js"></script>
-<!-- Supabase SDK for remote data -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-// ===== SUPABASE DATA LAYER =====
-const SB_CFG_KEY = 'sexy_admin_config';
-const SB_DEFAULT = { url:'https://ngvfumzebbestpandszx.supabase.co', key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ndmZ1bXplYmJlc3RwYW5kc3p4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2MzcwMTEsImV4cCI6MjA4OTIxMzAxMX0.vstaPpmbwI6qyVXk44evcOmyyQjfdnibcDFkJrnHMaU' };
-let sbClient = null;
-let remoteQ = null;   // { drive:[], civil:[], ielts:[] } from Supabase
-let remoteIMG = null;  // { f:{ jp:{ easy:[], ... }, ... }, m:{ ... } } from Supabase
-
-(function initRemoteData() {
-  try {
-    let cfg;
-    try { cfg = JSON.parse(localStorage.getItem(SB_CFG_KEY)); } catch {}
-    if (!cfg || !cfg.url || !cfg.key) cfg = SB_DEFAULT;
-    sbClient = supabase.createClient(cfg.url, cfg.key);
-
-    // Load questions
-    sbClient.from('questions').select('*').then(({ data }) => {
-      if (data && data.length > 0) {
-        remoteQ = { drive:[], civil:[], ielts:[] };
-        data.forEach(r => {
-          if (remoteQ[r.category]) {
-            remoteQ[r.category].push({ q: r.question, o: r.options, a: r.answer_index });
-          }
-        });
-      }
-    });
-
-    // Load images
-    sbClient.from('reward_images').select('*').then(({ data }) => {
-      if (data && data.length > 0) {
-        remoteIMG = { f:{}, m:{} };
-        data.forEach(r => {
-          if (r.is_preview) return;
-          if (!remoteIMG[r.gender]) return;
-          if (!remoteIMG[r.gender][r.style]) remoteIMG[r.gender][r.style] = { easy:[], medium:[], hard:[] };
-          const url = `${cfg.url}/storage/v1/object/public/reward-images/${r.storage_path}`;
-          if (remoteIMG[r.gender][r.style][r.tier]) {
-            remoteIMG[r.gender][r.style][r.tier].push(url);
-          }
-        });
-      }
-    });
-  } catch(e) { /* silent fallback to local data */ }
-})();
-
-function getQuestions(catId) {
-  if (remoteQ && remoteQ[catId] && remoteQ[catId].length > 0) return remoteQ[catId];
-  return Q[catId]; // fallback to local
-}
-
-function getImagePool(g, typeId, tier) {
-  if (remoteIMG && remoteIMG[g] && remoteIMG[g][typeId] && remoteIMG[g][typeId][tier] && remoteIMG[g][typeId][tier].length > 0) {
-    return remoteIMG[g][typeId][tier];
-  }
-  return IMAGES[g][typeId][tier]; // fallback to local
-}
-</script>
-
-<script>
-// ===== MOTIVATION PHRASES =====
-const MOTI_CORRECT = [
-    '太强了! 衣服又少了一件~',
-    '答对了! 继续脱...不是, 继续答!',
-    '就是这样! 马上就能看到了!',
-    '厉害! 这波稳了!',
-    '不错不错, 再答一题就能看了~',
-    '这也太简单了吧? 继续!',
-    '可以的! 好东西在后面~',
-    '学霸! 奖励你看一格!',
-    '答对了! 离上岸又近一步!',
-    '就这? 继续冲!',
-    '看到了吗? 还有更好的!',
-    '赢麻了! 继续!',
-];
-const MOTI_WRONG = [
-    '错了! 穿回去!',
-    '答错了...给你遮回去!',
-    '不行啊你, 这都不会?',
-    '再想想? 答错扣格子!',
-    '别急, 再来!',
-    '哎呀, 手滑了吧?',
-    '这都能错? 回去复习!',
-    '遮回去! 不给你看!',
-    '差点意思, 加油!',
-];
-
-// ===== TYPE-BASED IMAGES =====
-const TYPES = {
-    f: [
-        { id:'jp', name:'日系清纯', desc:'甜美可爱 温柔如水', preview:'sexy-img/f-jp-preview.jpg' },
-        { id:'kr', name:'韩系御姐', desc:'气场全开 女王范儿', preview:'sexy-img/f-kr-preview.jpg' },
-        { id:'us', name:'欧美辣妹', desc:'热辣奔放 性感火爆', preview:'sexy-img/f-us-preview.jpg' },
-        { id:'body', name:'性感身材', desc:'完美曲线 一览无余', preview:'sexy-img/f-body-preview.jpg' },
-        { id:'video', name:'抖音真人', desc:'真实视频 边答边看', video:true },
-    ],
-    m: [
-        { id:'jp', name:'日系鲜肉', desc:'清秀白净 少年感满满', preview:'sexy-img/m-jp-preview.jpg' },
-        { id:'kr', name:'韩系偶像', desc:'精致五官 爱豆气质', preview:'sexy-img/m-kr-preview.jpg' },
-        { id:'us', name:'欧美硬汉', desc:'粗犷阳刚 荷尔蒙爆棚', preview:'sexy-img/m-us-preview.jpg' },
-        { id:'body', name:'肌肉猛男', desc:'爆炸肌肉 力量美学', preview:'sexy-img/m-body-preview.jpg' },
-        { id:'video', name:'抖音真人', desc:'真实视频 边答边看', video:true },
-    ]
+// ===== QUESTION BANKS (full C1 bank, loaded from JSON) =====
+const BANKS = { km1: null, km4: null };
+const BANK_META = {
+    km1: { name: '科目一', file: 'jiakao/km1.json', examN: 100, examMin: 45, ptsPer: 1, maxErr: 10 },
+    km4: { name: '科目四', file: 'jiakao/km4.json', examN: 50, examMin: 30, ptsPer: 2, maxErr: 5 },
 };
+const bankReady = Promise.all(Object.keys(BANK_META).map(k =>
+    fetch(BANK_META[k].file).then(r => r.json()).then(d => { BANKS[k] = d; })
+));
 
-// ===== DOUYIN VIDEO POOL (from douyin_works.json) =====
+// ===== REWARD VIDEO POOL =====
 const VIDEOS = { f: [], m: [] };
 fetch('douyin_works.json')
     .then(r => r.json())
@@ -719,836 +593,445 @@ fetch('douyin_works.json')
             });
         });
     })
-    .catch(() => { /* fallback to image types only */ });
+    .catch(() => {});
 
-function douyinEmbed(vid, autoplay) {
-    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=${autoplay ? 1 : 0}" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>`;
+function douyinEmbed(vid) {
+    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>`;
 }
 
-// Each type/tier has 3 AI-generated variants for variety
-const IMAGES = {
-    f: {
-        jp:   { easy:['sexy-img/f-jp-easy.jpg','sexy-img/f-jp-easy-2.jpg','sexy-img/f-jp-easy-3.jpg'],
-                medium:['sexy-img/f-jp-med.jpg','sexy-img/f-jp-med-2.jpg','sexy-img/f-jp-med-3.jpg'],
-                hard:['sexy-img/f-jp-hard.jpg','sexy-img/f-jp-hard-2.jpg','sexy-img/f-jp-hard-3.jpg'] },
-        kr:   { easy:['sexy-img/f-kr-easy.jpg','sexy-img/f-kr-easy-2.jpg','sexy-img/f-kr-easy-3.jpg'],
-                medium:['sexy-img/f-kr-med.jpg','sexy-img/f-kr-med-2.jpg','sexy-img/f-kr-med-3.jpg'],
-                hard:['sexy-img/f-kr-hard.jpg','sexy-img/f-kr-hard-2.jpg','sexy-img/f-kr-hard-3.jpg'] },
-        us:   { easy:['sexy-img/f-us-easy.jpg','sexy-img/f-us-easy-2.jpg','sexy-img/f-us-easy-3.jpg'],
-                medium:['sexy-img/f-us-med.jpg','sexy-img/f-us-med-2.jpg','sexy-img/f-us-med-3.jpg'],
-                hard:['sexy-img/f-us-hard.jpg','sexy-img/f-us-hard-2.jpg','sexy-img/f-us-hard-3.jpg'] },
-        body: { easy:['sexy-img/f-body-easy.jpg','sexy-img/f-body-easy-2.jpg','sexy-img/f-body-easy-3.jpg'],
-                medium:['sexy-img/f-body-med.jpg','sexy-img/f-body-med-2.jpg','sexy-img/f-body-med-3.jpg'],
-                hard:['sexy-img/f-body-hard.jpg','sexy-img/f-body-hard-2.jpg','sexy-img/f-body-hard-3.jpg'] },
-    },
-    m: {
-        jp:   { easy:['sexy-img/m-jp-easy.jpg','sexy-img/m-jp-easy-2.jpg','sexy-img/m-jp-easy-3.jpg'],
-                medium:['sexy-img/m-jp-med.jpg','sexy-img/m-jp-med-2.jpg','sexy-img/m-jp-med-3.jpg'],
-                hard:['sexy-img/m-jp-hard.jpg','sexy-img/m-jp-hard-2.jpg','sexy-img/m-jp-hard-3.jpg'] },
-        kr:   { easy:['sexy-img/m-kr-easy.jpg','sexy-img/m-kr-easy-2.jpg','sexy-img/m-kr-easy-3.jpg'],
-                medium:['sexy-img/m-kr-med.jpg','sexy-img/m-kr-med-2.jpg','sexy-img/m-kr-med-3.jpg'],
-                hard:['sexy-img/m-kr-hard.jpg','sexy-img/m-kr-hard-2.jpg','sexy-img/m-kr-hard-3.jpg'] },
-        us:   { easy:['sexy-img/m-us-easy.jpg','sexy-img/m-us-easy-2.jpg','sexy-img/m-us-easy-3.jpg'],
-                medium:['sexy-img/m-us-med.jpg','sexy-img/m-us-med-2.jpg','sexy-img/m-us-med-3.jpg'],
-                hard:['sexy-img/m-us-hard.jpg','sexy-img/m-us-hard-2.jpg','sexy-img/m-us-hard-3.jpg'] },
-        body: { easy:['sexy-img/m-body-easy.jpg','sexy-img/m-body-easy-2.jpg','sexy-img/m-body-easy-3.jpg'],
-                medium:['sexy-img/m-body-med.jpg','sexy-img/m-body-med-2.jpg','sexy-img/m-body-med-3.jpg'],
-                hard:['sexy-img/m-body-hard.jpg','sexy-img/m-body-hard-2.jpg','sexy-img/m-body-hard-3.jpg'] },
-    }
-};
-
-// ===== CATEGORIES =====
-const CATEGORIES = [
-    { id:'drive', icon:'🚗', name:'驾照科目一', desc:'科目一都答不对还想开车?', hot:true },
-    { id:'civil', icon:'📝', name:'考公行测', desc:'考不上公就去送外卖吧', hot:false },
-    { id:'ielts', icon:'🌍', name:'雅思英语', desc:'背不下单词别想出国', hot:false },
+// ===== MOTIVATION (correct only) =====
+const MOTI_CORRECT = [
+    '答对了! 继续!',
+    '就是这样! 马上就能看到了!',
+    '厉害! 这波稳了!',
+    '不错不错, 离解锁不远了~',
+    '可以的! 好东西在后面~',
+    '学霸! 继续冲!',
+    '答对了! 离上岸又近一步!',
+    '赢麻了! 继续!',
 ];
 
-// ===== DIFFICULTIES =====
-const DIFFICULTIES = [
-    { id:'easy', label:'简单', grid:3, tier:'easy', spicy:'微微露', tagClass:'t1', preview:'😳' },
-    { id:'medium', label:'中等', grid:4, tier:'medium', spicy:'若隐若现', tagClass:'t2', preview:'🥵' },
-    { id:'hard', label:'困难', grid:5, tier:'hard', spicy:'大尺度', tagClass:'t3', preview:'🔞' },
-];
-
-// ===== WRONG ANSWER STORAGE =====
-const WR_KEY = 'sexy_wrong_answers';
-function getWrongAnswers() {
-    try { return JSON.parse(localStorage.getItem(WR_KEY)) || {}; } catch(e) { return {}; }
-}
-function saveWrongAnswer(catId, question, userAnswer) {
-    const wa = getWrongAnswers();
-    if (!wa[catId]) wa[catId] = [];
-    // Avoid duplicates
-    const exists = wa[catId].some(item => item.q === question.q);
-    if (!exists) {
-        wa[catId].push({
-            q: question.q,
-            o: question.o,
-            a: question.a,
-            userAnswer: userAnswer,
-            time: Date.now()
-        });
+// ===== STORAGE =====
+const POS_KEY = 'jk_pos_v1';
+const WR_KEY = 'jk_wrong_v1';
+function getPos() { try { return JSON.parse(localStorage.getItem(POS_KEY)) || {}; } catch (e) { return {}; } }
+function savePos(sub, idx) { const p = getPos(); p[sub] = idx; localStorage.setItem(POS_KEY, JSON.stringify(p)); }
+function getWrong() { try { return JSON.parse(localStorage.getItem(WR_KEY)) || { km1: [], km4: [] }; } catch (e) { return { km1: [], km4: [] }; } }
+function saveWrongItem(sub, q, myAns) {
+    const w = getWrong();
+    if (!w[sub]) w[sub] = [];
+    if (!w[sub].some(it => it.q === q.q)) {
+        w[sub].push({ q: q.q, t: q.t, o: q.o, a: q.a, e: q.e, img: q.img || '', my: myAns, ts: Date.now() });
+        localStorage.setItem(WR_KEY, JSON.stringify(w));
     }
-    localStorage.setItem(WR_KEY, JSON.stringify(wa));
     updateWrongCount();
 }
 function updateWrongCount() {
-    const wa = getWrongAnswers();
-    let total = 0;
-    Object.values(wa).forEach(arr => total += arr.length);
+    const w = getWrong();
+    const total = (w.km1 || []).length + (w.km4 || []).length;
     const el = document.getElementById('wrongCount');
     const btn = document.getElementById('wrongBookBtn');
-    el.textContent = total;
-    btn.style.display = total > 0 ? 'inline-flex' : 'none';
+    if (el) el.textContent = total;
+    if (btn) btn.style.display = total > 0 ? '' : 'none';
+    const hint = document.getElementById('wrTotalHint');
+    if (hint) hint.textContent = total > 0 ? `共 ${total} 道错题待复习` : '暂无错题 -- 保持下去!';
 }
 
-// ===== GAME STATE =====
+// ===== GLOBAL STATE =====
 let gender = '';
-let currentType = null;
-let currentCat = null;
-let currentDiff = null;
-let currentImg = '';
-let currentVid = '';
-let tiles = [];
-let totalTiles = 0;
-let revealed = 0;
-let score = 0;
-let streak = 0;
-let qNum = 0;
-let gameQuestions = [];
-let currentQ = null;
-let startTime = 0;
-let previousScreen = 'genderSelect';
+const screens = ['ageGate', 'genderSelect', 'homeMenu', 'practiceArea', 'examArea', 'examResult', 'wrongReview'];
+let previousScreen = 'homeMenu';
 
-// ===== SCREENS =====
-const screens = ['ageGate','genderSelect','typeSelect','catSelect','diffSelect','gameArea','winScreen','wrongReview','rankScreen'];
 function showScreen(id) {
-    screens.forEach(s => document.getElementById(s).style.display = 'none');
-    const el = document.getElementById(id);
-    el.style.display = id === 'ageGate' ? 'flex' : 'block';
-    el.classList.remove('screen-enter');
-    void el.offsetWidth;
-    el.classList.add('screen-enter');
-
-    // Show/hide PH bar
-    const showBar = (id !== 'ageGate' && id !== 'genderSelect');
-    document.getElementById('phBar').style.display = showBar ? 'flex' : 'none';
-    document.getElementById('phTabs').style.display = (showBar && id !== 'wrongReview') ? 'flex' : 'none';
+    screens.forEach(s => {
+        const el = document.getElementById(s);
+        if (!el) return;
+        if (s === id) { el.style.display = 'block'; el.classList.remove('screen-enter'); void el.offsetWidth; el.classList.add('screen-enter'); }
+        else el.style.display = 'none';
+    });
+    window.scrollTo(0, 0);
 }
 
 function passAge() {
+    document.getElementById('ageGate').style.display = 'none';
+    document.getElementById('phBar').style.display = 'flex';
+    document.getElementById('phTabs').style.display = 'flex';
     showScreen('genderSelect');
     updateWrongCount();
 }
 
-function pickGender(g) {
-    gender = g;
-    showScreen('typeSelect');
-    buildTypeGrid();
-}
-
+function pickGender(g) { gender = g; goHome(); }
 function backToGender() { showScreen('genderSelect'); }
 
-function buildTypeGrid() {
-    const grid = document.getElementById('typeGrid');
-    grid.innerHTML = '';
-    TYPES[gender].forEach((type, i) => {
-        const card = document.createElement('div');
-        card.className = 'type-card';
-        card.style.animationDelay = (i * 0.08) + 's';
-        card.onclick = () => pickType(type);
-        const bg = type.video
-            ? `<div class="t-bg" style="background:linear-gradient(135deg,#fe2c55 0%,#161823 70%);display:flex;align-items:center;justify-content:center"><span style="font-size:3.2rem">🎬</span></div>`
-            : `<div class="t-bg" style="background-image:url('${type.preview}')"></div>`;
-        card.innerHTML = `
-            ${bg}
-            <div class="t-overlay"></div>
-            <div class="t-content">
-                <div class="t-label">${type.name}</div>
-                <div class="t-desc">${type.desc}</div>
-            </div>
-        `;
-        grid.appendChild(card);
+function goHome() {
+    stopExamTimer();
+    if (!gender) { showScreen('genderSelect'); return; }
+    bankReady.then(() => {
+        const pos = getPos();
+        document.getElementById('km1Prog').textContent = `共 ${BANKS.km1.length} 题 · 已刷到第 ${(pos.km1 || 0) + 1} 题`;
+        document.getElementById('km4Prog').textContent = `共 ${BANKS.km4.length} 题 · 已刷到第 ${(pos.km4 || 0) + 1} 题`;
     });
+    updateWrongCount();
+    showScreen('homeMenu');
 }
 
-function pickType(type) {
-    currentType = type;
-    showScreen('catSelect');
-    buildCatGrid();
-}
+// ===== SHARED QUESTION RENDERING =====
+// mode: 'p' (practice) or 'e' (exam)
+const QS = { p: {}, e: {} }; // per-mode runtime state
 
-function backToType() {
-    showScreen('typeSelect');
-    buildTypeGrid();
-}
-
-function buildCatGrid() {
-    const grid = document.getElementById('catGrid');
-    grid.innerHTML = '';
-    CATEGORIES.forEach((cat, i) => {
-        const card = document.createElement('div');
-        card.className = 'cat-card';
-        card.style.animationDelay = (i * 0.08) + 's';
-        card.onclick = () => pickCat(cat);
-        card.innerHTML = `
-            <div class="c-icon">${cat.icon}</div>
-            <div class="c-info">
-                <div class="c-name">${cat.name}</div>
-                <div class="c-desc">${cat.desc}</div>
-                <div class="c-count">80+题库 -- 每次随机抽题</div>
-            </div>
-            ${cat.hot ? '<div class="c-hot">HOT</div>' : ''}
-        `;
-        grid.appendChild(card);
-    });
-}
-
-function pickCat(cat) {
-    currentCat = cat;
-    showScreen('diffSelect');
-    document.getElementById('diffSub').textContent = cat.name + ' -- 选择难度';
-    buildDiffGrid();
-}
-
-function buildDiffGrid() {
-    const grid = document.getElementById('diffGrid');
-    grid.innerHTML = '';
-    DIFFICULTIES.forEach((diff, i) => {
-        const card = document.createElement('div');
-        card.className = 'diff-card';
-        card.style.animationDelay = (i * 0.1) + 's';
-        card.onclick = () => startGame(diff);
-        card.innerHTML = `
-            <div class="d-preview">${diff.preview}</div>
-            <div class="d-label">${diff.label}</div>
-            <div class="d-grid">${diff.grid}x${diff.grid} = ${diff.grid*diff.grid}题</div>
-            <span class="d-tag ${diff.tagClass}">${diff.spicy}</span>
-        `;
-        grid.appendChild(card);
-    });
-}
-
-function backToCats() {
-    showScreen('catSelect');
-    buildCatGrid();
-}
-
-function backToDiff() {
-    showScreen('diffSelect');
-    buildDiffGrid();
-}
-
-// ===== WRONG ANSWER REVIEW =====
-let wrActiveTab = 'all';
-function openWrongReview() {
-    previousScreen = 'catSelect';
-    showScreen('wrongReview');
-    wrActiveTab = 'all';
-    buildWrongReview();
-}
-function closeWrongReview() {
-    showScreen(previousScreen);
-    if (previousScreen === 'catSelect') buildCatGrid();
-}
-function buildWrongReview() {
-    const wa = getWrongAnswers();
-    // Build tabs
-    const tabsEl = document.getElementById('wrTabs');
-    const cats = [{id:'all',name:'全部'},...CATEGORIES];
-    tabsEl.innerHTML = '';
-    cats.forEach(cat => {
+function renderQuestion(mode, q) {
+    const s = QS[mode];
+    s.q = q; s.answered = false; s.selected = new Set();
+    const P = mode === 'p' ? 'p' : 'e';
+    const tagEl = document.getElementById(P + 'QType');
+    tagEl.className = 'q-type-tag' + (q.t === 3 ? ' multi' : '');
+    tagEl.textContent = q.t === 1 ? '判断题' : q.t === 2 ? '单选题' : '多选题';
+    document.getElementById(P + 'QText').textContent = q.q;
+    const imgBox = document.getElementById(P + 'QImg');
+    if (q.img) {
+        const src = 'jiakao/img/' + q.img;
+        imgBox.innerHTML = q.img.endsWith('.mp4')
+            ? `<video src="${src}" autoplay muted loop playsinline controls></video>`
+            : `<img src="${src}" alt="题目图片">`;
+    } else imgBox.innerHTML = '';
+    const optsDiv = document.getElementById(P + 'QOpts');
+    optsDiv.className = 'q-options' + (q.t === 1 ? ' judge' : '');
+    optsDiv.innerHTML = '';
+    const letters = ['A', 'B', 'C', 'D'];
+    q.o.forEach((text, idx) => {
         const btn = document.createElement('button');
-        btn.className = 'wr-tab' + (wrActiveTab === cat.id ? ' active' : '');
-        const count = cat.id === 'all'
-            ? Object.values(wa).reduce((s,a) => s + a.length, 0)
-            : (wa[cat.id] || []).length;
-        btn.textContent = cat.name + ' (' + count + ')';
-        btn.onclick = () => { wrActiveTab = cat.id; buildWrongReview(); };
-        tabsEl.appendChild(btn);
+        btn.className = 'q-opt';
+        btn.innerHTML = q.t === 1 ? text : `<span class="ol">${letters[idx]}.</span>${text}`;
+        btn.onclick = () => onOptionClick(mode, idx, btn);
+        optsDiv.appendChild(btn);
     });
+    const sb = document.getElementById(P + 'SubmitBtn');
+    sb.style.display = q.t === 3 ? '' : 'none';
+    sb.disabled = true;
+    document.getElementById(P + 'Explain').innerHTML = '';
+}
 
-    // Build list
-    const listEl = document.getElementById('wrList');
-    let items = [];
-    if (wrActiveTab === 'all') {
-        Object.entries(wa).forEach(([catId, arr]) => {
-            const catName = CATEGORIES.find(c => c.id === catId)?.name || catId;
-            arr.forEach(item => items.push({...item, catName, catId}));
-        });
-    } else {
-        const catName = CATEGORIES.find(c => c.id === wrActiveTab)?.name || wrActiveTab;
-        (wa[wrActiveTab] || []).forEach(item => items.push({...item, catName, catId: wrActiveTab}));
-    }
-    items.sort((a,b) => b.time - a.time);
-
-    if (items.length === 0) {
-        listEl.innerHTML = '<div class="wr-empty">还没有错题记录, 继续加油!</div>';
-        document.getElementById('wrClearBtn').style.display = 'none';
+function onOptionClick(mode, idx, btn) {
+    const s = QS[mode];
+    if (s.answered) return;
+    if (s.q.t === 3) {
+        // multi: toggle selection
+        if (s.selected.has(idx)) { s.selected.delete(idx); btn.classList.remove('selected'); }
+        else { s.selected.add(idx); btn.classList.add('selected'); }
+        document.getElementById((mode === 'p' ? 'p' : 'e') + 'SubmitBtn').disabled = s.selected.size < 2;
         return;
     }
-    document.getElementById('wrClearBtn').style.display = 'inline-block';
+    gradeAnswer(mode, [idx]);
+}
 
-    listEl.innerHTML = '';
-    items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'wr-item';
-        let optsHtml = '';
-        item.o.forEach((opt, i) => {
-            let cls = 'wr-opt';
-            if (i === item.a) cls += ' wr-correct';
-            if (i === item.userAnswer && i !== item.a) cls += ' wr-wrong-pick';
-            optsHtml += `<div class="${cls}">${opt}</div>`;
-        });
-        const date = new Date(item.time);
-        const timeStr = date.getMonth()+1 + '/' + date.getDate() + ' ' +
-            String(date.getHours()).padStart(2,'0') + ':' + String(date.getMinutes()).padStart(2,'0');
-        div.innerHTML = `
-            <div class="wr-q">${item.q}</div>
-            <div class="wr-opts">${optsHtml}</div>
-            <div class="wr-meta"><span>${item.catName}</span><span>${timeStr}</span></div>
-        `;
-        listEl.appendChild(div);
+function submitMulti(mode) {
+    const s = QS[mode];
+    if (s.answered || s.selected.size < 2) return;
+    gradeAnswer(mode, [...s.selected].sort((a, b) => a - b));
+}
+
+function gradeAnswer(mode, myAns) {
+    const s = QS[mode];
+    s.answered = true;
+    const q = s.q;
+    const correct = myAns.length === q.a.length && myAns.every((v, i) => v === q.a[i]);
+    const P = mode === 'p' ? 'p' : 'e';
+    const opts = document.getElementById(P + 'QOpts').querySelectorAll('.q-opt');
+    opts.forEach((b, i) => {
+        b.disabled = true;
+        if (q.a.includes(i)) b.classList.add('correct');
+        else if (myAns.includes(i)) b.classList.add('wrong');
+        b.classList.remove('selected');
+    });
+    document.getElementById(P + 'SubmitBtn').style.display = 'none';
+    if (mode === 'p') practiceAfterAnswer(correct, myAns);
+    else examAfterAnswer(correct, myAns);
+}
+
+function explainHTML(q, correct, withNext, nextFn) {
+    const letters = ['A', 'B', 'C', 'D'];
+    const ansText = q.t === 1 ? q.o[q.a[0]] : q.a.map(i => letters[i]).join('');
+    return `<div class="explain-box">
+        <div class="eb-ans ${correct ? 'ok' : 'no'}">${correct ? '✓ 回答正确' : '✗ 回答错误'} · 正确答案: ${ansText}</div>
+        <div class="eb-text">${q.e || '暂无解析'}</div>
+        ${withNext ? `<button class="next-btn" onclick="${nextFn}">下一题 &rarr;</button>` : ''}
+    </div>`;
+}
+
+// ===== PRACTICE (顺序刷题) =====
+let pSub = 'km1', pIdx = 0, pRight = 0, pWrong = 0;
+let unlockCount = 0, videoUnlocked = false;
+
+function startPractice(sub) {
+    if (!gender) { showScreen('genderSelect'); return; }
+    bankReady.then(() => {
+        pSub = sub; pRight = 0; pWrong = 0;
+        pIdx = Math.min(getPos()[sub] || 0, BANKS[sub].length - 1);
+        document.getElementById('pTitle').textContent = BANK_META[sub].name + ' 顺序练习';
+        document.getElementById('pRight').textContent = '0';
+        document.getElementById('pWrong').textContent = '0';
+        resetReward();
+        showScreen('practiceArea');
+        renderPracticeQ();
     });
 }
-function clearWrongAnswers() {
-    const wa = getWrongAnswers();
-    if (wrActiveTab === 'all') {
-        localStorage.removeItem(WR_KEY);
+
+function renderPracticeQ() {
+    const bank = BANKS[pSub];
+    pIdx = Math.max(0, Math.min(pIdx, bank.length - 1));
+    savePos(pSub, pIdx);
+    document.getElementById('pQNum').textContent = `第 ${pIdx + 1} / ${bank.length} 题`;
+    document.getElementById('pProgFill').style.width = ((pIdx + 1) / bank.length * 100) + '%';
+    document.getElementById('pPrevBtn').disabled = pIdx === 0;
+    document.getElementById('pNextBtn').disabled = pIdx >= bank.length - 1;
+    document.getElementById('pMotiBar').innerHTML = '';
+    renderQuestion('p', bank[pIdx]);
+}
+
+function practiceAfterAnswer(correct, myAns) {
+    const q = QS.p.q;
+    document.getElementById('pExplain').innerHTML = explainHTML(q, correct, !correct, 'nextPracticeQ()');
+    if (correct) {
+        pRight++;
+        document.getElementById('pRight').textContent = pRight;
+        showMoti('pMotiBar', MOTI_CORRECT[Math.floor(Math.random() * MOTI_CORRECT.length)]);
+        bumpUnlock();
+        setTimeout(nextPracticeQ, 1200);
     } else {
-        delete wa[wrActiveTab];
-        localStorage.setItem(WR_KEY, JSON.stringify(wa));
+        pWrong++;
+        document.getElementById('pWrong').textContent = pWrong;
+        saveWrongItem(pSub, q, myAns);
     }
-    updateWrongCount();
-    buildWrongReview();
 }
 
-// ===== GAME =====
-function startGame(diff) {
-    currentDiff = diff;
-    totalTiles = diff.grid * diff.grid;
-    revealed = 0; score = 0; streak = 0; qNum = 0;
-    startTime = Date.now();
+function nextPracticeQ() {
+    if (!QS.p.answered) return;
+    if (pIdx < BANKS[pSub].length - 1) { pIdx++; renderPracticeQ(); }
+    else showMoti('pMotiBar', '题库刷完了! 你已经是老司机了!');
+}
+function prevQuestion() { if (pIdx > 0) { pIdx--; renderPracticeQ(); } }
+function skipQuestion() { if (pIdx < BANKS[pSub].length - 1) { pIdx++; renderPracticeQ(); } }
 
-    // Randomly pick reward: douyin video for the video type, image otherwise
-    currentVid = '';
-    if (currentType.video && VIDEOS[gender].length > 0) {
-        currentVid = VIDEOS[gender][Math.floor(Math.random() * VIDEOS[gender].length)];
-    } else {
-        const tierId = currentType.video ? 'body' : currentType.id;
-        const imgPool = getImagePool(gender, tierId, diff.tier);
-        currentImg = imgPool[Math.floor(Math.random() * imgPool.length)];
-    }
-
-    // Shuffle questions from the pool (remote or local fallback)
-    const pool = [...getQuestions(currentCat.id)];
-    for (let i = pool.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [pool[i], pool[j]] = [pool[j], pool[i]];
-    }
-    gameQuestions = pool.slice(0, totalTiles + 15);
-
-    showScreen('gameArea');
-    document.getElementById('gameTitle').textContent = currentCat.name + ' -- ' + diff.label;
-    document.getElementById('scoreNum').textContent = '0';
-    document.getElementById('streakText').textContent = '';
-    document.getElementById('progFill').style.width = '0%';
-    document.getElementById('motiBar').innerHTML = '';
-
-    // Set reward layer (video plays underneath the tiles)
-    const imgLayer = document.getElementById('imgLayer');
-    imgLayer.innerHTML = currentVid
-        ? douyinEmbed(currentVid, true)
-        : `<img src="${currentImg}" alt="" loading="eager">`;
-    imgLayer.style.filter = 'none';
-
-    // Build mosaic tile grid
-    const tg = document.getElementById('tileGrid');
-    tg.style.gridTemplateColumns = `repeat(${diff.grid}, 1fr)`;
-    tg.innerHTML = '';
-    tiles = [];
-    for (let i = 0; i < totalTiles; i++) {
-        const t = document.createElement('div');
-        t.className = 'tile';
-        tg.appendChild(t);
-        tiles.push(t);
-    }
-    nextQuestion();
+function showMoti(barId, text) {
+    document.getElementById(barId).innerHTML = `<span class="moti-text">${text}</span>`;
 }
 
-function showMotivation(isCorrect) {
-    const arr = isCorrect ? MOTI_CORRECT : MOTI_WRONG;
-    const text = arr[Math.floor(Math.random() * arr.length)];
-    const bar = document.getElementById('motiBar');
-    bar.innerHTML = `<span class="moti-text" style="color:${isCorrect ? 'var(--green)' : 'var(--red)'}">${text}</span>`;
+// ===== REWARD VIDEO (single mosaic, 3 corrects to clear) =====
+function resetReward() {
+    unlockCount = 0; videoUnlocked = false;
+    document.getElementById('pSwapRow').style.display = 'none';
+    const cover = document.getElementById('pMosaic');
+    cover.classList.remove('cleared');
+    updateDots();
+    const pool = VIDEOS[gender] || [];
+    const layer = document.getElementById('pVideoLayer');
+    const box = layer.parentElement;
+    if (pool.length === 0) { box.style.display = 'none'; return; }
+    box.style.display = '';
+    layer.innerHTML = douyinEmbed(pool[Math.floor(Math.random() * pool.length)]);
 }
 
-function nextQuestion() {
-    if (revealed >= totalTiles) return winGame();
-    if (qNum >= gameQuestions.length) {
-        const pool = [...getQuestions(currentCat.id)];
+function updateDots() {
+    document.querySelectorAll('#pDots .dot').forEach((d, i) => d.classList.toggle('on', i < unlockCount));
+}
+
+function bumpUnlock() {
+    if (videoUnlocked) return;
+    unlockCount++;
+    updateDots();
+    if (unlockCount >= 3) {
+        videoUnlocked = true;
+        document.getElementById('pMosaic').classList.add('cleared');
+        document.getElementById('pSwapRow').style.display = '';
+        showMoti('pMotiBar', '🎉 视频解锁! 边看边刷~');
+        spawnConfetti(40);
+    }
+}
+
+function nextRewardVideo() { resetReward(); }
+
+// ===== EXAM (模拟考试) =====
+let eSub = 'km1', eQuestions = [], eIdx = 0, eRightN = 0, eWrongN = 0;
+let eTimerInt = null, eTimeLeft = 0, eStartTs = 0;
+
+function startExam(sub) {
+    if (!gender) { showScreen('genderSelect'); return; }
+    bankReady.then(() => {
+        eSub = sub;
+        const meta = BANK_META[sub];
+        const pool = [...BANKS[sub]];
         for (let i = pool.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [pool[i], pool[j]] = [pool[j], pool[i]];
         }
-        gameQuestions = gameQuestions.concat(pool);
-    }
-    currentQ = gameQuestions[qNum];
-    qNum++;
-    document.getElementById('qLabel').textContent = `${revealed} / ${totalTiles} 已解锁`;
-    document.getElementById('qText').textContent = currentQ.q;
-
-    const optsDiv = document.getElementById('qOpts');
-    optsDiv.innerHTML = '';
-    currentQ.o.forEach((text, idx) => {
-        const btn = document.createElement('button');
-        btn.className = 'q-opt';
-        btn.textContent = text;
-        btn.onclick = () => checkAnswer(idx, btn);
-        optsDiv.appendChild(btn);
+        eQuestions = pool.slice(0, meta.examN);
+        eIdx = 0; eRightN = 0; eWrongN = 0;
+        eTimeLeft = meta.examMin * 60; eStartTs = Date.now();
+        document.getElementById('eTitle').textContent = meta.name + ' 模拟考试';
+        document.getElementById('eRight').textContent = '0';
+        document.getElementById('eWrong').textContent = '0';
+        document.getElementById('eWarnBox').innerHTML = '';
+        stopExamTimer();
+        eTimerInt = setInterval(examTick, 1000);
+        examTick();
+        showScreen('examArea');
+        renderExamQ();
     });
 }
 
-function checkAnswer(idx, btn) {
-    const allBtns = document.querySelectorAll('.q-opt');
-    allBtns.forEach(b => b.disabled = true);
+function examTick() {
+    const el = document.getElementById('eTimer');
+    const m = Math.floor(eTimeLeft / 60), s = eTimeLeft % 60;
+    el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    el.classList.toggle('danger', eTimeLeft <= 300);
+    if (eTimeLeft <= 0) { finishExam(false); return; }
+    eTimeLeft--;
+}
 
-    if (idx === currentQ.a) {
-        btn.classList.add('correct');
-        score += 10 + streak * 5;
-        streak++;
-        document.getElementById('scoreNum').textContent = score;
-        const streakEl = document.getElementById('streakText');
-        streakEl.textContent = streak > 1 ? streak + '连对' : '';
-        if (streak > 1) { streakEl.classList.remove('big'); void streakEl.offsetWidth; streakEl.classList.add('big'); }
+function stopExamTimer() { if (eTimerInt) { clearInterval(eTimerInt); eTimerInt = null; } }
 
-        revealTile(); revealed++;
-        document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
-        showMotivation(true);
-        if (streak >= 3) spawnMiniConfetti();
-        setTimeout(nextQuestion, 500);
+function renderExamQ() {
+    document.getElementById('eQNum').textContent = `${eIdx + 1}/${eQuestions.length}`;
+    document.getElementById('eQLabel').textContent = `第 ${eIdx + 1} 题`;
+    document.getElementById('eProgFill').style.width = ((eIdx + 1) / eQuestions.length * 100) + '%';
+    renderQuestion('e', eQuestions[eIdx]);
+}
+
+function examAfterAnswer(correct, myAns) {
+    const meta = BANK_META[eSub];
+    const q = QS.e.q;
+    if (correct) {
+        eRightN++;
+        document.getElementById('eRight').textContent = eRightN;
+        setTimeout(examNext, 600);
     } else {
-        btn.classList.add('wrong');
-        streak = 0;
-        document.getElementById('streakText').textContent = '';
-        allBtns.forEach((b, i) => { if (i === currentQ.a) b.classList.add('correct'); });
-
-        // Save wrong answer
-        saveWrongAnswer(currentCat.id, currentQ, idx);
-
-        if (revealed > 0 && Math.random() < 0.4) {
-            coverTile(); revealed--;
-            document.getElementById('progFill').style.width = `${(revealed / totalTiles) * 100}%`;
-        }
-
-        const unrevealed = tiles.filter(t => !t.classList.contains('revealed'));
-        if (unrevealed.length) {
-            const rt = unrevealed[Math.floor(Math.random() * unrevealed.length)];
-            rt.classList.add('wrong');
-            setTimeout(() => rt.classList.remove('wrong'), 600);
-        }
-
-        showMotivation(false);
-        setTimeout(nextQuestion, 1200);
+        eWrongN++;
+        document.getElementById('eWrong').textContent = eWrongN;
+        saveWrongItem(eSub, q, myAns);
+        document.getElementById('eExplain').innerHTML = explainHTML(q, false, true, 'examNext()');
+        const warn = document.getElementById('eWarnBox');
+        if (eWrongN === meta.maxErr) warn.innerHTML = '<div class="exam-warn">⚠ 再错 1 题就不及格了, 稳住!</div>';
+        else if (eWrongN > meta.maxErr) warn.innerHTML = '<div class="exam-warn">✗ 错题已超额, 本次成绩不及格 -- 可继续练手或提前交卷</div>';
     }
 }
 
-function revealTile() {
-    const u = [];
-    tiles.forEach((t, i) => { if (!t.classList.contains('revealed')) u.push(i); });
-    if (!u.length) return;
-    const idx = u[Math.floor(Math.random() * u.length)];
-    tiles[idx].classList.add('correct-flash');
-    setTimeout(() => tiles[idx].classList.add('revealed'), 200);
+function examNext() {
+    if (eIdx < eQuestions.length - 1) { eIdx++; renderExamQ(); }
+    else finishExam(false);
 }
 
-function coverTile() {
-    const r = [];
-    tiles.forEach((t, i) => { if (t.classList.contains('revealed')) r.push(i); });
-    if (!r.length) return;
-    const idx = r[Math.floor(Math.random() * r.length)];
-    tiles[idx].classList.remove('revealed');
-    tiles[idx].classList.remove('correct-flash');
+function quitExam() {
+    if (confirm('确定退出本次模拟考试? 进度不会保存')) { stopExamTimer(); goHome(); }
 }
 
-function spawnMiniConfetti() {
+function finishExam(early) {
+    stopExamTimer();
+    const meta = BANK_META[eSub];
+    const answeredN = eRightN + eWrongN;
+    const score = Math.max(0, 100 - (eWrongN + eQuestions.length - answeredN) * meta.ptsPer);
+    const pass = score >= 90;
+    const usedSec = Math.round((Date.now() - eStartTs) / 1000);
+    const mm = Math.floor(usedSec / 60), ss = usedSec % 60;
+    const sEl = document.getElementById('rScore');
+    sEl.textContent = score;
+    sEl.className = 'rb-score ' + (pass ? 'pass' : 'fail');
+    document.getElementById('rVerdict').textContent = pass ? '🎉 及格! 上岸稳了!' : '未及格 -- 回去刷题再来';
+    document.getElementById('rStats').innerHTML =
+        `${meta.name} 模拟考试 · ${eQuestions.length} 题<br>` +
+        `答对 <span style="color:var(--green);font-weight:700">${eRightN}</span> · ` +
+        `答错 <span style="color:var(--red);font-weight:700">${eWrongN}</span> · ` +
+        `未答 ${eQuestions.length - answeredN}<br>用时 ${mm}分${ss}秒 · 及格线 90 分`;
+    if (pass) spawnConfetti(60);
+    showScreen('examResult');
+}
+
+function retryExam() { startExam(eSub); }
+
+// ===== WRONG ANSWER BOOK =====
+let wrActiveTab = 'km1';
+
+function openWrongReview() {
+    if (!gender) { showScreen('genderSelect'); return; }
+    previousScreen = 'homeMenu';
+    const w = getWrong();
+    wrActiveTab = (w.km1 || []).length === 0 && (w.km4 || []).length > 0 ? 'km4' : 'km1';
+    buildWrongReview();
+    showScreen('wrongReview');
+}
+function closeWrongReview() { goHome(); }
+
+function buildWrongReview() {
+    const w = getWrong();
+    const tabs = document.getElementById('wrTabs');
+    tabs.innerHTML = '';
+    ['km1', 'km4'].forEach(sub => {
+        const b = document.createElement('button');
+        b.className = 'wr-tab' + (wrActiveTab === sub ? ' active' : '');
+        b.textContent = `${BANK_META[sub].name} (${(w[sub] || []).length})`;
+        b.onclick = () => { wrActiveTab = sub; buildWrongReview(); };
+        tabs.appendChild(b);
+    });
+    const list = document.getElementById('wrList');
+    const items = w[wrActiveTab] || [];
+    document.getElementById('wrClearBtn').style.display = items.length ? '' : 'none';
+    if (!items.length) {
+        list.innerHTML = '<div class="wr-empty">这个科目还没有错题<br>去刷题吧!</div>';
+        return;
+    }
+    const letters = ['A', 'B', 'C', 'D'];
+    list.innerHTML = '';
+    [...items].reverse().forEach(it => {
+        const d = document.createElement('div');
+        d.className = 'wr-item';
+        const imgHtml = it.img
+            ? `<div class="wr-img">${it.img.endsWith('.mp4')
+                ? `<video src="jiakao/img/${it.img}" muted loop playsinline controls></video>`
+                : `<img src="jiakao/img/${it.img}" alt="">`}</div>`
+            : '';
+        const optsHtml = it.o.map((o, i) => {
+            let cls = 'wr-opt';
+            if (it.a.includes(i)) cls += ' wr-correct';
+            else if ((it.my || []).includes(i)) cls += ' wr-wrong-pick';
+            return `<div class="${cls}">${it.t === 1 ? '' : letters[i] + '. '}${o}</div>`;
+        }).join('');
+        const tname = it.t === 1 ? '判断题' : it.t === 2 ? '单选题' : '多选题';
+        d.innerHTML = `
+            <div class="wr-q">${it.q}</div>
+            ${imgHtml}
+            <div class="wr-opts">${optsHtml}</div>
+            <div class="wr-explain">${it.e || '暂无解析'}</div>
+            <div class="wr-meta"><span>${tname}</span><span>${new Date(it.ts).toLocaleDateString('zh-CN')}</span></div>`;
+        list.appendChild(d);
+    });
+}
+
+function clearWrongAnswers() {
+    if (!confirm(`清空${BANK_META[wrActiveTab].name}的全部错题?`)) return;
+    const w = getWrong();
+    w[wrActiveTab] = [];
+    localStorage.setItem(WR_KEY, JSON.stringify(w));
+    updateWrongCount();
+    buildWrongReview();
+}
+
+// ===== CONFETTI =====
+function spawnConfetti(n) {
     const box = document.getElementById('confettiBox');
-    const colors = ['#ff9000','#ff6600','#ffb347','#e74c3c','#2ecc71','#fff'];
-    for (let i = 0; i < 20; i++) {
+    const colors = ['#ff9000', '#ff6600', '#ffb347', '#e74c3c', '#2ecc71', '#fff', '#ff69b4', '#ffd700'];
+    for (let i = 0; i < n; i++) {
         const c = document.createElement('div');
         c.className = 'confetti';
         c.style.left = Math.random() * 100 + '%';
         c.style.background = colors[Math.floor(Math.random() * colors.length)];
-        c.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
-        c.style.animationDelay = (Math.random() * 0.5) + 's';
+        c.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        c.style.animationDelay = (Math.random() * 0.6) + 's';
         c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        c.style.width = (4 + Math.random() * 6) + 'px';
-        c.style.height = (4 + Math.random() * 6) + 'px';
+        c.style.width = (4 + Math.random() * 7) + 'px';
+        c.style.height = (4 + Math.random() * 7) + 'px';
         box.appendChild(c);
-        setTimeout(() => c.remove(), 3000);
+        setTimeout(() => c.remove(), 4000);
     }
 }
-
-function spawnWinConfetti() {
-    const box = document.getElementById('confettiBox');
-    const colors = ['#ff9000','#ff6600','#ffb347','#e74c3c','#2ecc71','#fff','#ff69b4','#ffd700'];
-    for (let i = 0; i < 60; i++) {
-        const c = document.createElement('div');
-        c.className = 'confetti';
-        c.style.left = Math.random() * 100 + '%';
-        c.style.background = colors[Math.floor(Math.random() * colors.length)];
-        c.style.animationDuration = (2 + Math.random() * 2) + 's';
-        c.style.animationDelay = (Math.random() * 1) + 's';
-        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        c.style.width = (5 + Math.random() * 8) + 'px';
-        c.style.height = (5 + Math.random() * 8) + 'px';
-        box.appendChild(c);
-        setTimeout(() => c.remove(), 5000);
-    }
-}
-
-function winGame() {
-    const elapsed = Math.round((Date.now() - startTime) / 1000);
-    const mins = Math.floor(elapsed / 60);
-    const secs = elapsed % 60;
-    const isPerfect = (qNum === totalTiles); // no wrong answers at all
-
-    showScreen('winScreen');
-    document.getElementById('winImg').innerHTML = currentVid
-        ? `<div class="img-layer" style="filter:none">${douyinEmbed(currentVid, true)}</div>`
-        : `<div class="img-layer" style="filter:none"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
-    document.getElementById('winTitle').textContent = isPerfect
-        ? `${currentCat.name} -- 完美上岸!`
-        : `${currentCat.name} -- 上岸成功!`;
-    document.getElementById('winStats').innerHTML =
-        `得分 <strong style="color:var(--accent)">${score}</strong> ` +
-        `用时 ${mins > 0 ? mins + '分' : ''}${secs}秒 -- 共 ${qNum} 题` +
-        (isPerfect ? ` <strong style="color:var(--green)">PERFECT</strong>` : '');
-
-    // Record win & update rank
-    recordWin(isPerfect);
-
-    spawnWinConfetti();
-}
-
-// ===== RANK SYSTEM =====
-const RANK_KEY = 'sexy_rank_stats';
-const RANKS = [
-    { id:'maggot',   name:'学蛆',       icon:'🪱', color:'#8B7355', wins:0,  desc:'看题跟看甲骨文一样' },
-    { id:'foot',     name:'菜到抠脚',    icon:'🦶', color:'#a0a0a0', wins:3,  desc:'答案全靠掷骰子' },
-    { id:'cattle',   name:'做题牲口',    icon:'🐮', color:'#c0a000', wins:8,  desc:'埋头苦干 感动自己' },
-    { id:'peeper',   name:'擦边学徒',    icon:'👀', color:'#00bfff', wins:20, desc:'初窥擦边的奥义' },
-    { id:'flex',     name:'解题显眼包',  icon:'🔥', color:'#ff6b6b', wins:40, desc:'有两把刷子了属于是' },
-    { id:'pro6',     name:'考场老6',     icon:'🎯', color:'#c084fc', wins:80, desc:'题目见你都绕道走' },
-    { id:'boss',     name:'上岸霸总',    icon:'💰', color:'#fbbf24', wins:150,desc:'知识和身材我全都要' },
-    { id:'emperor',  name:'至尊学皇',    icon:'👑', color:'#ff9000', wins:999,desc:'全服第一 跪下叫爸爸' },
-];
-
-function getRankStats() {
-    try { return JSON.parse(localStorage.getItem(RANK_KEY)) || defaultStats(); } catch { return defaultStats(); }
-}
-function defaultStats() {
-    return { wins:0, perfects:0, totalQ:0, totalCorrect:0, bestStreak:0, combos:{} };
-}
-function saveRankStats(s) { localStorage.setItem(RANK_KEY, JSON.stringify(s)); }
-
-function getRank(stats) {
-    // Check if all combos done for emperor
-    const allCombos = [];
-    ['drive','civil','ielts'].forEach(c => ['easy','medium','hard'].forEach(d => allCombos.push(c+'-'+d)));
-    const hasAll = allCombos.every(k => stats.combos[k]);
-    if (hasAll && stats.wins >= 50) return RANKS[7]; // emperor
-
-    for (let i = RANKS.length - 2; i >= 0; i--) {
-        if (stats.wins >= RANKS[i].wins) return RANKS[i];
-    }
-    return RANKS[0];
-}
-
-function getNextRank(stats) {
-    const cur = getRank(stats);
-    const idx = RANKS.indexOf(cur);
-    if (idx >= RANKS.length - 1) return null;
-    return RANKS[idx + 1];
-}
-
-function recordWin(isPerfect) {
-    const stats = getRankStats();
-    const oldRank = getRank(stats);
-
-    stats.wins++;
-    if (isPerfect) stats.perfects++;
-    stats.totalQ += qNum;
-    stats.totalCorrect += revealed; // tiles = correct answers
-    if (streak > stats.bestStreak) stats.bestStreak = streak;
-
-    // Record combo
-    if (currentCat && currentDiff) {
-        stats.combos[currentCat.id + '-' + currentDiff.tier] = true;
-    }
-
-    saveRankStats(stats);
-    const newRank = getRank(stats);
-
-    // Update entry button
-    updateRankEntry();
-
-    // Show rank-up on win screen
-    const winRu = document.getElementById('winRankUp');
-    if (newRank.id !== oldRank.id) {
-        winRu.innerHTML = `<div style="padding:12px;background:var(--accent-soft);border:1px solid rgba(255,144,0,.3);border-radius:var(--rl);text-align:center">
-            <div style="font-size:.75rem;color:var(--ink-soft)">段位提升!</div>
-            <div style="font-size:1.8rem;margin:4px 0">${newRank.icon}</div>
-            <div style="font-size:1.1rem;font-weight:800;color:${newRank.color}">${newRank.name}</div>
-            <div style="font-size:.7rem;color:var(--ink-faint);margin-top:2px">${newRank.desc}</div>
-        </div>`;
-        // Also show overlay
-        showRankUpOverlay(oldRank, newRank);
-    } else {
-        const next = getNextRank(stats);
-        if (next) {
-            const progress = next.id === 'emperor'
-                ? getEmperorProgress(stats)
-                : Math.min(100, Math.round((stats.wins / next.wins) * 100));
-            winRu.innerHTML = `<div style="font-size:.75rem;color:var(--ink-faint);margin-bottom:4px">${newRank.icon} ${newRank.name} — 距下一段位 ${progress}%</div>
-                <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${progress}%"></div></div>`;
-        } else {
-            winRu.innerHTML = `<div style="font-size:.85rem;color:var(--accent);font-weight:700">${newRank.icon} ${newRank.name} — 最高段位!</div>`;
-        }
-    }
-
-    return { oldRank, newRank, stats };
-}
-
-function getEmperorProgress(stats) {
-    const allCombos = [];
-    ['drive','civil','ielts'].forEach(c => ['easy','medium','hard'].forEach(d => allCombos.push(c+'-'+d)));
-    const done = allCombos.filter(k => stats.combos[k]).length;
-    const comboProgress = (done / allCombos.length) * 50;
-    const winProgress = Math.min(50, (stats.wins / 50) * 50);
-    return Math.round(comboProgress + winProgress);
-}
-
-function showRankUpOverlay(oldRank, newRank) {
-    const ov = document.createElement('div');
-    ov.className = 'rankup-overlay';
-    ov.onclick = () => ov.remove();
-    const ruBtns = { maggot:'就这？', foot:'呵呵', cattle:'继续卷', peeper:'有感觉了', flex:'就是这么强', pro6:'都是弟弟', boss:'爷来了', emperor:'全服第一' };
-    ov.innerHTML = `<div class="rankup-box">
-        <div class="ru-icon">${newRank.icon}</div>
-        <div class="ru-title">进化了!</div>
-        <div class="ru-from" style="text-decoration:line-through">${oldRank.icon} ${oldRank.name}</div>
-        <div style="color:var(--accent);margin:4px 0;font-size:1.2rem">↓</div>
-        <div class="ru-to" style="color:${newRank.color}">${newRank.icon} ${newRank.name}</div>
-        <div style="font-size:.8rem;color:var(--ink-faint);margin-top:2px">${newRank.desc}</div>
-        <button class="ru-dismiss" onclick="this.parentElement.parentElement.remove()">${ruBtns[newRank.id] || '冲!'}</button>
-    </div>`;
-    document.body.appendChild(ov);
-    spawnWinConfetti();
-}
-
-function showRankScreen() {
-    const stats = getRankStats();
-    const rank = getRank(stats);
-    const next = getNextRank(stats);
-
-    showScreen('rankScreen');
-    document.getElementById('phBar').style.display = 'none';
-    document.getElementById('phTabs').style.display = 'none';
-
-    // Badge
-    const badge = document.getElementById('rkBadge');
-    badge.textContent = rank.icon;
-    badge.style.borderColor = rank.color;
-    badge.style.background = rank.color + '15';
-
-    document.getElementById('rkTitle').textContent = rank.name;
-    document.getElementById('rkTitle').style.color = rank.color;
-    document.getElementById('rkSub').textContent = rank.desc;
-
-    // Progress bar
-    if (next) {
-        let progress;
-        if (next.id === 'emperor') {
-            progress = getEmperorProgress(stats);
-            document.getElementById('rkCur').textContent = `${rank.name} (${progress}%)`;
-            document.getElementById('rkNxt').textContent = `${next.icon} ${next.name} (全部通关)`;
-        } else {
-            progress = Math.min(100, Math.round((stats.wins / next.wins) * 100));
-            document.getElementById('rkCur').textContent = `${rank.name} (${stats.wins}胜)`;
-            document.getElementById('rkNxt').textContent = `${next.icon} ${next.name} (${next.wins}胜)`;
-        }
-        document.getElementById('rkBarFill').style.width = progress + '%';
-    } else {
-        document.getElementById('rkCur').textContent = rank.name;
-        document.getElementById('rkNxt').textContent = '已达最高段位';
-        document.getElementById('rkBarFill').style.width = '100%';
-    }
-
-    // Stats grid
-    const acc = stats.totalQ > 0 ? Math.round((stats.totalCorrect / stats.totalQ) * 100) : 0;
-    document.getElementById('rkStats').innerHTML = `
-        <div class="rank-stat"><div class="rs-num">${stats.wins}</div><div class="rs-label">通关次数</div></div>
-        <div class="rank-stat"><div class="rs-num">${stats.perfects}</div><div class="rs-label">完美通关</div></div>
-        <div class="rank-stat"><div class="rs-num">${acc}%</div><div class="rs-label">正确率</div></div>
-        <div class="rank-stat"><div class="rs-num">${stats.bestStreak}</div><div class="rs-label">最高连对</div></div>
-    `;
-
-    // Combo grid
-    const cats = ['drive','civil','ielts'];
-    const catNames = { drive:'驾照', civil:'考公', ielts:'雅思' };
-    const diffs = ['easy','medium','hard'];
-    const diffNames = { easy:'简单', medium:'中等', hard:'困难' };
-    let comboHtml = '<div class="combo-grid" style="grid-template-columns:60px repeat(3,1fr)">';
-    comboHtml += '<div></div>';
-    diffs.forEach(d => comboHtml += `<div class="combo-cell" style="font-weight:700;color:var(--ink-soft)">${diffNames[d]}</div>`);
-    cats.forEach(c => {
-        comboHtml += `<div class="combo-cell" style="font-weight:700;color:var(--ink-soft)">${catNames[c]}</div>`;
-        diffs.forEach(d => {
-            const done = stats.combos[c+'-'+d];
-            comboHtml += `<div class="combo-cell${done ? ' done' : ''}">${done ? '✓' : '—'}</div>`;
-        });
-    });
-    comboHtml += '</div>';
-    document.getElementById('rkCombos').innerHTML = comboHtml;
-
-    // Share card with dynamic slogan
-    document.getElementById('scRank').innerHTML = `<span style="color:${rank.color}">${rank.icon} ${rank.name}</span>`;
-    document.getElementById('scStats').innerHTML =
-        `通关 <strong>${stats.wins}</strong> 次 | 正确率 <strong>${acc}%</strong> | 完美 <strong>${stats.perfects}</strong> 次`;
-    const slogans = {
-        maggot: '救救我 我是学蛆',
-        foot:   '我菜我先跑了',
-        cattle: '做题做到脑子冒烟',
-        peeper: '擦边擦到真的会了',
-        flex:   '你打不过我的 别试了',
-        pro6:   '题目看到我直接投降',
-        boss:   '知识和身材我全都要',
-        emperor:'全服第一 不接受反驳'
-    };
-    document.getElementById('scSlogan').textContent = slogans[rank.id] || '不服来战';
-}
-
-function backFromRank() {
-    showScreen('genderSelect');
-}
-
-function updateRankEntry() {
-    const stats = getRankStats();
-    const rank = getRank(stats);
-    const el = document.getElementById('reIcon');
-    const title = document.getElementById('reTitle');
-    if (el) el.textContent = rank.icon;
-    if (title) title.textContent = rank.name;
-}
-
-// ===== SHARE =====
-function saveShareCard() {
-    const card = document.getElementById('shareCard');
-    // Use html2canvas-like approach via canvas
-    const stats = getRankStats();
-    const rank = getRank(stats);
-    const acc = stats.totalQ > 0 ? Math.round((stats.totalCorrect / stats.totalQ) * 100) : 0;
-
-    const canvas = document.createElement('canvas');
-    canvas.width = 600;
-    canvas.height = 400;
-    const ctx = canvas.getContext('2d');
-
-    // Background
-    ctx.fillStyle = '#1a1a1a';
-    ctx.fillRect(0, 0, 600, 400);
-
-    // Border
-    ctx.strokeStyle = '#ff9000';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(8, 8, 584, 384);
-
-    // Header
-    ctx.fillStyle = '#666';
-    ctx.font = '14px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('性感上岸 — 段位认证', 300, 45);
-
-    // Rank icon (text fallback)
-    ctx.font = '48px sans-serif';
-    ctx.fillText(rank.icon, 300, 110);
-
-    // Rank name
-    ctx.fillStyle = rank.color;
-    ctx.font = 'bold 32px sans-serif';
-    ctx.fillText(rank.name, 300, 160);
-
-    // Desc
-    ctx.fillStyle = '#999';
-    ctx.font = '14px sans-serif';
-    ctx.fillText(rank.desc, 300, 185);
-
-    // Stats
-    ctx.fillStyle = '#ccc';
-    ctx.font = '16px sans-serif';
-    ctx.fillText(`通关 ${stats.wins} 次  |  正确率 ${acc}%  |  完美 ${stats.perfects} 次`, 300, 225);
-
-    // Divider
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(100, 250); ctx.lineTo(500, 250); ctx.stroke();
-
-    // Slogan (dynamic per rank)
-    const slogans = {
-        maggot:'救救我 我是学蛆', foot:'我菜我先跑了', cattle:'做题做到脑子冒烟',
-        peeper:'擦边擦到真的会了', flex:'你打不过我的 别试了',
-        pro6:'题目看到我直接投降', boss:'知识和身材我全都要', emperor:'全服第一 不接受反驳'
-    };
-    ctx.fillStyle = '#ff9000';
-    ctx.font = 'bold 20px sans-serif';
-    ctx.fillText(slogans[rank.id] || '不服来战', 300, 290);
-
-    // URL
-    ctx.fillStyle = '#555';
-    ctx.font = '12px monospace';
-    ctx.fillText('shujilai.github.io/connieai-store/products/sexy-math.html', 300, 340);
-
-    // Watermark
-    ctx.fillStyle = '#333';
-    ctx.font = '11px sans-serif';
-    ctx.fillText('AI-Connie 出品', 300, 375);
-
-    // Download
-    const link = document.createElement('a');
-    link.download = `性感上岸_${rank.name}_段位卡.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-}
-
-function copyShareLink() {
-    const stats = getRankStats();
-    const rank = getRank(stats);
-    const copyLines = {
-        maggot: `我在「性感上岸」被鉴定为 ${rank.icon}学蛆...做题做到怀疑人生，你能比我菜吗？`,
-        foot:   `做了半天题 系统给我评了个「${rank.icon}菜到抠脚」 我真的会谢`,
-        cattle: `「性感上岸」评我是${rank.icon}做题牲口 埋头苦干感动自己那种 你来试试？`,
-        peeper: `终于从学蛆爬到「${rank.icon}擦边学徒」了！初窥擦边的奥义 不服来战`,
-        flex:   `我在「性感上岸」已经是${rank.icon}解题显眼包了 有两把刷子了属于是`,
-        pro6:   `${rank.icon}考场老6 题目见我都绕道走 「性感上岸」段位这么高的还有谁？`,
-        boss:   `${rank.icon}上岸霸总来了 知识和身材我全都要 你呢？`,
-        emperor:`${rank.icon}至尊学皇 全服第一 全部通关 跪下叫爸爸`
-    };
-    const text = (copyLines[rank.id] || `我在「性感上岸」是${rank.icon}${rank.name}`) + `\nhttps://shujilai.github.io/connieai-store/products/sexy-math.html`;
-    navigator.clipboard.writeText(text).then(() => {
-        const btn = event.target;
-        btn.textContent = '已复制!';
-        setTimeout(() => btn.textContent = '复制链接', 1500);
-    }).catch(() => {
-        prompt('复制以下文字分享:', text);
-    });
-}
-
-// Init wrong count on load
-updateWrongCount();
-// Init rank entry button
-updateRankEntry();
 </script>
 </body>
 </html>
