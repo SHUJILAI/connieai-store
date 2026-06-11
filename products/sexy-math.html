@@ -161,11 +161,13 @@
             background:linear-gradient(90deg,transparent,rgba(255,255,255,.3));animation:shimmer 2s infinite}
 
         /* ========== REWARD VIDEO + SINGLE MOSAIC ========== */
-        .img-container{position:relative;width:100%;aspect-ratio:1;border-radius:var(--rl);
-            overflow:hidden;margin-bottom:12px;background:var(--bg-card);
-            box-shadow:0 4px 20px rgba(0,0,0,.4)}
-        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%}
-        .img-layer iframe{width:100%;height:100%;border:0;display:block;background:#000}
+        .img-container{position:sticky;top:52px;z-index:5;
+            aspect-ratio:9/16;height:56vh;max-width:100%;
+            margin:0 auto 12px;border-radius:var(--rl);
+            overflow:hidden;background:#000;
+            box-shadow:0 4px 20px rgba(0,0,0,.55)}
+        .img-layer{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden}
+        .img-layer iframe{width:100%;height:100%;border:0;display:block;background:#000;overflow:hidden}
         .mosaic-cover{position:absolute;inset:0;z-index:2;
             background:rgba(13,13,13,.45);
             backdrop-filter:blur(28px) saturate(1.3);-webkit-backdrop-filter:blur(28px) saturate(1.3);
@@ -596,7 +598,7 @@ fetch('douyin_works.json')
     .catch(() => {});
 
 function douyinEmbed(vid) {
-    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>`;
+    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=1" allow="autoplay; fullscreen" allowfullscreen scrolling="no" referrerpolicy="no-referrer"></iframe>`;
 }
 
 // ===== MOTIVATION (correct only) =====
@@ -653,11 +655,45 @@ function showScreen(id) {
 }
 
 function passAge() {
+    playIntroSting();
     document.getElementById('ageGate').style.display = 'none';
     document.getElementById('phBar').style.display = 'flex';
     document.getElementById('phTabs').style.display = 'flex';
     showScreen('genderSelect');
     updateWrongCount();
+}
+
+// PH-style intro sting, synthesized with WebAudio (original, royalty-free)
+function playIntroSting() {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const master = ctx.createGain();
+        master.gain.value = 0.6;
+        const comp = ctx.createDynamicsCompressor();
+        master.connect(comp); comp.connect(ctx.destination);
+        // two punchy bass hits: "ba-dum"
+        const hits = [
+            { t: 0.00, f: 87.31, dur: 0.28 },  // F2
+            { t: 0.30, f: 65.41, dur: 0.85 },  // C2
+        ];
+        hits.forEach(h => {
+            const osc = ctx.createOscillator();
+            const sub = ctx.createOscillator();
+            const g = ctx.createGain();
+            osc.type = 'sawtooth'; osc.frequency.value = h.f;
+            sub.type = 'sine'; sub.frequency.value = h.f / 2;
+            const lp = ctx.createBiquadFilter();
+            lp.type = 'lowpass'; lp.frequency.value = 420; lp.Q.value = 6;
+            osc.connect(lp); sub.connect(lp); lp.connect(g); g.connect(master);
+            const t0 = ctx.currentTime + h.t;
+            g.gain.setValueAtTime(0, t0);
+            g.gain.linearRampToValueAtTime(1, t0 + 0.015);
+            g.gain.exponentialRampToValueAtTime(0.001, t0 + h.dur);
+            osc.start(t0); sub.start(t0);
+            osc.stop(t0 + h.dur + 0.05); sub.stop(t0 + h.dur + 0.05);
+        });
+        setTimeout(() => ctx.close(), 2000);
+    } catch (e) { /* audio unsupported: stay silent */ }
 }
 
 function pickGender(g) { gender = g; goHome(); }
