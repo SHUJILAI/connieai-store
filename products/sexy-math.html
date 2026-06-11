@@ -185,9 +185,6 @@
             backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);
             display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
             transition:opacity .9s ease}
-        .mosaic-cover::after{content:'';position:absolute;inset:0;
-            background:repeating-conic-gradient(rgba(0,0,0,.1) 0% 25%, transparent 0% 50%) 0 0/12px 12px;
-            pointer-events:none}
         .mosaic-cover>*{position:relative;z-index:1}
         .mosaic-cover.cleared{opacity:0;pointer-events:none}
         .mosaic-cover .mc-lock{font-size:2.2rem}
