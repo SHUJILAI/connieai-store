@@ -206,6 +206,7 @@
             box-shadow:0 4px 20px rgba(0,0,0,.4)}
         .img-layer{position:absolute;top:0;left:0;width:100%;height:100%;transition:filter .8s ease}
         .img-layer img{width:100%;height:100%;object-fit:cover}
+        .img-layer iframe{width:100%;height:100%;border:0;display:block;background:#000}
         .tile-grid{display:grid;position:absolute;top:0;left:0;width:100%;height:100%;z-index:2}
         .tile{
             background:rgba(13,13,13,.35);
@@ -694,14 +695,35 @@ const TYPES = {
         { id:'kr', name:'韩系御姐', desc:'气场全开 女王范儿', preview:'sexy-img/f-kr-preview.jpg' },
         { id:'us', name:'欧美辣妹', desc:'热辣奔放 性感火爆', preview:'sexy-img/f-us-preview.jpg' },
         { id:'body', name:'性感身材', desc:'完美曲线 一览无余', preview:'sexy-img/f-body-preview.jpg' },
+        { id:'video', name:'抖音真人', desc:'真实视频 边答边看', video:true },
     ],
     m: [
         { id:'jp', name:'日系鲜肉', desc:'清秀白净 少年感满满', preview:'sexy-img/m-jp-preview.jpg' },
         { id:'kr', name:'韩系偶像', desc:'精致五官 爱豆气质', preview:'sexy-img/m-kr-preview.jpg' },
         { id:'us', name:'欧美硬汉', desc:'粗犷阳刚 荷尔蒙爆棚', preview:'sexy-img/m-us-preview.jpg' },
         { id:'body', name:'肌肉猛男', desc:'爆炸肌肉 力量美学', preview:'sexy-img/m-body-preview.jpg' },
+        { id:'video', name:'抖音真人', desc:'真实视频 边答边看', video:true },
     ]
 };
+
+// ===== DOUYIN VIDEO POOL (from douyin_works.json) =====
+const VIDEOS = { f: [], m: [] };
+fetch('douyin_works.json')
+    .then(r => r.json())
+    .then(d => {
+        (d.accounts || []).forEach(acc => {
+            (acc.works || []).forEach(w => {
+                if (!w.aweme_id) return;
+                if (w.category === '美女') VIDEOS.f.push(w.aweme_id);
+                else if (w.category === '帅哥') VIDEOS.m.push(w.aweme_id);
+            });
+        });
+    })
+    .catch(() => { /* fallback to image types only */ });
+
+function douyinEmbed(vid, autoplay) {
+    return `<iframe src="https://open.douyin.com/player/video?vid=${vid}&autoplay=${autoplay ? 1 : 0}" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="no-referrer"></iframe>`;
+}
 
 // Each type/tier has 3 AI-generated variants for variety
 const IMAGES = {
@@ -787,6 +809,7 @@ let currentType = null;
 let currentCat = null;
 let currentDiff = null;
 let currentImg = '';
+let currentVid = '';
 let tiles = [];
 let totalTiles = 0;
 let revealed = 0;
@@ -835,8 +858,11 @@ function buildTypeGrid() {
         card.className = 'type-card';
         card.style.animationDelay = (i * 0.08) + 's';
         card.onclick = () => pickType(type);
+        const bg = type.video
+            ? `<div class="t-bg" style="background:linear-gradient(135deg,#fe2c55 0%,#161823 70%);display:flex;align-items:center;justify-content:center"><span style="font-size:3.2rem">🎬</span></div>`
+            : `<div class="t-bg" style="background-image:url('${type.preview}')"></div>`;
         card.innerHTML = `
-            <div class="t-bg" style="background-image:url('${type.preview}')"></div>
+            ${bg}
             <div class="t-overlay"></div>
             <div class="t-content">
                 <div class="t-label">${type.name}</div>
@@ -1005,9 +1031,15 @@ function startGame(diff) {
     revealed = 0; score = 0; streak = 0; qNum = 0;
     startTime = Date.now();
 
-    // Randomly pick from the variant pool (remote or local fallback)
-    const imgPool = getImagePool(gender, currentType.id, diff.tier);
-    currentImg = imgPool[Math.floor(Math.random() * imgPool.length)];
+    // Randomly pick reward: douyin video for the video type, image otherwise
+    currentVid = '';
+    if (currentType.video && VIDEOS[gender].length > 0) {
+        currentVid = VIDEOS[gender][Math.floor(Math.random() * VIDEOS[gender].length)];
+    } else {
+        const tierId = currentType.video ? 'body' : currentType.id;
+        const imgPool = getImagePool(gender, tierId, diff.tier);
+        currentImg = imgPool[Math.floor(Math.random() * imgPool.length)];
+    }
 
     // Shuffle questions from the pool (remote or local fallback)
     const pool = [...getQuestions(currentCat.id)];
@@ -1024,9 +1056,11 @@ function startGame(diff) {
     document.getElementById('progFill').style.width = '0%';
     document.getElementById('motiBar').innerHTML = '';
 
-    // Set image
+    // Set reward layer (video plays underneath the tiles)
     const imgLayer = document.getElementById('imgLayer');
-    imgLayer.innerHTML = `<img src="${currentImg}" alt="" loading="eager">`;
+    imgLayer.innerHTML = currentVid
+        ? douyinEmbed(currentVid, true)
+        : `<img src="${currentImg}" alt="" loading="eager">`;
     imgLayer.style.filter = 'none';
 
     // Build mosaic tile grid
@@ -1181,8 +1215,9 @@ function winGame() {
     const isPerfect = (qNum === totalTiles); // no wrong answers at all
 
     showScreen('winScreen');
-    document.getElementById('winImg').innerHTML =
-        `<div class="img-layer" style="filter:none"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
+    document.getElementById('winImg').innerHTML = currentVid
+        ? `<div class="img-layer" style="filter:none">${douyinEmbed(currentVid, true)}</div>`
+        : `<div class="img-layer" style="filter:none"><img src="${currentImg}" alt="" style="width:100%;height:100%;object-fit:cover"></div>`;
     document.getElementById('winTitle').textContent = isPerfect
         ? `${currentCat.name} -- 完美上岸!`
         : `${currentCat.name} -- 上岸成功!`;
