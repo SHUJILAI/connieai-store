@@ -175,21 +175,31 @@
         .ph-bar,.ph-tabs{position:relative;z-index:10}
         .ph-bar{position:sticky}
         @media(max-width:820px){
-            /* stack: video pinned top, quiz scrolls below */
-            #rewardBg{width:100%;bottom:auto;top:86px;height:56vh;padding:6px 0}
-            /* size by available height; compute width explicitly (don't rely on
-               aspect-ratio + width:auto, which can mis-size the iframe on mobile
-               and clip the player to its top-left corner) */
-            #rewardBg .img-layer{height:100%;width:min(94vw,calc(56vh * 9 / 16));
-                aspect-ratio:auto;flex:0 0 auto}
+            /* Video fills the gap between the top bars and the fixed quiz panel.
+               It is letterboxed (contain) so the WHOLE portrait clip is always
+               visible — never cropped or stuck on the top-left corner. */
+            #rewardBg{
+                width:100%;left:0;right:0;
+                top:86px;height:auto;bottom:46vh;
+                padding:6px;
+            }
+            #rewardBg .img-layer{
+                height:100%;width:auto;
+                max-width:100%;
+                aspect-ratio:9/16;flex:0 0 auto;
+            }
             #rewardBg .img-layer iframe{width:100%;height:100%}
-            body.split #practiceArea{left:0;top:calc(56vh + 86px);padding:8px 14px 28px}
+            /* Quiz pinned to the BOTTOM of the screen, scrolls internally,
+               and never overlaps the video region above it. */
+            body.split #practiceArea{
+                left:0;right:0;top:auto;bottom:0;height:46vh;
+                padding:10px 14px 20px;
+            }
         }
-        /* short / landscape phones: keep the video from eating the whole screen */
-        @media(max-width:820px) and (max-height:520px){
-            #rewardBg{height:64vh}
-            #rewardBg .img-layer{width:min(94vw,calc(64vh * 9 / 16))}
-            body.split #practiceArea{top:calc(64vh + 86px)}
+        /* shorter phones: give the quiz a bit less so the video keeps room */
+        @media(max-width:820px) and (max-height:680px){
+            #rewardBg{bottom:42vh}
+            body.split #practiceArea{height:42vh}
         }
         .mosaic-cover{position:absolute;inset:0;z-index:1;
             background:rgba(13,13,13,.3);
