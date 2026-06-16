@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://connie.app/sitemap.xml
