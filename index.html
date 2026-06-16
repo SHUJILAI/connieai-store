@@ -556,10 +556,8 @@
 </div>
 
 <script>
-// Day counter
-const START = '2026-06-15';
-const elapsed = Math.max(1, Math.floor((new Date() - new Date(START)) / 86400000) + 1);
-document.getElementById('dayCount').textContent = elapsed;
+// Day counter (fixed)
+document.getElementById('dayCount').textContent = 1;
 
 // Product data — add entries to ship products
 // { name, desc, icon (emoji), img (optional), cat (category), url }
