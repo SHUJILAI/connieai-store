@@ -608,32 +608,31 @@
 <div class="confetti-container" id="confettiBox"></div>
 
 <script>
-// ===== QUESTION BANKS (full C1 bank, loaded from JSON) =====
+// ===== DATA API (origin-locked Cloudflare Worker; data not in public repo) =====
+const API = 'https://aiconnie-data.connieulowryl49.workers.dev';
+
+// ===== QUESTION BANKS (full C1 bank, served by the Worker) =====
 const BANKS = { km1: null, km4: null };
 const BANK_META = {
-    km1: { name: '科目一', file: 'jiakao/km1.json', examN: 100, examMin: 45, ptsPer: 1, maxErr: 10 },
-    km4: { name: '科目四', file: 'jiakao/km4.json', examN: 50, examMin: 30, ptsPer: 2, maxErr: 5 },
+    km1: { name: '科目一', path: '/km1', examN: 100, examMin: 45, ptsPer: 1, maxErr: 10 },
+    km4: { name: '科目四', path: '/km4', examN: 50, examMin: 30, ptsPer: 2, maxErr: 5 },
 };
 const bankReady = Promise.all(Object.keys(BANK_META).map(k =>
-    fetch(BANK_META[k].file).then(r => r.json()).then(d => { BANKS[k] = d; })
+    fetch(API + BANK_META[k].path).then(r => r.json()).then(d => { BANKS[k] = d; })
 ));
 
-// ===== REWARD VIDEO POOL =====
+// ===== REWARD VIDEO POOL (served by the Worker, grouped by account) =====
 const VIDEOS = { f: [], m: [] };          // flat pools
 const VGROUPS = { f: [], m: [] };         // grouped by account, for fair sampling
 const recentVids = [];
-fetch('douyin_works.json')
+fetch(API + '/videos')
     .then(r => r.json())
     .then(d => {
-        (d.accounts || []).forEach(acc => {
-            const g = { f: [], m: [] };
-            (acc.works || []).forEach(w => {
-                if (!w.aweme_id) return;
-                if (w.category === '美女') { VIDEOS.f.push(w.aweme_id); g.f.push(w.aweme_id); }
-                else if (w.category === '帅哥') { VIDEOS.m.push(w.aweme_id); g.m.push(w.aweme_id); }
+        ['f', 'm'].forEach(g => {
+            (d[g] || []).forEach(entry => {
+                const group = Array.isArray(entry) ? entry : [entry]; // 兼容分组/拍平
+                if (group.length) { VGROUPS[g].push(group); VIDEOS[g].push(...group); }
             });
-            if (g.f.length) VGROUPS.f.push(g.f);
-            if (g.m.length) VGROUPS.m.push(g.m);
         });
     })
     .catch(() => {});
