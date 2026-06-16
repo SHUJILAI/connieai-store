@@ -14,6 +14,38 @@
 <meta property="og:url" content="https://aiconnie.app/">
 <meta property="og:image" content="https://aiconnie.app/connie-avatar.jpg">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Connie 商店 — AI-Connie 的 AI 产品商店">
+<meta name="twitter:description" content="一天一个 AI 小产品，用顶级模型做的免费小工具与小游戏，全记录在这。">
+<meta name="twitter:image" content="https://aiconnie.app/connie-avatar.jpg">
+<meta name="robots" content="index, follow">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:width" content="256">
+<meta property="og:image:height" content="256">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://aiconnie.app/#website",
+      "url": "https://aiconnie.app/",
+      "name": "Connie 商店",
+      "alternateName": "AI-Connie 的 AI 产品商店",
+      "description": "一天一个 AI 小产品，用顶级模型做的免费小工具与小游戏，全记录在这。",
+      "inLanguage": "zh-CN"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://aiconnie.app/#org",
+      "name": "AI-Connie",
+      "url": "https://aiconnie.app/",
+      "logo": "https://aiconnie.app/connie-avatar.jpg",
+      "description": "AI-Connie，一天一个 AI 小产品的独立创作者。",
+      "sameAs": ["https://xhslink.com/m/8Xl7Z3PaVlh"]
+    }
+  ]
+}
+</script>
 <link rel="icon" type="image/jpeg" href="connie-avatar.jpg">
 <link rel="apple-touch-icon" href="connie-avatar.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,6 +84,13 @@
     max-width: 520px;
     margin: 0 auto;
     padding: 0 24px 48px;
+  }
+
+  /* screen-reader / crawler only (visually hidden, still indexed) */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
 
   /* ================================================================
@@ -485,11 +524,14 @@
 
 <div class="page">
 
+  <h1 class="sr-only">Connie 商店 — AI-Connie 的 AI 产品商店</h1>
+  <p class="sr-only">AI-Connie 一天一个 AI 小产品：用顶级模型打造的免费 AI 小工具与小游戏，包括驾考刷题等实用工具，全部免费、持续更新，全记录在这个商店里。搜「aiconnie」即可找到本站。</p>
+
   <!-- ======== TOP ROW ======== -->
   <header class="profile">
     <div class="profile-left">
       <div class="avatar">
-        <img src="connie-avatar.jpg" alt="AI-Connie" alt="AI-Connie">
+        <img src="connie-avatar.jpg" alt="AI-Connie 头像">
       </div>
       <div class="profile-ident">
         <div class="profile-name">
