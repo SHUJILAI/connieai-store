@@ -140,6 +140,12 @@
             color:#000;font-size:.6rem;padding:3px 8px;border-radius:0 var(--rl) 0 var(--rl);font-weight:700;
             animation:pulse 2s infinite}
         .menu-section{font-size:.72rem;color:var(--ink-faint);font-weight:700;letter-spacing:1px;margin:18px 0 0}
+        /* domain switcher (驾照 / 四六级) */
+        .domain-switch{display:flex;gap:6px;background:var(--bg-card);border:1px solid #333;border-radius:30px;padding:4px;margin-top:16px}
+        .domain-btn{flex:1;padding:9px 0;border:none;background:transparent;color:var(--ink-soft);
+            font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;border-radius:24px;transition:.2s}
+        .domain-btn.active{background:var(--accent);color:#000}
+        .domain-btn:not(.active):hover{color:var(--ink)}
 
         /* ========== TOP BAR (in-screen) ========== */
         .top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
@@ -375,13 +381,7 @@
 </div>
 
 <!-- Category Tabs -->
-<div class="ph-tabs" id="phTabs" style="display:none">
-    <div class="ph-tab active" onclick="goHome()">首页</div>
-    <div class="ph-tab" onclick="startPractice('km1')">科目一</div>
-    <div class="ph-tab" onclick="startPractice('km4')">科目四</div>
-    <div class="ph-tab" onclick="startExam('km1')">模拟考试</div>
-    <div class="ph-tab" onclick="openWrongReview()">错题本</div>
-</div>
+<div class="ph-tabs" id="phTabs" style="display:none"></div>
 
 <div class="page">
 
@@ -431,59 +431,11 @@
 <!-- Home Menu -->
 <div id="homeMenu">
     <header>
-        <div class="logo" style="font-size:1.5rem"><span class="logo-w">驾考</span><span class="logo-o">上岸</span></div>
-        <div class="sub">C1 小车全量真题 -- 顺序刷题 · 答对 3 题解锁视频</div>
+        <div class="logo" style="font-size:1.5rem"><span class="logo-w">性感</span><span class="logo-o">上岸</span></div>
+        <div class="sub">真题刷题 -- 答对 3 题解锁视频奖励</div>
     </header>
-    <div class="menu-section">顺序练习</div>
-    <div class="menu-grid">
-        <div class="menu-card" onclick="startPractice('km1')">
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 13l1.4-4.2A2 2 0 0 1 7.8 7.5h8.4a2 2 0 0 1 1.9 1.3L19.5 13"/><path d="M3.5 13h17a1 1 0 0 1 1 1v3.5h-2.3M4.8 17.5H2.5V14a1 1 0 0 1 1-1z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/><path d="M8.8 17.5h6.4"/></svg></div>
-            <div class="c-info">
-                <div class="c-name">科目一 顺序练习</div>
-                <div class="c-desc">道路交通安全法律法规</div>
-                <div class="c-count" id="km1Prog"></div>
-            </div>
-            <div class="c-hot">HOT</div>
-        </div>
-        <div class="menu-card" onclick="startPractice('km4')">
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20.5L9.5 3.5h1.2"/><path d="M18.5 20.5L14.5 3.5h-1.2"/><path d="M12 7.5v2.2M12 12.8v2.2M12 18.1v2.4"/></svg></div>
-            <div class="c-info">
-                <div class="c-name">科目四 顺序练习</div>
-                <div class="c-desc">安全文明驾驶常识</div>
-                <div class="c-count" id="km4Prog"></div>
-            </div>
-        </div>
-    </div>
-    <div class="menu-section">模拟考试</div>
-    <div class="menu-grid">
-        <div class="menu-card" onclick="startExam('km1')">
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div>
-            <div class="c-info">
-                <div class="c-name">科目一 模拟考试</div>
-                <div class="c-desc">100 题 · 45 分钟 · 90 分及格</div>
-                <div class="c-count">全真模拟 随机抽题</div>
-            </div>
-        </div>
-        <div class="menu-card" onclick="startExam('km4')">
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h13.5l-2.6 4 2.6 4H5"/><path d="M9 4.5v8M13 4.5v8M5 8.5h13"/></svg></div>
-            <div class="c-info">
-                <div class="c-name">科目四 模拟考试</div>
-                <div class="c-desc">50 题 · 30 分钟 · 90 分及格</div>
-                <div class="c-count">全真模拟 随机抽题</div>
-            </div>
-        </div>
-    </div>
-    <div class="menu-section">复习</div>
-    <div class="menu-grid">
-        <div class="menu-card" onclick="openWrongReview()">
-            <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5V5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19v-4"/><path d="M9 7.5h6"/></svg></div>
-            <div class="c-info">
-                <div class="c-name">错题本</div>
-                <div class="c-desc">做错的题都在这里 -- 带答案解析</div>
-                <div class="c-count" id="wrTotalHint"></div>
-            </div>
-        </div>
-    </div>
+    <div class="domain-switch" id="domainSwitch"></div>
+    <div id="homeBody"></div>
     <div style="text-align:center;margin-top:14px">
         <button onclick="backToGender()" style="background:none;border:none;color:var(--ink-faint);font-size:.8rem;cursor:pointer">&larr; 重新选择奖励类型</button>
     </div>
@@ -606,18 +558,43 @@
 <div class="confetti-container" id="confettiBox"></div>
 
 <script>
+// ===== SVG ICONS =====
+const SVG = {
+    car: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 13l1.4-4.2A2 2 0 0 1 7.8 7.5h8.4a2 2 0 0 1 1.9 1.3L19.5 13"/><path d="M3.5 13h17a1 1 0 0 1 1 1v3.5h-2.3M4.8 17.5H2.5V14a1 1 0 0 1 1-1z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/><path d="M8.8 17.5h6.4"/></svg>',
+    road: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 20.5L9.5 3.5h1.2"/><path d="M18.5 20.5L14.5 3.5h-1.2"/><path d="M12 7.5v2.2M12 12.8v2.2M12 18.1v2.4"/></svg>',
+    paper: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4.5h13.5l-2.6 4 2.6 4H5"/><path d="M9 4.5v8M13 4.5v8M5 8.5h13"/></svg>',
+    book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5V5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19v-4"/><path d="M9 7.5h6"/></svg>',
+    abc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2.5-8 2.5 8M3.8 14.5h3.4"/><path d="M11.5 17V7.5h2.2a2 2 0 0 1 0 4h-2.2 2.5a2.2 2.2 0 0 1 0 4.5z"/><path d="M21 9.2a2.6 2.6 0 0 0-4.4 1.9v1.4a2.6 2.6 0 0 0 4.4 1.9"/></svg>',
+    grad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6 10.5V15c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4.5"/><path d="M21.5 8.5V14"/></svg>',
+};
+
 // ===== DATA API (origin-locked Cloudflare Worker; data not in public repo) =====
 const API = 'https://aiconnie-data.connieulowryl49.workers.dev';
 
-// ===== QUESTION BANKS (full C1 bank, served by the Worker) =====
-const BANKS = { km1: null, km4: null };
-const BANK_META = {
-    km1: { name: '科目一', path: '/km1', examN: 100, examMin: 45, ptsPer: 1, maxErr: 10 },
-    km4: { name: '科目四', path: '/km4', examN: 50, examMin: 30, ptsPer: 2, maxErr: 5 },
+// ===== DOMAINS & QUESTION BANKS (served by the Worker) =====
+const DOMAINS = {
+    driving: { name: '驾照考试', subs: ['km1', 'km4'], examSection: '模拟考试' },
+    cet:     { name: '四六级',  subs: ['cet4', 'cet6'], examSection: '词汇测试' },
 };
+const BANKS = {};
+const BANK_META = {
+    km1:  { name: '科目一', domain: 'driving', path: '/km1', desc: '道路交通安全法律法规', icon: SVG.car, examIcon: SVG.paper, hot: true,
+            practiceName: '顺序练习', examLabel: '模拟考试', examN: 100, examMin: 45, ptsPer: 1, pass: 90 },
+    km4:  { name: '科目四', domain: 'driving', path: '/km4', desc: '安全文明驾驶常识', icon: SVG.road, examIcon: SVG.flag,
+            practiceName: '顺序练习', examLabel: '模拟考试', examN: 50, examMin: 30, ptsPer: 2, pass: 90 },
+    cet4: { name: '四级词汇', domain: 'cet', path: '/cet4', desc: 'CET-4 官方大纲词汇 4600+', icon: SVG.abc, examIcon: SVG.paper, hot: true,
+            practiceName: '词汇练习', examLabel: '词汇测试', examN: 50, examMin: 15, ptsPer: 2, pass: 60 },
+    cet6: { name: '六级词汇', domain: 'cet', path: '/cet6', desc: 'CET-6 官方大纲词汇 5700+', icon: SVG.grad, examIcon: SVG.flag,
+            practiceName: '词汇练习', examLabel: '词汇测试', examN: 50, examMin: 15, ptsPer: 2, pass: 60 },
+};
+// derived: errors allowed before failing (for the in-exam warning)
+Object.values(BANK_META).forEach(m => { m.maxErr = Math.floor((100 - m.pass) / m.ptsPer); });
+
 const bankReady = Promise.all(Object.keys(BANK_META).map(k =>
     fetch(API + BANK_META[k].path).then(r => r.json()).then(d => { BANKS[k] = d; })
 ));
+let curDomain = 'driving';
 
 // ===== REWARD VIDEO POOL (served by the Worker, grouped by account) =====
 const VIDEOS = { f: [], m: [] };          // flat pools
@@ -676,7 +653,7 @@ const POS_KEY = 'jk_pos_v1';
 const WR_KEY = 'jk_wrong_v1';
 function getPos() { try { return JSON.parse(localStorage.getItem(POS_KEY)) || {}; } catch (e) { return {}; } }
 function savePos(sub, idx) { const p = getPos(); p[sub] = idx; localStorage.setItem(POS_KEY, JSON.stringify(p)); }
-function getWrong() { try { return JSON.parse(localStorage.getItem(WR_KEY)) || { km1: [], km4: [] }; } catch (e) { return { km1: [], km4: [] }; } }
+function getWrong() { try { return JSON.parse(localStorage.getItem(WR_KEY)) || {}; } catch (e) { return {}; } }
 function saveWrongItem(sub, q, myAns) {
     const w = getWrong();
     if (!w[sub]) w[sub] = [];
@@ -688,7 +665,7 @@ function saveWrongItem(sub, q, myAns) {
 }
 function updateWrongCount() {
     const w = getWrong();
-    const total = (w.km1 || []).length + (w.km4 || []).length;
+    const total = Object.keys(BANK_META).reduce((s, k) => s + (w[k] || []).length, 0);
     const el = document.getElementById('wrongCount');
     const btn = document.getElementById('wrongBookBtn');
     if (el) el.textContent = total;
@@ -767,15 +744,65 @@ function playIntroSting() {
 function pickGender(g) { gender = g; goHome(); }
 function backToGender() { showScreen('genderSelect'); }
 
+function switchDomain(d) { curDomain = d; renderHome(); }
+
+function renderNav() {
+    const tabs = document.getElementById('phTabs');
+    const subs = DOMAINS[curDomain].subs;
+    let html = '<div class="ph-tab active" onclick="goHome()">首页</div>';
+    Object.keys(DOMAINS).forEach(d => {
+        html += `<div class="ph-tab" onclick="switchDomain('${d}');goHome()">${DOMAINS[d].name}</div>`;
+    });
+    html += '<div class="ph-tab" onclick="openWrongReview()">错题本</div>';
+    tabs.innerHTML = html;
+}
+
+function renderHome() {
+    const dom = DOMAINS[curDomain];
+    // switcher
+    document.getElementById('domainSwitch').innerHTML = Object.keys(DOMAINS).map(d =>
+        `<button class="domain-btn${d === curDomain ? ' active' : ''}" onclick="switchDomain('${d}')">${DOMAINS[d].name}</button>`
+    ).join('');
+    // body
+    const pos = getPos();
+    let html = `<div class="menu-section">${curDomain === 'cet' ? '词汇练习' : '顺序练习'}</div><div class="menu-grid">`;
+    dom.subs.forEach(sub => {
+        const m = BANK_META[sub];
+        const n = BANKS[sub] ? BANKS[sub].length : '...';
+        const prog = BANKS[sub] ? `共 ${n} 题 · 已刷到第 ${(pos[sub] || 0) + 1} 题` : '加载中...';
+        html += `<div class="menu-card" onclick="startPractice('${sub}')">
+            <div class="c-icon">${m.icon}</div>
+            <div class="c-info"><div class="c-name">${m.name} ${m.practiceName}</div>
+              <div class="c-desc">${m.desc}</div><div class="c-count">${prog}</div></div>
+            ${m.hot ? '<div class="c-hot">HOT</div>' : ''}</div>`;
+    });
+    html += `</div><div class="menu-section">${dom.examSection}</div><div class="menu-grid">`;
+    dom.subs.forEach(sub => {
+        const m = BANK_META[sub];
+        const sub2 = curDomain === 'cet'
+            ? `${m.examN} 题 · ${m.examMin} 分钟 · ${m.pass} 分及格`
+            : `${m.examN} 题 · ${m.examMin} 分钟 · ${m.pass} 分及格`;
+        html += `<div class="menu-card" onclick="startExam('${sub}')">
+            <div class="c-icon">${m.examIcon}</div>
+            <div class="c-info"><div class="c-name">${m.name} ${m.examLabel}</div>
+              <div class="c-desc">${sub2}</div><div class="c-count">随机抽题</div></div></div>`;
+    });
+    html += `</div><div class="menu-section">复习</div><div class="menu-grid">
+        <div class="menu-card" onclick="openWrongReview()">
+            <div class="c-icon">${SVG.book}</div>
+            <div class="c-info"><div class="c-name">错题本</div>
+              <div class="c-desc">做错的题都在这里 -- 带答案解析</div>
+              <div class="c-count" id="wrTotalHint"></div></div></div></div>`;
+    document.getElementById('homeBody').innerHTML = html;
+    updateWrongCount();
+}
+
 function goHome() {
     stopExamTimer();
     if (!gender) { showScreen('genderSelect'); return; }
-    bankReady.then(() => {
-        const pos = getPos();
-        document.getElementById('km1Prog').textContent = `共 ${BANKS.km1.length} 题 · 已刷到第 ${(pos.km1 || 0) + 1} 题`;
-        document.getElementById('km4Prog').textContent = `共 ${BANKS.km4.length} 题 · 已刷到第 ${(pos.km4 || 0) + 1} 题`;
-    });
-    updateWrongCount();
+    renderNav();
+    renderHome();
+    bankReady.then(renderHome); // re-render once banks loaded (fills counts)
     showScreen('homeMenu');
 }
 
@@ -871,7 +898,7 @@ function startPractice(sub) {
     bankReady.then(() => {
         pSub = sub; pRight = 0; pWrong = 0;
         pIdx = Math.min(getPos()[sub] || 0, BANKS[sub].length - 1);
-        document.getElementById('pTitle').textContent = BANK_META[sub].name + ' 顺序练习';
+        document.getElementById('pTitle').textContent = BANK_META[sub].name + ' ' + BANK_META[sub].practiceName;
         document.getElementById('pRight').textContent = '0';
         document.getElementById('pWrong').textContent = '0';
         resetReward();
@@ -976,7 +1003,7 @@ function startExam(sub) {
         eQuestions = pool.slice(0, meta.examN);
         eIdx = 0; eRightN = 0; eWrongN = 0;
         eTimeLeft = meta.examMin * 60; eStartTs = Date.now();
-        document.getElementById('eTitle').textContent = meta.name + ' 模拟考试';
+        document.getElementById('eTitle').textContent = meta.name + ' ' + meta.examLabel;
         document.getElementById('eRight').textContent = '0';
         document.getElementById('eWrong').textContent = '0';
         document.getElementById('eWarnBox').innerHTML = '';
@@ -1038,7 +1065,7 @@ function finishExam(early) {
     const meta = BANK_META[eSub];
     const answeredN = eRightN + eWrongN;
     const score = Math.max(0, 100 - (eWrongN + eQuestions.length - answeredN) * meta.ptsPer);
-    const pass = score >= 90;
+    const pass = score >= meta.pass;
     const usedSec = Math.round((Date.now() - eStartTs) / 1000);
     const mm = Math.floor(usedSec / 60), ss = usedSec % 60;
     const sEl = document.getElementById('rScore');
@@ -1046,10 +1073,10 @@ function finishExam(early) {
     sEl.className = 'rb-score ' + (pass ? 'pass' : 'fail');
     document.getElementById('rVerdict').textContent = pass ? '及格! 上岸稳了!' : '未及格 -- 回去刷题再来';
     document.getElementById('rStats').innerHTML =
-        `${meta.name} 模拟考试 · ${eQuestions.length} 题<br>` +
+        `${meta.name} ${meta.examLabel} · ${eQuestions.length} 题<br>` +
         `答对 <span style="color:var(--green);font-weight:700">${eRightN}</span> · ` +
         `答错 <span style="color:var(--red);font-weight:700">${eWrongN}</span> · ` +
-        `未答 ${eQuestions.length - answeredN}<br>用时 ${mm}分${ss}秒 · 及格线 90 分`;
+        `未答 ${eQuestions.length - answeredN}<br>用时 ${mm}分${ss}秒 · 及格线 ${meta.pass} 分`;
     if (pass) spawnConfetti(60);
     showScreen('examResult');
 }
@@ -1063,7 +1090,12 @@ function openWrongReview() {
     if (!gender) { showScreen('genderSelect'); return; }
     previousScreen = 'homeMenu';
     const w = getWrong();
-    wrActiveTab = (w.km1 || []).length === 0 && (w.km4 || []).length > 0 ? 'km4' : 'km1';
+    const all = Object.keys(BANK_META);
+    // prefer current domain's first sub; else any sub that has errors; else first
+    wrActiveTab = DOMAINS[curDomain].subs[0];
+    if (!(w[wrActiveTab] || []).length) {
+        wrActiveTab = all.find(k => (w[k] || []).length) || wrActiveTab;
+    }
     buildWrongReview();
     showScreen('wrongReview');
 }
@@ -1073,7 +1105,7 @@ function buildWrongReview() {
     const w = getWrong();
     const tabs = document.getElementById('wrTabs');
     tabs.innerHTML = '';
-    ['km1', 'km4'].forEach(sub => {
+    Object.keys(BANK_META).forEach(sub => {
         const b = document.createElement('button');
         b.className = 'wr-tab' + (wrActiveTab === sub ? ' active' : '');
         b.textContent = `${BANK_META[sub].name} (${(w[sub] || []).length})`;
