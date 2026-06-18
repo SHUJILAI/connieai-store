@@ -567,32 +567,37 @@ const SVG = {
     book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5V5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 19.5z"/><path d="M5 19.5A2.5 2.5 0 0 0 7.5 22H19v-4"/><path d="M9 7.5h6"/></svg>',
     abc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2.5-8 2.5 8M3.8 14.5h3.4"/><path d="M11.5 17V7.5h2.2a2 2 0 0 1 0 4h-2.2 2.5a2.2 2.2 0 0 1 0 4.5z"/><path d="M21 9.2a2.6 2.6 0 0 0-4.4 1.9v1.4a2.6 2.6 0 0 0 4.4 1.9"/></svg>',
     grad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6 10.5V15c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4.5"/><path d="M21.5 8.5V14"/></svg>',
+    globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.7 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.7-3.8-9S9.5 5.5 12 3z"/></svg>',
 };
 
 // ===== DATA API (origin-locked Cloudflare Worker; data not in public repo) =====
-const API = 'https://aiconnie-data.connieulowryl49.workers.dev';
+const API = 'https://aiconnie-data.connieulowryl49.workers.dev';      // 驾照 + 视频
+const API_EN = 'https://aiconnie-en.connieulowryl49.workers.dev';    // 四六级 + 雅思
 
-// ===== DOMAINS & QUESTION BANKS (served by the Worker) =====
+// ===== DOMAINS & QUESTION BANKS (served by the Workers) =====
 const DOMAINS = {
     driving: { name: '驾照考试', subs: ['km1', 'km4'], examSection: '模拟考试' },
     cet:     { name: '四六级',  subs: ['cet4', 'cet6'], examSection: '词汇测试' },
+    ielts:   { name: '雅思',    subs: ['ielts'], examSection: '词汇测试' },
 };
 const BANKS = {};
 const BANK_META = {
-    km1:  { name: '科目一', domain: 'driving', path: '/km1', desc: '道路交通安全法律法规', icon: SVG.car, examIcon: SVG.paper, hot: true,
+    km1:  { name: '科目一', domain: 'driving', api: API, path: '/km1', desc: '道路交通安全法律法规', icon: SVG.car, examIcon: SVG.paper, hot: true,
             practiceName: '顺序练习', examLabel: '模拟考试', examN: 100, examMin: 45, ptsPer: 1, pass: 90 },
-    km4:  { name: '科目四', domain: 'driving', path: '/km4', desc: '安全文明驾驶常识', icon: SVG.road, examIcon: SVG.flag,
+    km4:  { name: '科目四', domain: 'driving', api: API, path: '/km4', desc: '安全文明驾驶常识', icon: SVG.road, examIcon: SVG.flag,
             practiceName: '顺序练习', examLabel: '模拟考试', examN: 50, examMin: 30, ptsPer: 2, pass: 90 },
-    cet4: { name: '四级词汇', domain: 'cet', path: '/cet4', desc: 'CET-4 官方大纲词汇 4600+', icon: SVG.abc, examIcon: SVG.paper, hot: true,
+    cet4: { name: '四级词汇', domain: 'cet', api: API_EN, path: '/cet4', desc: 'CET-4 官方大纲词汇 4600+', icon: SVG.abc, examIcon: SVG.paper, hot: true,
             practiceName: '词汇练习', examLabel: '词汇测试', examN: 50, examMin: 15, ptsPer: 2, pass: 60 },
-    cet6: { name: '六级词汇', domain: 'cet', path: '/cet6', desc: 'CET-6 官方大纲词汇 5700+', icon: SVG.grad, examIcon: SVG.flag,
+    cet6: { name: '六级词汇', domain: 'cet', api: API_EN, path: '/cet6', desc: 'CET-6 官方大纲词汇 5700+', icon: SVG.grad, examIcon: SVG.flag,
+            practiceName: '词汇练习', examLabel: '词汇测试', examN: 50, examMin: 15, ptsPer: 2, pass: 60 },
+    ielts:{ name: '雅思词汇', domain: 'ielts', api: API_EN, path: '/ielts', desc: '雅思核心词汇 3400+', icon: SVG.globe, examIcon: SVG.paper, hot: true,
             practiceName: '词汇练习', examLabel: '词汇测试', examN: 50, examMin: 15, ptsPer: 2, pass: 60 },
 };
 // derived: errors allowed before failing (for the in-exam warning)
 Object.values(BANK_META).forEach(m => { m.maxErr = Math.floor((100 - m.pass) / m.ptsPer); });
 
 const bankReady = Promise.all(Object.keys(BANK_META).map(k =>
-    fetch(API + BANK_META[k].path).then(r => r.json()).then(d => { BANKS[k] = d; })
+    fetch((BANK_META[k].api || API) + BANK_META[k].path).then(r => r.json()).then(d => { BANKS[k] = d; })
 ));
 let curDomain = 'driving';
 
